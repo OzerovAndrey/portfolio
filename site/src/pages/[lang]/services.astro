@@ -23,8 +23,8 @@ const PKG = ["clipboard", "braces", "layers", "branch"] as const; // аудит 
           <li class="info-card">
             <Icon name={PKG[i] ?? "component"} class="info-card__icon" />
             <h2 class="info-card__title ts-title-t3">{p.name}</h2>
-            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.forLabel}</span><br />{p.forWhom}</p>
-            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.resultLabel}</span><br />{p.result}</p>
+            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.forLabel}</span><br /><span class="info-card__answer">{p.forWhom}</span></p>
+            <p class="info-card__detail ts-body-md-regular"><span class="info-card__label ts-label-sm">{s.resultLabel}</span><br /><span class="info-card__answer">{p.result}</span></p>
           </li>
         ))}
       </ul>

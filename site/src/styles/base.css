@@ -81,6 +81,7 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .info-card__title { color: var(--audience-title-color); }
 .info-card__detail { color: var(--audience-detail-color); }
 .info-card__label { color: var(--section-lead-color); }
+.info-card__answer { color: var(--audience-answer-color); }
 /* Тематична іконка картки: приглушена, розмір через --icon-size (components/Icon.astro) */
 .info-card__icon { --icon-size: var(--iconSize-lg); color: var(--section-lead-color); }
 .info-card__head { display: flex; align-items: center; gap: var(--space-gap-md); }

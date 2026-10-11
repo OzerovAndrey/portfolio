@@ -989,6 +989,13 @@
         "value": "{color.text.secondary}",
         "type": "color"
       }
+    },
+    "answer": {
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color",
+        "description": "Відповідь під підписом (For / Result): primary, щоб підпис-secondary читався як другорядний"
+      }
     }
   },
   "ctaBand": {
