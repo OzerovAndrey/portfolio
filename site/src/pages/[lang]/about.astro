@@ -148,6 +148,11 @@ const contacts = links(
     background: none; border: 0; border-radius: 0; }
   .ab-portrait--avatar :global(.ab-portrait__img) { position: static; width: 100%; height: auto; object-fit: contain; }
   .ab-portrait__cap--below { position: static; padding: 0; align-items: center; text-align: center; }
+  /* десктоп: блок аватара = висота текстової колонки (низ підпису на рівні останнього рядка тексту), аватар вписується в те, що лишилось */
+  @media (min-width: 900px) {
+    .ab-portrait--avatar { align-self: stretch; height: 0; min-height: 100%; }
+    .ab-portrait--avatar :global(.ab-portrait__img) { flex: 1 1 0; min-height: 0; height: 100%; object-fit: contain; object-position: center bottom; }
+  }
   .ab-text { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
   .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
