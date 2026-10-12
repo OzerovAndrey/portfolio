@@ -1828,5 +1828,101 @@
       "type": "other",
       "description": "фото на /about: чорно-біле, як решта сайту"
     }
+  },
+  "caseFact": {
+    "bg": {
+      "value": "{color.bg.secondary}",
+      "type": "color"
+    },
+    "br": {
+      "value": "{color.border.tertiary}",
+      "type": "color"
+    },
+    "borderWidth": {
+      "value": "{borderWidth.control}",
+      "type": "borderWidth"
+    },
+    "borderRadius": {
+      "value": "{borderRadius.surface}",
+      "type": "borderRadius"
+    },
+    "padding": {
+      "value": "{space.padding.lg}",
+      "type": "spacing"
+    },
+    "gap": {
+      "value": "{space.gap.xl}",
+      "type": "spacing"
+    },
+    "label": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color"
+      }
+    },
+    "badge": {
+      "bg": {
+        "value": "{color.bg.tertiary}",
+        "type": "color"
+      },
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      },
+      "size": {
+        "value": "{size.control.md}",
+        "type": "sizing"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.control}",
+        "type": "borderRadius"
+      }
+    },
+    "chip": {
+      "bg": {
+        "value": "{color.bg.primary}",
+        "type": "color"
+      },
+      "br": {
+        "value": "{color.border.tertiary}",
+        "type": "color"
+      },
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      },
+      "paddingH": {
+        "value": "{space.padding.xs}",
+        "type": "spacing"
+      },
+      "size": {
+        "value": "{size.control.sm}",
+        "type": "sizing"
+      },
+      "gap": {
+        "value": "{space.gap.sm}",
+        "type": "spacing"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.pill}",
+        "type": "borderRadius"
+      }
+    },
+    "live": {
+      "color": {
+        "value": "{color.fill.success.default}",
+        "type": "color"
+      }
+    },
+    "matrix": {
+      "gap": {
+        "value": "{space.gap.xs}",
+        "type": "spacing"
+      },
+      "borderRadius": {
+        "value": "{borderRadius.control}",
+        "type": "borderRadius"
+      }
+    }
   }
 }

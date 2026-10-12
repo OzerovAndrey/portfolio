@@ -720,19 +720,35 @@
     "facts": [
       {
         "k": "Role",
-        "v": "Product design, design system, token pipeline"
+        "items": [
+          "Product design",
+          "Design system",
+          "Token pipeline"
+        ]
       },
       {
         "k": "Scope",
-        "v": "{brands} brands × 2 themes · {components} components"
+        "items": [
+          "{brands} brands × 2 themes",
+          "{components} components"
+        ]
       },
       {
         "k": "Stack",
-        "v": "Figma · Tokens Studio · GitHub · React · CSS variables"
+        "items": [
+          "Figma",
+          "Tokens Studio",
+          "GitHub",
+          "React",
+          "CSS variables"
+        ]
       },
       {
         "k": "Status",
-        "v": "Live demo · public repository"
+        "items": [
+          "Live demo",
+          "Public repository"
+        ]
       }
     ],
     "ctaDemo": "Open the live demo",
