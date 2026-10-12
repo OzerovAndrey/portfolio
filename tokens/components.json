@@ -1183,9 +1183,9 @@
     },
     "logo": {
       "size": {
-        "value": "{iconSize.xl}",
+        "value": "{iconSize.lg}",
         "type": "sizing",
-        "description": "висота лого AO Studio у футері"
+        "description": "висота лого AO Studio у футері — як у шапці (siteHeader.logo.size)"
       },
       "color": {
         "value": "{color.content.primary}",
