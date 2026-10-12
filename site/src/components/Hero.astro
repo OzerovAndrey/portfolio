@@ -8,7 +8,6 @@
 import Button from "./Button.astro";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
-import { BRANDS, states } from "../lib/exhibit";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -17,18 +16,12 @@ const live = new URL(config.demoUrl);
 live.searchParams.set("brand", "aurum");
 // без JS (noscript) — світла; зі JS тему підставляє скрипт з <html data-theme>
 live.searchParams.set("theme", "light");
-// градієнт заголовка — кольори чотирьох брендів демо, значення з токенів під час білду (як кільце CTA у Button.astro).
-// dark: product1 (на темному тлі всі світлі й чисті). light: насичені тони брендів — product1 золота / жовтого в змішуванні з чорним
-// дають бруд, тож Aurum → product2 (бордо), Nova → product2 (фіолет), Fiesta → product3 (блакить), Ultra → product1 (рожевий)
-const TINT_DARK = BRANDS.map((b) => states[`${b}|dark`].colors["color.product1"]);
-const TINT_LIGHT = [states["aurum|light"].colors["color.product2"], states["nova|light"].colors["color.product2"], states["fiesta|light"].colors["color.product3"], states["ultra|light"].colors["color.product1"]];
-const brandTint = [...TINT_LIGHT.map((c, i) => `--hg-l${i + 1}: ${c}`), ...TINT_DARK.map((c, i) => `--hg-d${i + 1}: ${c}`)].join("; ");
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
     <div class="hero__copy">
       <p class="hero__role ts-overline-md">{h.role}</p>
-      <h1 class="hero__title ts-display-d1" id="hero-title" style={brandTint}>
+      <h1 class="hero__title ts-display-d1" id="hero-title">
         {h.title.map((line) => <span class="hero__line">{line}</span>)}
       </h1>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
@@ -172,22 +165,19 @@ const brandTint = [...TINT_LIGHT.map((c, i) => `--hg-l${i + 1}: ${c}`), ...TINT_
     font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
   }
   .hero__line { display: block; }
-  /* Градієнт заголовка: колір тексту теми, підфарбований кольорами чотирьох брендів (--hg-l* / --hg-d*, див. frontmatter). Тінт через color-mix з text.primary,
-     тож у light — глибокі тони на світлому, у dark — пастель на темному; контраст тримається. Фон 200 % ширини повільно їде
-     туди-назад (alternate + easeInOutSine) — безшовне переливання без стрибка на початку циклу.
+  /* Градієнт заголовка: монохром «чорний → графіт → сірий». Крайні тони — колір заголовка (text.primary), світла смуга —
+     hero.title.sheen (text.secondary), графіт між ними — їх змішування. У dark ті самі ролі інвертуються: білий → срібло → сірий.
+     Фон 200 % ширини повільно їде туди-назад (alternate + easeInOutSine) — безшовне переливання без стрибка.
      Без background-clip: text — звичайний суцільний колір; reduced motion — статичний градієнт */
-  .hero__title { --hg-1: var(--hg-l1); --hg-2: var(--hg-l4); --hg-3: var(--hg-l2); --hg-4: var(--hg-l3); --hg-tint: 72%; }
-  :global(:root[data-theme="dark"]) .hero__title { --hg-1: var(--hg-d1); --hg-2: var(--hg-d4); --hg-3: var(--hg-d2); --hg-4: var(--hg-d3); --hg-tint: 55%; }
   @supports ((-webkit-background-clip: text) or (background-clip: text)) {
     .hero__title {
       --hg-base: var(--hero-title-color);
+      --hg-sheen: var(--hero-title-sheen-color);
+      --hg-graphite: color-mix(in oklch, var(--hg-base), var(--hg-sheen));
       background-image: linear-gradient(100deg,
-        var(--hg-base) 0%,
-        color-mix(in oklch, var(--hg-1) var(--hg-tint), var(--hg-base)) 22%,
-        color-mix(in oklch, var(--hg-2) var(--hg-tint), var(--hg-base)) 40%,
-        color-mix(in oklch, var(--hg-3) var(--hg-tint), var(--hg-base)) 58%,
-        color-mix(in oklch, var(--hg-4) var(--hg-tint), var(--hg-base)) 76%,
-        var(--hg-base) 100%);
+        var(--hg-base) 0%, var(--hg-base) 18%,
+        var(--hg-graphite) 34%, var(--hg-sheen) 50%, var(--hg-graphite) 66%,
+        var(--hg-base) 82%, var(--hg-base) 100%);
       background-size: 200% 100%;
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent; color: transparent;

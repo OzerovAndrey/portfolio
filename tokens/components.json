@@ -611,6 +611,13 @@
         "value": "{display.hero.letterSpacing}",
         "type": "letterSpacing"
       },
+      "sheen": {
+        "color": {
+          "value": "{color.text.secondary}",
+          "type": "color",
+          "description": "світла смуга градієнта заголовка (графіт / срібло); крайні тони — title.color"
+        }
+      },
       "shimmer": {
         "duration": {
           "value": "{duration.shimmer}",
