@@ -1850,10 +1850,6 @@
       "value": "{space.padding.lg}",
       "type": "spacing"
     },
-    "gap": {
-      "value": "{space.gap.xl}",
-      "type": "spacing"
-    },
     "label": {
       "color": {
         "value": "{color.text.secondary}",
@@ -1878,50 +1874,10 @@
         "type": "borderRadius"
       }
     },
-    "chip": {
-      "bg": {
-        "value": "{color.bg.primary}",
-        "type": "color"
-      },
-      "br": {
-        "value": "{color.border.tertiary}",
-        "type": "color"
-      },
+    "text": {
       "color": {
         "value": "{color.text.primary}",
         "type": "color"
-      },
-      "paddingH": {
-        "value": "{space.padding.xs}",
-        "type": "spacing"
-      },
-      "size": {
-        "value": "{size.control.sm}",
-        "type": "sizing"
-      },
-      "gap": {
-        "value": "{space.gap.sm}",
-        "type": "spacing"
-      },
-      "borderRadius": {
-        "value": "{borderRadius.pill}",
-        "type": "borderRadius"
-      }
-    },
-    "live": {
-      "color": {
-        "value": "{color.fill.success.default}",
-        "type": "color"
-      }
-    },
-    "matrix": {
-      "gap": {
-        "value": "{space.gap.xs}",
-        "type": "spacing"
-      },
-      "borderRadius": {
-        "value": "{borderRadius.control}",
-        "type": "borderRadius"
       }
     }
   }

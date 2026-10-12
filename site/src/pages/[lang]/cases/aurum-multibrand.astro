@@ -5,8 +5,6 @@ import Base from "../../../layouts/Base.astro";
 import Button from "../../../components/Button.astro";
 import Icon from "../../../components/Icon.astro";
 import Shot from "../../../components/Shot.astro";
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
 import meta from "../../../generated/demo/meta.json";
 import { config } from "../../../config";
 import { href, staticLangPaths, t, type Locale } from "../../../i18n";
@@ -29,15 +27,8 @@ const layers = [
 ] as const;
 const PROBLEM_ICON = ["component", "grid", "branch"] as const;
 
-// Факти кейсу: роль · обсяг (матриця бренди × теми з реальних кадрів демо) · стек · статус
-const FACT_ICON = ["user", "grid", "wrench", "activity"] as const;
-const ROLE_ICON = ["pen", "component", "tokens"] as const;
-const STACK_ICON = ["figma", "tokens", "github", "code", "braces"] as const;
-const MATRIX_BRANDS = ["aurum", "nova", "fiesta", "ultra"] as const;
-const matrixFiles = import.meta.glob<{ default: ImageMetadata }>("/src/assets/cases/matrix/*.webp", { eager: true });
-const matrix = (["light", "dark"] as const).flatMap((th) => MATRIX_BRANDS.map((b) => matrixFiles[`/src/assets/cases/matrix/${b}-${th}.webp`].default));
-const repoUrl = config.contacts.github ? `${config.contacts.github}/multibrand-design-system` : "";
-const [fRole, fScope, fStack, fStatus] = c.facts;
+// Факти кейсу: 4 прості картки з іконкою. Порядок показу — обсяг · роль · статус · стек (у i18n: роль · обсяг · стек · статус)
+const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "activity" }, { i: 2, icon: "wrench" }] as const;
 ---
 <Base lang={lang} page="cases" title={d.meta.caseAurumTitle} description={d.meta.caseAurumDescription}>
   <section class="section">
@@ -49,30 +40,13 @@ const [fRole, fScope, fStack, fStatus] = c.facts;
         <p class="section__lead ts-body-lg-regular measure--lead">{c.lead}</p>
       </div>
       <dl class="cs-facts">
-        <div class="cs-fact cs-fact--scope">
-          <dt class="cs-fact__head"><span class="cs-fact__badge"><Icon name={FACT_ICON[1]} /></span><span class="ts-label-md">{fScope.k}</span></dt>
-          <dd class="cs-fact__body">
-            <div class="cs-matrix" role="img" aria-label={fill(fScope.items[0])}>
-              {matrix.map((img) => <Image src={img} alt="" widths={[160, 320]} sizes="(min-width: 1024px) 12vw, 25vw" loading="lazy" decoding="async" class="cs-matrix__tile" />)}
-            </div>
-            <ul class="cs-chips">{fScope.items.map((x) => <li class="cs-chip ts-label-md">{fill(x)}</li>)}</ul>
-          </dd>
-        </div>
-        <div class="cs-fact cs-fact--role">
-          <dt class="cs-fact__head"><span class="cs-fact__badge"><Icon name={FACT_ICON[0]} /></span><span class="ts-label-md">{fRole.k}</span></dt>
-          <dd class="cs-fact__body"><ul class="cs-chips">{fRole.items.map((x, i) => <li class="cs-chip ts-label-md"><Icon name={ROLE_ICON[i] ?? "pen"} class="cs-chip__icon" />{x}</li>)}</ul></dd>
-        </div>
-        <div class="cs-fact cs-fact--status">
-          <dt class="cs-fact__head"><span class="cs-fact__badge"><Icon name={FACT_ICON[3]} /></span><span class="ts-label-md">{fStatus.k}</span></dt>
-          <dd class="cs-fact__body"><ul class="cs-chips">
-            <li><a class="cs-chip cs-chip--link ts-label-md" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_aurum_status_demo"><span class="cs-live" aria-hidden="true"></span>{fStatus.items[0]}</a></li>
-            {repoUrl && <li><a class="cs-chip cs-chip--link ts-label-md" href={repoUrl} target="_blank" rel="noopener" data-event="case_aurum_status_repo"><Icon name="github" class="cs-chip__icon" />{fStatus.items[1]}</a></li>}
-          </ul></dd>
-        </div>
-        <div class="cs-fact cs-fact--stack">
-          <dt class="cs-fact__head"><span class="cs-fact__badge"><Icon name={FACT_ICON[2]} /></span><span class="ts-label-md">{fStack.k}</span></dt>
-          <dd class="cs-fact__body"><ul class="cs-chips">{fStack.items.map((x, i) => <li class="cs-chip ts-label-md"><Icon name={STACK_ICON[i] ?? "code"} class="cs-chip__icon" />{x}</li>)}</ul></dd>
-        </div>
+        {FACTS.map(({ i, icon }) => (
+          <div class="cs-fact">
+            <span class="cs-fact__badge" aria-hidden="true"><Icon name={icon} /></span>
+            <dt class="cs-fact__label ts-label-md">{c.facts[i].k}</dt>
+            <dd class="cs-fact__value ts-body-md-regular">{c.facts[i].items.map((x) => fill(x).replace(/(\d) /g, "$1\u00a0")).join("\u00a0· ")}</dd>
+          </div>
+        ))}
       </dl>
       <div class="cs-actions">
         <Button size="lg" icon="arrowUpRight" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_aurum_demo">{c.ctaDemo}</Button>
@@ -165,29 +139,14 @@ const [fRole, fScope, fStack, fStatus] = c.facts;
   .cs-back:hover { color: var(--section-title-color); }
   .cs-back :global(.cs-back__icon) { --icon-size: var(--iconSize-sm); transform: scaleX(-1); }
   .cs-tag { align-self: flex-start; display: inline-flex; align-items: center; height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH); background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
-  /* Факти кейсу — bento: обсяг із матрицею брендів ліворуч, роль/статус/стек праворуч */
-  .cs-facts { display: grid; gap: var(--l-gap); margin: 0; grid-template-areas: "scope" "role" "status" "stack"; }
-  @media (min-width: 768px) { .cs-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "scope role" "scope status" "stack stack"; } }
-  @media (min-width: 1024px) { .cs-facts { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 4fr); grid-template-areas: "scope role status" "scope stack stack"; } }
-  .cs-fact--scope { grid-area: scope; } .cs-fact--role { grid-area: role; } .cs-fact--status { grid-area: status; } .cs-fact--stack { grid-area: stack; }
-  .cs-fact { display: flex; flex-direction: column; gap: var(--caseFact-gap); padding: var(--caseFact-padding); background: var(--caseFact-bg); border: var(--caseFact-borderWidth) solid var(--caseFact-br); border-radius: var(--caseFact-borderRadius); }
-  .cs-fact__head { display: flex; align-items: center; gap: var(--space-gap-md); color: var(--caseFact-label-color); }
-  .cs-fact__badge { display: inline-grid; place-items: center; flex: none; width: var(--caseFact-badge-size); height: var(--caseFact-badge-size); background: var(--caseFact-badge-bg); color: var(--caseFact-badge-color); border-radius: var(--caseFact-badge-borderRadius); --icon-size: var(--iconSize-md); }
-  .cs-fact__body { margin: 0; display: flex; flex-direction: column; gap: var(--caseFact-gap); flex: 1; justify-content: flex-end; }
-  .cs-fact--role .cs-fact__body, .cs-fact--status .cs-fact__body, .cs-fact--stack .cs-fact__body { justify-content: flex-start; }
-
-  .cs-matrix { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--caseFact-matrix-gap); }
-  .cs-matrix :global(.cs-matrix__tile) { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--caseFact-matrix-borderRadius); }
-
-  .cs-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--caseFact-chip-gap); }
-  .cs-chip { display: inline-flex; align-items: center; gap: var(--caseFact-chip-gap); min-height: var(--caseFact-chip-size); padding-inline: var(--caseFact-chip-paddingH); background: var(--caseFact-chip-bg); color: var(--caseFact-chip-color); border: var(--caseFact-borderWidth) solid var(--caseFact-chip-br); border-radius: var(--caseFact-chip-borderRadius); text-decoration: none; }
-  .cs-chip :global(.cs-chip__icon) { --icon-size: var(--iconSize-sm); flex: none; }
-  .cs-chip--link { transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
-  .cs-chip--link:hover { border-color: var(--caseCard-br-hover); }
-  .cs-live { position: relative; width: var(--space-gap-md); height: var(--space-gap-md); border-radius: var(--borderRadius-pill); background: var(--caseFact-live-color); flex: none; }
-  .cs-live::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--caseFact-live-color); animation: cs-live-pulse calc(var(--motion-duration-slow) * 4) var(--motion-easing-out) infinite; }
-  @keyframes cs-live-pulse { from { transform: scale(1); opacity: 0.6; } to { transform: scale(2.6); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .cs-live::after { animation: none; } }
+  /* Факти кейсу — 4 картки в рядок */
+  .cs-facts { display: grid; gap: var(--l-gap); margin: 0; }
+  @media (min-width: 768px) { .cs-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .cs-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .cs-fact { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-gap-md); padding: var(--caseFact-padding); background: var(--caseFact-bg); border: var(--caseFact-borderWidth) solid var(--caseFact-br); border-radius: var(--caseFact-borderRadius); }
+  .cs-fact__badge { display: inline-grid; place-items: center; width: var(--caseFact-badge-size); height: var(--caseFact-badge-size); margin-bottom: var(--space-gap-md); background: var(--caseFact-badge-bg); color: var(--caseFact-badge-color); border-radius: var(--caseFact-badge-borderRadius); --icon-size: var(--iconSize-md); }
+  .cs-fact__label { color: var(--caseFact-label-color); }
+  .cs-fact__value { margin: 0; color: var(--caseFact-text-color); }
   .cs-actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
 
   .cs-split { display: grid; gap: var(--section-text-heading) var(--l-gap); }
