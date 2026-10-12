@@ -18,8 +18,8 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
 
 <style>
   /* Редакційне завершення: без заливки й карток — hairline згори, список посилань, дрібний підпис знизу. Ім'я — лише в шапці й копірайті. Фон — сторінки */
-  .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: calc(var(--siteFooter-paddingT) * 0.75) var(--siteFooter-paddingB); }
-  .footer__inner { display: grid; gap: var(--siteFooter-gap); grid-template-columns: minmax(0, 1fr); }
+  .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: var(--siteFooter-paddingB); }
+  .footer__inner { display: grid; gap: var(--siteFooter-paddingB); grid-template-columns: minmax(0, 1fr); }
   .footer__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-lg) var(--siteFooter-gap); align-items: center; }
   .footer__links a { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
   .footer__links a:hover { color: var(--siteFooter-link-color-hover); }
