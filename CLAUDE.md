@@ -47,6 +47,7 @@
 - Аналітика — Umami Cloud (`PUBLIC_UMAMI_ID`). Подія = атрибут `data-event="назва"` на елементі, без коду провайдера в компонентах.
   Назви подій: `snake_case`, `<об'єкт>_<дія>` (`cta_demo`, `demo_open_fullscreen`, `lang_uk`, `theme_dark`, `contact_sent`).
 - OG-картинки — `site/public/og/en.png`, `uk.png` (1200×630). Змінився hero-текст → оновити картинки.
+- Картинки через `astro:assets` — завжди `quality={90}` і ширини до розміру оригіналу (вихідники вже webp q92 @2x; дефолт Astro ~80 і обрізання до 2000 px дають мило на ретіні).
 - Скріни `/approach` — `site/src/assets/shots/**.webp` з маніфесту `shots.json`. Перезняти: `node tools/shots/render.mjs [id …]` (DEMO_DIST, DEMO_REPO).
   Кадри інструментів — відтворення на даних репо, не вигадані значення. Помітно змінився вигляд демо → перезняти.
 - Обкладинки карток кейсів — `site/src/assets/cases/{aurum,site}-{light,dark}.webp` (16:9, реальні кадри: aurum — банер демо, розрізаний на 4 бренди з `shots/brand-morph`; site — головна сайту з постером демо в hero). Помітно змінився вигляд демо або hero → перезняти.

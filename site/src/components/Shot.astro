@@ -17,13 +17,17 @@ const files = import.meta.glob<{ default: ImageMetadata }>("/src/assets/shots/**
 const image = files[`/src/assets/${shot.file}`]?.default;
 const ratio = shot.ratio.replace("/", " / ");
 // повнорозмірна версія для перегляду на весь екран (клік по скріну)
-const full = image ? await getImage({ src: image, width: Math.min(image.width, 2400), format: "webp" }) : null;
+// Якість: вихідники вже стиснуті (webp q92, @2x) — друге стиснення робимо м'яким (q90), а ширини доводимо до оригіналу,
+// щоб на ретіні рамка 1232 px отримувала ~2464 px, а не обрізані 2000.
+const QUALITY = 90;
+const widths = image ? [...new Set([640, 960, 1440, 2000, 2560, image.width].filter((w) => w <= image.width))] : [];
+const full = image ? await getImage({ src: image, width: image.width, format: "webp", quality: 92 }) : null;
 const a11y = t(lang).a11y;
 ---
 {image ? (
   <figure class:list={["shot", "shot--ready", cls]} data-shot={id} data-status="ready" style={`aspect-ratio: ${ratio}`}>
     <button type="button" class="shot__zoom" data-zoom={full?.src} data-zoom-close={a11y.closeZoom} aria-label={`${a11y.zoomShot}: ${shot.alt[lang]}`} data-event="shot_zoom">
-      <Image src={image} alt={shot.alt[lang]} widths={[640, 960, 1440, 2000]} sizes={sizes} loading={loading} decoding="async" class="shot__img" />
+      <Image src={image} alt={shot.alt[lang]} widths={widths} quality={QUALITY} sizes={sizes} loading={loading} decoding="async" class="shot__img" />
     </button>
   </figure>
 ) : (

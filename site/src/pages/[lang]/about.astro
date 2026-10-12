@@ -38,7 +38,7 @@ const contacts = links(
       </div>
         <figure class="ab-portrait">
           {portrait
-            ? <Image src={portrait} alt={a.portraitAlt} widths={[480, Math.min(800, portrait.width)]} sizes="(min-width: 900px) 40vw, 100vw" loading="eager" class="ab-portrait__img" />
+            ? <Image src={portrait} alt={a.portraitAlt} widths={[480, Math.min(800, portrait.width), Math.min(1200, portrait.width)]} quality={90} sizes="(min-width: 900px) 40vw, 100vw" loading="eager" class="ab-portrait__img" />
             : <span class="ab-portrait__mono ts-display-d1" aria-hidden="true">{a.monogram}</span>}
           <figcaption class:list={["ab-portrait__cap", portrait && "ab-portrait__cap--photo"]}><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
         </figure>
