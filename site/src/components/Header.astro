@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.tsx";
+import Logo from "./Logo.astro";
 import type { Page } from "../layouts/Base.astro";
 import { href, locales, swapLang, t, type Locale } from "../i18n";
 
@@ -17,7 +18,11 @@ const path = Astro.url.pathname;
 ---
 <header class="header surface surface--glass-whisper" data-header>
   <div class="container header__inner">
-    <a class="header__logo ts-title-t5" href={href(lang)} aria-label={d.a11y.home}><span class="logo-full">Andrey Ozerov</span><span class="logo-short" aria-hidden="true">AO</span></a>
+    <a class="header__logo" href={href(lang)} aria-label={d.a11y.home}>
+      <Logo variant="full" class="logo-full" />
+      <Logo variant="symbol" class="logo-short" />
+      <span class="header__owner ts-label-md" aria-hidden="true">{d.brand.owner}</span>
+    </a>
     <nav class="nav" id="site-nav" aria-label={d.a11y.nav}>
       {nav.map((n) => (
         <a class="nav__item ts-label-md" href={n.url} aria-current={n.id === page ? "page" : undefined}>{n.label}</a>
@@ -68,7 +73,11 @@ const path = Astro.url.pathname;
     position: sticky; top: 0; z-index: 5; border-width: 0 0 var(--siteHeader-borderWidth); border-radius: 0; box-shadow: none;
   }
   .header__inner { display: flex; align-items: center; gap: var(--siteHeader-gap); height: calc(var(--siteHeader-height) - var(--siteHeader-borderWidth)); }
-  .header__logo { color: var(--siteHeader-logo-color); text-decoration: none; white-space: nowrap; }
+  /* Лого AO Studio + ім'я власника через hairline-роздільник. Висота знака — siteHeader.logo.size, ширина з пропорцій SVG */
+  .header__logo { --logo-size: var(--siteHeader-logo-size); display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteHeader-logo-color); text-decoration: none; white-space: nowrap; }
+  .header__owner { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteHeader-owner-color); transition: color var(--motion-duration-fast) var(--motion-easing-out); }
+  .header__owner::before { content: ""; height: 1em; border-inline-start: var(--siteHeader-borderWidth) solid var(--siteHeader-br); }
+  .header__logo:hover .header__owner { color: var(--siteHeader-logo-color); }
   .nav { display: flex; gap: var(--siteNav-gap); margin-inline-start: auto; }
   .nav__item {
     position: relative; display: inline-flex; align-items: center;
@@ -111,7 +120,7 @@ const path = Astro.url.pathname;
   }
   :global(.theme-toggle:hover) { background: var(--action-text-bg-hover); }
   :global(.theme-toggle:active) { background: var(--action-text-bg-active); }
-  .logo-short { display: none; }
+  .header__logo :global(.logo-short) { display: none; }
   .menu-toggle { display: none; }
   /* Дотик: цілі не менші за 48 px */
   @media (pointer: coarse) {
@@ -165,10 +174,13 @@ const path = Astro.url.pathname;
   }
   @media (max-width: 399px) and (pointer: coarse) { .menu-toggle:not([hidden]) { width: var(--size-control-lg); } }
   @media (max-width: 899px) and (pointer: coarse) { .menu-toggle:not([hidden]) { height: var(--size-control-lg); } }
-  /* Повне ім'я лишається, поки є місце; скорочення «AO» — тільки на найвужчих */
+  /* Ім'я власника — поки рядок вміщає навігацію або кнопку меню поруч; далі лишається повне лого */
+  @media (min-width: 900px) and (max-width: 1099px) { .header__owner { display: none; } }
+  @media (max-width: 599px) { .header__owner { display: none; } }
+  /* Найвужчі екрани: тільки символ AO */
   @media (max-width: 359px) {
-    .logo-full { display: none; }
-    .logo-short { display: inline; }
+    .header__logo :global(.logo-full) { display: none; }
+    .header__logo :global(.logo-short) { display: block; }
     .header__tools { gap: var(--space-gap-sm); }
   }
 </style>

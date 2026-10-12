@@ -35,7 +35,7 @@ const { umamiId, umamiSrc } = config.analytics;
     {page === "home" && (
       <script type="application/ld+json" set:html={JSON.stringify({
         "@context": "https://schema.org", "@type": "Person", name: config.name, url: abs(path),
-        jobTitle: "Product / UI/UX Designer", knowsAbout: ["Product design", "UI/UX design", "Design systems", "Multi-brand design systems", "Figma", "Tokens Studio"],
+        jobTitle: "Product / UI/UX Designer", brand: { "@type": "Brand", name: d.brand.name }, knowsAbout: ["Product design", "UI/UX design", "Design systems", "Multi-brand design systems", "Figma", "Tokens Studio"],
         image: abs(`${import.meta.env.BASE_URL}og/${lang}.png`),
         sameAs: [config.contacts.linkedin, config.contacts.github, config.contacts.telegram].filter(Boolean),
       })} />
@@ -55,6 +55,7 @@ const { umamiId, umamiSrc } = config.analytics;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
     {page === "home" && <link rel="preload" as="font" type="font/woff2" crossorigin href={lang === "uk" ? interTightCyrillic700 : interTightLatin700} />}
     <!-- тема до першого рендера: вибір у межах візиту (sessionStorage) → інакше системна (prefers-color-scheme).
          Поки вибору немає, сайт іде за системою й наживо реагує на її зміну -->

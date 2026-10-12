@@ -1,7 +1,8 @@
 ---
 import Icon from "./Icon.astro";
 import { config, formatPhone, links as mk } from "../config";
-import { t, type Locale } from "../i18n";
+import Logo from "./Logo.astro";
+import { href, t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
 const { email, linkedin, telegram, phone, github } = config.contacts;
@@ -9,6 +10,10 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
 ---
 <footer class="footer">
   <div class="container footer__inner">
+    <div class="footer__brand">
+      <a class="footer__logo" href={href(Astro.props.lang)} aria-label={d.a11y.home}><Logo variant="full" /></a>
+      <p class="footer__credit ts-body-sm-regular">{d.brand.credit}</p>
+    </div>
     <ul class="footer__links">
       {links.map((l) => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.icon && <Icon name={l.icon} />}<span>{l.label}</span></a></li>)}
     </ul>
@@ -20,6 +25,10 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
   /* Редакційне завершення: без заливки й карток — hairline згори, список посилань, дрібний підпис знизу. Ім'я — лише в шапці й копірайті. Фон — сторінки */
   .footer { background: var(--siteFooter-bg); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-br); color: var(--siteFooter-color); padding-block: calc(var(--siteFooter-paddingB) * 2) var(--siteFooter-paddingB); }
   .footer__inner { display: grid; gap: calc(var(--siteFooter-paddingB) * 2); grid-template-columns: minmax(0, 1fr); }
+  /* Лого AO Studio і підпис власника — над посиланнями */
+  .footer__brand { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-lg) var(--siteFooter-gap); }
+  .footer__logo { --logo-size: var(--siteFooter-logo-size); display: inline-flex; color: var(--siteFooter-logo-color); }
+  .footer__credit { color: var(--siteFooter-color); }
   .footer__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-lg) var(--siteFooter-gap); align-items: center; }
   .footer__links a { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
   .footer__links a:hover { color: var(--siteFooter-link-color-hover); }

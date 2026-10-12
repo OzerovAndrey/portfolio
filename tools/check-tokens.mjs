@@ -137,8 +137,8 @@ const PAIRS = [
   ["color.content.primary", "color.glass.whisper.solid", 4.5], ["color.content.tertiary", "color.glass.whisper.solid", 4.5],
   ["color.content.primary", "color.glass.strong.solid", 4.5], ["color.content.tertiary", "color.glass.strong.solid", 4.5],
   // шапка: текст поверх α88-полотна на найгіршому фоні (чорний / білий — демо, скріни під шапкою) і на solid-fallback
-  ...["siteHeader.bg", "siteHeader.bgSolid"].flatMap((bg) => ["siteNav.item.color.default", "siteNav.item.color.active", "siteHeader.logo.color", "langSwitch.item.color.default"].map((fg) => [fg, bg, 4.5])),
-  ["siteFooter.color", "section.bg.default", 4.5], ["siteFooter.color", "section.bg.alt", 4.5], ["siteFooter.link.color.default", "section.bg.default", 4.5], ["siteFooter.name.color", "section.bg.default", 4.5],
+  ...["siteHeader.bg", "siteHeader.bgSolid"].flatMap((bg) => ["siteNav.item.color.default", "siteNav.item.color.active", "siteHeader.logo.color", "siteHeader.owner.color", "langSwitch.item.color.default"].map((fg) => [fg, bg, 4.5])),
+  ["siteFooter.color", "section.bg.default", 4.5], ["siteFooter.color", "section.bg.alt", 4.5], ["siteFooter.link.color.default", "section.bg.default", 4.5], ["siteFooter.name.color", "section.bg.default", 4.5], ["siteFooter.logo.color", "section.bg.default", 3], ["siteFooter.logo.color", "section.bg.alt", 3],
   ["positioning.label.color", "section.bg.default", 4.5], ["positioning.title.color", "section.bg.default", 4.5], ["positioning.item.title.color", "section.bg.default", 4.5], ["positioning.item.detail.color", "section.bg.default", 4.5],
   ["exhibit.label.color", "section.bg.default", 4.5], ["exhibit.title.color", "section.bg.default", 4.5], ["exhibit.text.color", "section.bg.default", 4.5],
   ["action.focus.color", "section.bg.default", 3], ["action.focus.color", "section.bg.alt", 3],

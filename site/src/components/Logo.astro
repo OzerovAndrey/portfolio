@@ -1,0 +1,27 @@
+---
+// Лого AO Studio: full — символ + «AO Studio», symbol — тільки знак AO.
+// Колір — currentColor (задає контейнер через токен), висота — через CSS (--logo-size), ширина з пропорцій.
+import { LOGO_HEIGHT, LOGO_ORIGIN, LOGO_SYMBOL, LOGO_WIDTH, LOGO_WORDMARK } from "../lib/logo";
+
+interface Props { variant?: "full" | "symbol"; label?: string; class?: string }
+const { variant = "full", label, class: cls } = Astro.props;
+const shapes = variant === "full" ? [...LOGO_SYMBOL, ...LOGO_WORDMARK] : LOGO_SYMBOL;
+const w = LOGO_WIDTH[variant];
+---
+<svg
+  class:list={["logo", `logo--${variant}`, cls]}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={`0 0 ${w} ${LOGO_HEIGHT}`}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <g fill="currentColor" transform={`translate(${LOGO_ORIGIN.x} ${LOGO_ORIGIN.y})`}>
+    {shapes.map((s) => <path d={s.d} transform={`translate(${s.x} ${s.y})`} />)}
+  </g>
+</svg>
+
+<style>
+  .logo { display: block; height: var(--logo-size); width: auto; flex: none; }
+</style>

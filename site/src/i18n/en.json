@@ -22,7 +22,7 @@
     "lang": "Language",
     "themeToDark": "Switch to dark theme",
     "themeToLight": "Switch to light theme",
-    "home": "Andrey Ozerov — home",
+    "home": "AO Studio by Andrey Ozerov — home",
     "menu": "Menu",
     "menuOpen": "Open menu",
     "zoomShot": "Open full size",
@@ -810,5 +810,10 @@
     "differentTitle": "What I would do differently",
     "different": "I would add automated contrast checks before the second brand, not after the fourth. When the checker arrived, it found that text.accent in the light theme misses WCAG AA in every brand: Aurum 2.13, Nova 1.67, Fiesta 1.42, Ultra 3.03 against the required 4.5. The good news is where the fix lives: one change in the shared theme layer corrects all four brands at once.",
     "backToWork": "All work"
+  },
+  "brand": {
+    "name": "AO Studio",
+    "owner": "Andrey Ozerov",
+    "credit": "Design & ownership — Andrey Ozerov"
   }
 }

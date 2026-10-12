@@ -472,11 +472,23 @@
       "color": {
         "value": "{color.content.primary}",
         "type": "color"
+      },
+      "size": {
+        "value": "{iconSize.lg}",
+        "type": "sizing",
+        "description": "висота лого AO Studio в шапці; ширина — з пропорцій SVG"
       }
     },
     "bgSolid": {
       "value": "{color.chrome.solid}",
       "type": "color"
+    },
+    "owner": {
+      "color": {
+        "value": "{color.content.secondary}",
+        "type": "color",
+        "description": "ім'я власника поруч із лого"
+      }
     }
   },
   "siteNav": {
@@ -1166,6 +1178,17 @@
     "divider": {
       "color": {
         "value": "{color.line.subtle}",
+        "type": "color"
+      }
+    },
+    "logo": {
+      "size": {
+        "value": "{iconSize.xl}",
+        "type": "sizing",
+        "description": "висота лого AO Studio у футері"
+      },
+      "color": {
+        "value": "{color.content.primary}",
         "type": "color"
       }
     }
