@@ -36,11 +36,11 @@ const contacts = links(
         <h1 class="section__title ts-display-d3 text-shimmer">{a.title}</h1>
         <p class="section__lead ts-body-lg-regular measure--lead">{a.lead}</p>
       </div>
-        <figure class="ab-portrait">
+        <figure class:list={["ab-portrait", portrait && "ab-portrait--avatar"]}>
           {portrait
             ? <Image src={portrait} alt={a.portraitAlt} widths={[480, Math.min(800, portrait.width), Math.min(1200, portrait.width)]} quality={90} sizes="(min-width: 900px) 40vw, 100vw" loading="eager" class="ab-portrait__img" />
             : <span class="ab-portrait__mono ts-display-d1" aria-hidden="true">{a.monogram}</span>}
-          <figcaption class:list={["ab-portrait__cap", portrait && "ab-portrait__cap--photo"]}><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
+          <figcaption class:list={["ab-portrait__cap", portrait && "ab-portrait__cap--below"]}><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
         </figure>
       <div class="ab-text">
         <p class="ab-statement ts-title-t1 text-shimmer">{a.statement}</p>
@@ -143,10 +143,11 @@ const contacts = links(
   .ab-portrait__cap { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: var(--space-gap-xs);
     padding: var(--space-padding-lg); color: var(--section-title-color); }
   .ab-portrait__cap span:last-child { color: var(--section-lead-color); }
-  /* підпис поверх фото — на склі, щоб текст читався на будь-якому кадрі */
-  .ab-portrait__cap--photo { left: var(--space-padding-md); right: var(--space-padding-md); bottom: var(--space-padding-md); padding: var(--space-padding-md);
-    background: var(--glass-bg); border: var(--glass-borderWidth) solid var(--glass-br); border-radius: var(--metric-borderRadius); backdrop-filter: var(--glass-backdropFilter); color: var(--glass-color-default); }
-  .ab-portrait__cap--photo span:last-child { color: var(--glass-color-default); }
+  /* 3D-аватар з прозорим фоном: без рамки й пропорції 4:5, картинка у своїх пропорціях, підпис — під нею */
+  .ab-portrait--avatar { aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; gap: var(--section-text-heading); overflow: visible;
+    background: none; border: 0; border-radius: 0; }
+  .ab-portrait--avatar :global(.ab-portrait__img) { position: static; width: 100%; height: auto; object-fit: contain; }
+  .ab-portrait__cap--below { position: static; padding: 0; align-items: center; text-align: center; }
   .ab-text { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
   .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
