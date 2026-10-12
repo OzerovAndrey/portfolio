@@ -244,15 +244,16 @@
     "block": "components",
     "file": "shots/components/comp-four-brands.webp",
     "ratio": "16/9",
-    "size": "2880x1620",
+    "size": "4320x2430",
     "what": {
       "en": "One component in four brands side by side",
       "uk": "Один компонент у 4 брендах поруч"
     },
     "alt": {
-      "en": "The same component markup in four brands, dark theme: Aurum, Nova, Fiesta, Ultra",
-      "uk": "Та сама розмітка компонентів у чотирьох брендах, темна тема: Aurum, Nova, Fiesta, Ultra"
-    }
+      "en": "The same component markup in four brands, light theme: Aurum, Nova, Fiesta, Ultra",
+      "uk": "Та сама розмітка компонентів у чотирьох брендах, світла тема: Aurum, Nova, Fiesta, Ultra"
+    },
+    "scale": 3
   },
   {
     "id": "ts-github-sync",

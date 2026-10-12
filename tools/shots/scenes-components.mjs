@@ -13,8 +13,8 @@ const BTN_VARS = ["button/primary/bg/default", "button/primary/color/default", "
   .map((n) => [n, String(get(demoComponents, n)?.value ?? "").replace(/[{}]/g, "")]);
 
 /** Збирає специмен у сторінці демо й повертає PNG елемента. kind: buttons | cards | chips | column | instance */
-async function specimen(newPage, { brand, theme, kind }) {
-  const p = await demoPage(newPage, { brand, theme, width: 1440, height: 900 });
+async function specimen(newPage, { brand, theme, kind, scale = 2 }) {
+  const p = await demoPage(newPage, { brand, theme, width: 1440, height: 900, scale });
   await p.evaluate((kind) => {
     const $ = (s) => document.querySelector(s);
     const $$ = (s) => [...document.querySelectorAll(s)];
@@ -107,17 +107,19 @@ const setScene = (kind, name, pageName, brand = "aurum", theme = "light") => asy
   const buf = await p.screenshot(); await p.close(); return buf;
 };
 
-/** Один компонент у 4 брендах поруч (темна тема): та сама розмітка, різні brand-сети */
-const fourBrands = async ({ newPage, scenePage, width, height }) => {
+/** Один компонент у 4 брендах поруч (світла тема): та сама розмітка, різні brand-сети.
+ *  Специмени знімаються в 4x, щоб у кадрі (scale з маніфесту, 3x) їх тільки зменшувало — без мила й пікселів. */
+const fourBrands = async ({ newPage, scenePage, width, height, scale }) => {
+  const theme = "light";
   const cols = [];
-  for (const b of BRANDS) cols.push({ b, ...(await specimen(newPage, { brand: b, theme: "dark", kind: "column" })) });
+  for (const b of BRANDS) cols.push({ b, ...(await specimen(newPage, { brand: b, theme, kind: "column", scale: 4 })) });
   const maxH = Math.max(...cols.map((c) => c.h));
   const colW = Math.floor((width - 96 - 3 * 28) / 4);
   const k = Math.min(colW / cols[0].w, (height - 44 - 110) / maxH);
-  const html = page(`${bar("Components · same instance, 4 brands", [["Theme", "Dark"]])}
+  const html = page(`${bar("Components · same instance, 4 brands", [["Theme", "Light"]])}
     <div class="stage"><div class="grid">${cols.map((c) => `<div class="col"><div class="col__head">${NAMES[c.b]}<code>data-brand="${c.b}"</code></div>
     <div class="col__img"><img src="${c.src}" width="${Math.round(c.w * k)}" height="${Math.round(c.h * k)}" style="display:block"></div></div>`).join("")}</div></div>`);
-  const p = await scenePage("comp-four", html, { width, height });
+  const p = await scenePage("comp-four", html, { width, height, scale });
   const buf = await p.screenshot(); await p.close(); return buf;
 };
 

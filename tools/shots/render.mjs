@@ -20,7 +20,8 @@ for (const shot of shots) {
   const scene = scenes[shot.id];
   if (!scene) { console.warn(`· ${shot.id}: сцени немає — лишається плейсхолдер`); continue; }
   const [w, h] = shot.size.split("x").map(Number);
-  const buf = await scene({ ...ctx, width: w / 2, height: h / 2 });
+  const scale = shot.scale ?? 2; // щільність кадру: size = CSS-розмір × scale
+  const buf = await scene({ ...ctx, width: w / scale, height: h / scale, scale });
   const bytes = await save(buf, shot.file);
   console.log(`✓ ${shot.id} → ${shot.file} (${Math.round(bytes / 1024)} KB)`);
   n++;
