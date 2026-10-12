@@ -53,7 +53,7 @@ const contacts = links(
     <div class="container ab-split">
       <h2 class="section__title ts-title-t1 text-shimmer" id="ab-exp">{a.experience.title}</h2>
       <div class="stack">
-        <p class="ab-prose ts-body-lg-regular">{fillN(a.experience.detail)}</p>
+        <p class="ab-prose ab-prose--full ts-body-lg-regular">{fillN(a.experience.detail)}</p>
         <ul class="ab-stats">
           {a.experience.stats.map((x) => { const n = x.n ? nums[x.n] : Number(x.amount); return (
             <li class="ab-stat"><span class="ab-stat__amount ts-display-d3">{fillN(x.amount)}</span><span class="ab-stat__label ts-body-sm-regular">{word(x.label, n)}</span></li>); })}
@@ -156,6 +156,8 @@ const contacts = links(
   .ab-text { display: flex; flex-direction: column; gap: var(--section-text-heading); }
   .ab-statement { margin: 0; color: var(--section-title-color); text-wrap: balance; }
   .ab-prose { margin: 0; color: var(--section-lead-color); max-width: var(--layout-measure-body); }
+  /* Experience: текст на всю ширину колонки — до правого краю статистики й таймлайну */
+  .ab-prose--full { max-width: none; }
   .ab-split { display: grid; gap: var(--section-text-heading) var(--l-gap); }
   @media (min-width: 1024px) { .ab-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } }
   .ab-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
