@@ -70,6 +70,11 @@
       "value": "grayscale(100%) contrast(105%)",
       "type": "other",
       "description": "монохромне фото: портрет і фотографії в монохромній мові сайту"
+    },
+    "none": {
+      "value": "none",
+      "type": "other",
+      "description": "без фільтра: зображення в оригінальних кольорах (3D-аватар на /about)"
     }
   },
   "fontSize": {

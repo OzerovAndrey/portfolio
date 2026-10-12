@@ -559,6 +559,10 @@
     "mono": {
       "value": "{filter.mono}",
       "type": "other"
+    },
+    "none": {
+      "value": "{filter.none}",
+      "type": "other"
     }
   }
 }

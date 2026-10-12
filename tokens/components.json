@@ -1865,9 +1865,9 @@
   },
   "portrait": {
     "filter": {
-      "value": "{imageFilter.mono}",
+      "value": "{imageFilter.none}",
       "type": "other",
-      "description": "фото на /about: чорно-біле, як решта сайту"
+      "description": "аватар на /about: у кольорі (3D-рендер), без монохрому"
     }
   },
   "caseFact": {

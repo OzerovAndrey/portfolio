@@ -5,7 +5,7 @@
 
 | Властивість у імені | CSS | Тип Token Studio | Шар | Приклад |
 |---|---|---|---|---|
-| `filter` | `filter` | `other` | core `filter.mono` → theme `imageFilter.mono` → component | `portrait.filter` (чорно-біле фото) |
+| `filter` | `filter` | `other` | core `filter.mono` / `filter.none` → theme `imageFilter.*` → component | `portrait.filter` → `imageFilter.none` (аватар у кольорі) |
 | `backdropFilter` | `backdrop-filter` | `backdropFilter` (other) | core → theme → component | `glass.backdropFilter` → `backdropFilter.glass` → `filter.glass` |
 | `boxShadow` | `box-shadow` | `boxShadow` (композит) | theme → component | `glass.boxShadow` → `boxShadow.glass` (inner highlight + drop shadow) |
 | `duration` | `transition-duration`, `animation-duration` | `duration` | core `time.*` → theme `duration.*` → component `motion.duration.*` | `motion.duration.fast` = 120ms |
