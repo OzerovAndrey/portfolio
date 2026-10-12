@@ -40,8 +40,8 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "co
 <style>
   .expertise__label { display: flex; align-items: baseline; gap: var(--space-gap-xl); color: var(--positioning-label-color); }
   .expertise__statement { margin-top: var(--section-gap); max-width: 24ch; color: var(--positioning-title-color); overflow-wrap: break-word; }
-  .expertise__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--section-text-block); margin-top: var(--section-text-heading); }
-  .expertise--compact .expertise__body { margin-top: var(--section-text-heading); gap: var(--section-text-block); }
+  .expertise__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--section-text-block); margin-top: calc(var(--section-text-heading) + var(--layout-rowGap-xs)); padding-bottom: var(--layout-rowGap-xs); }
+  .expertise--compact .expertise__body { margin-top: calc(var(--section-text-heading) + var(--layout-rowGap-xs)); gap: var(--section-text-block); }
   .expertise__text { display: grid; gap: var(--space-padding-xl); align-content: start; }
   .expertise__paragraph { color: var(--positioning-item-detail-color); }
   .expertise__closing { color: var(--positioning-title-color); }
