@@ -44,7 +44,7 @@ a:hover { color: var(--link-color-hover); text-decoration-color: var(--link-br-h
 .container { width: 100%; max-width: calc(var(--container-maxWidth) + var(--l-padH) * 2); margin-inline: auto; padding-inline: var(--l-padH); }
 /* Ширина тексту: токени layout.measure.* (body 56ch · lead 40ch · heading 20ch). У ch, тож масштабується з шрифтом і не залежить від копі */
 .measure { max-width: var(--layout-measure-body); }
-.measure--lead { max-width: var(--layout-measure-lead); }
+.measure--lead { max-width: var(--layout-measure-body); } /* лід-тексти тієї ж ширини, що й основний текст (~½ контейнера): 40ch виглядало куцо */
 .measure--heading { max-width: var(--layout-measure-heading); }
 
 .section { background: var(--section-bg-default); padding-block: var(--l-row); }
