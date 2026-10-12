@@ -332,19 +332,22 @@
         "tag": "Meta-case",
         "title": "Aurum Multibrand",
         "detail": "A casino lobby that re-skins between 4 brands and 2 themes on one codebase. The live demo behind this site.",
-        "cta": "Read the case"
+        "cta": "Read the case",
+        "mediaAlt": "The same banner illustration sliced across the four demo brands: Aurum, Nova, Fiesta, Ultra"
       },
       {
         "tag": "This site",
         "title": "A portfolio on its own brand",
         "detail": "This site runs on the same token system as the demo, as a separate brand called site.",
-        "cta": "How it's built"
+        "cta": "How it's built",
+        "mediaAlt": "Home page of this site: the hero with the live demo"
       },
       {
         "tag": "Coming soon",
         "title": "More cases are on the way",
         "detail": "iGaming and fintech cases appear here after the client agrees to publish them.",
-        "cta": ""
+        "cta": "",
+        "mediaAlt": ""
       }
     ]
   },

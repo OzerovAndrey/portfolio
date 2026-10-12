@@ -49,6 +49,7 @@
 - OG-картинки — `site/public/og/en.png`, `uk.png` (1200×630). Змінився hero-текст → оновити картинки.
 - Скріни `/approach` — `site/src/assets/shots/**.webp` з маніфесту `shots.json`. Перезняти: `node tools/shots/render.mjs [id …]` (DEMO_DIST, DEMO_REPO).
   Кадри інструментів — відтворення на даних репо, не вигадані значення. Помітно змінився вигляд демо → перезняти.
+- Обкладинки карток кейсів — `site/src/assets/cases/{aurum,site}-{light,dark}.webp` (16:9, реальні кадри: aurum — банер демо, розрізаний на 4 бренди з `shots/brand-morph`; site — головна сайту з постером демо в hero). Помітно змінився вигляд демо або hero → перезняти.
 - Фото для `/about` — `site/src/assets/about/portrait.(jpg|png|webp)`; поки файлу немає — монограма.
 - Постер демо — `site/public/demo/poster-{wide,mid,mobile}-{light,dark}.webp` (кадри демо в пропорціях рамки 27:25, 4:5, 9:16@2x,
   без підказки демо, зі справжніми шрифтами). Помітно змінився вигляд демо → перезняти постери (локальна збірка демо + Playwright).

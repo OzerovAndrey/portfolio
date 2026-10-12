@@ -908,6 +908,11 @@
       "borderRadius": {
         "value": "{borderRadius.control}",
         "type": "borderRadius"
+      },
+      "br": {
+        "value": "{color.border.tertiary}",
+        "type": "color",
+        "description": "Рамка обкладинки кейсу (скрін проєкту)"
       }
     },
     "title": {

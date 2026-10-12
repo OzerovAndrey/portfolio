@@ -1,40 +1,76 @@
 ---
-// Три карточки кейсів (Home і /cases). Третя — слот «coming soon» (пунктирна рамка, як плейсхолдер скріна).
+// Три карточки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
+// Обкладинки — src/assets/cases/*-{light,dark}.webp (16:9), реальні кадри:
+//   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
+//   site  — головна цього сайту (hero з постером демо).
+// Третя — слот «coming soon»: обкладинка-«креслення» з пунктирною рамкою.
+import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import Button from "./Button.astro";
 import { href, t, type Locale } from "../i18n";
+import aurumLight from "../assets/cases/aurum-light.webp";
+import aurumDark from "../assets/cases/aurum-dark.webp";
+import siteLight from "../assets/cases/site-light.webp";
+import siteDark from "../assets/cases/site-dark.webp";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const d = t(lang);
 const c = d.cases.items;
+const sizes = "(min-width: 768px) 33vw, 100vw";
+const covers = [
+  { light: aurumLight, dark: aurumDark, alt: c[0].mediaAlt },
+  { light: siteLight, dark: siteDark, alt: c[1].mediaAlt },
+];
 ---
 <ul class="cases">
-  <li class="case">
-    <span class="case__head"><Icon name="window" class="case__icon" /><span class="case__tag ts-label-sm">{c[0].tag}</span></span>
-    <h3 class="case__title ts-title-t4">{c[0].title}</h3>
-    <p class="case__detail ts-body-md-regular">{c[0].detail}</p>
-    <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, "cases/aurum-multibrand")} data-event="case_aurum">{c[0].cta}</Button>
-  </li>
-  <li class="case">
-    <span class="case__head"><Icon name="palette" class="case__icon" /><span class="case__tag ts-label-sm">{c[1].tag}</span></span>
-    <h3 class="case__title ts-title-t4">{c[1].title}</h3>
-    <p class="case__detail ts-body-md-regular">{c[1].detail}</p>
-    <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, "approach")} data-event="case_site">{c[1].cta}</Button>
-  </li>
+  {[0, 1].map((i) => (
+    <li class="case">
+      <div class="case__media">
+        <Image src={covers[i].light} alt={covers[i].alt} widths={[480, 800, 1280]} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--light" />
+        <Image src={covers[i].dark} alt={covers[i].alt} widths={[480, 800, 1280]} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--dark" />
+      </div>
+      <div class="case__body">
+        <span class="case__head"><Icon name={i === 0 ? "window" : "palette"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
+        <h3 class="case__title ts-title-t4">{c[i].title}</h3>
+        <p class="case__detail ts-body-md-regular">{c[i].detail}</p>
+        <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={i === 0 ? href(lang, "cases/aurum-multibrand") : href(lang, "approach")} data-event={i === 0 ? "case_aurum" : "case_site"}>{c[i].cta}</Button>
+      </div>
+    </li>
+  ))}
   <li class="case case--soon">
-    <span class="case__head"><Icon name="clock" class="case__icon" /><span class="case__tag ts-label-sm">{c[2].tag}</span></span>
-    <h3 class="case__title ts-title-t4">{c[2].title}</h3>
-    <p class="case__detail ts-body-md-regular">{c[2].detail}</p>
+    <div class="case__media case__media--soon" aria-hidden="true"></div>
+    <div class="case__body">
+      <span class="case__head"><Icon name="clock" class="case__icon" /><span class="case__tag ts-label-sm">{c[2].tag}</span></span>
+      <h3 class="case__title ts-title-t4">{c[2].title}</h3>
+      <p class="case__detail ts-body-md-regular">{c[2].detail}</p>
+    </div>
   </li>
 </ul>
 
 <style>
   .cases { display: grid; gap: var(--l-gap); }
   @media (min-width: 768px) { .cases { grid-template-columns: repeat(3, 1fr); } }
-  .case { display: flex; flex-direction: column; align-items: flex-start; gap: var(--caseCard-gap); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); }
+  .case { display: flex; flex-direction: column; gap: var(--caseCard-padding); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
   .case:hover:not(.case--soon) { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
   .case--soon { background: var(--shot-bg); border-style: dashed; border-color: var(--shot-br); }
+
+  /* Обкладинка-кадр проєкту */
+  .case__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--caseCard-media-bg); border: var(--caseCard-borderWidth) solid var(--caseCard-media-br); border-radius: var(--caseCard-media-borderRadius); }
+  .case__media :global(.case__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform var(--motion-duration-slow) var(--motion-easing-out); }
+  :global(:root[data-theme="dark"]) .case__media :global(.case__img--light), :global(:root:not([data-theme="dark"])) .case__media :global(.case__img--dark) { display: none; }
+  @media (hover: hover) { .case:hover .case__media :global(.case__img) { transform: scale(1.04); } }
+  @media (prefers-reduced-motion: reduce) { .case__media :global(.case__img) { transform: none !important; } }
+  .case__media--soon {
+    border-style: dashed; border-color: var(--shot-br);
+    background-color: var(--shot-bg);
+    background-image:
+      linear-gradient(to right, var(--shot-grid-line) var(--shot-borderWidth), transparent var(--shot-borderWidth)),
+      linear-gradient(to bottom, var(--shot-grid-line) var(--shot-borderWidth), transparent var(--shot-borderWidth));
+    background-size: var(--shot-grid-size) var(--shot-grid-size);
+  }
+
+  .case__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--caseCard-gap); flex: 1; }
   .case__tag { padding-inline: var(--caseCard-tag-paddingH); height: var(--caseCard-tag-size); display: inline-flex; align-items: center; background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
   .case__head { display: flex; align-items: center; gap: var(--space-gap-md); }
   .case__head :global(.case__icon) { --icon-size: var(--iconSize-lg); color: var(--caseCard-title-color); }
