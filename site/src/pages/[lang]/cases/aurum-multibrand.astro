@@ -162,7 +162,11 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
     padding: var(--layerStack-item-padding); background: var(--layerStack-item-bg);
     border: var(--layerStack-item-borderWidth) solid var(--layerStack-item-br); border-radius: var(--layerStack-item-borderRadius);
   }
-  @media (min-width: 768px) { .cs-layer { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) auto auto; } }
+  /* ≥ 768: одна сітка на весь список (subgrid) — опис і числа стоять в одну лінію в усіх рядках */
+  @media (min-width: 768px) {
+    .cs-layers { grid-template-columns: minmax(max-content, 1fr) minmax(0, 3fr) auto auto; column-gap: var(--l-gap); }
+    .cs-layer { grid-column: 1 / -1; grid-template-columns: subgrid; }
+  }
   .cs-layer__name { color: var(--layerStack-name-color); }
   .cs-layer__detail { color: var(--layerStack-detail-color); }
   .cs-layer__count { color: var(--layerStack-count-color); white-space: nowrap; text-align: end; }
