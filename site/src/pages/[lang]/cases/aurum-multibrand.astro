@@ -58,14 +58,14 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
 
   <section class="section section--alt" aria-labelledby="cs-context" data-reveal>
     <div class="container cs-split">
-      <h2 class="section__title ts-title-t1" id="cs-context">{c.contextTitle}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-context">{c.contextTitle}</h2>
       <p class="cs-prose ts-body-lg-regular">{c.context}</p>
     </div>
   </section>
 
   <section class="section" aria-labelledby="cs-problem" data-reveal>
     <div class="container stack">
-      <h2 class="section__title ts-title-t1" id="cs-problem">{c.problemTitle}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-problem">{c.problemTitle}</h2>
       <ol class="cs-grid3">
         {c.problems.map((p, i) => (
           <li class="info-card">
@@ -81,7 +81,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
   <section class="section section--alt" aria-labelledby="cs-solution" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="cs-solution">{c.solutionTitle}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="cs-solution">{c.solutionTitle}</h2>
         <p class="section__lead ts-body-lg-regular measure">{c.solutionLead}</p>
       </div>
       <ol class="cs-layers" aria-label={c.layersLabel}>
@@ -107,7 +107,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
 
   <section class="section" aria-labelledby="cs-result" data-reveal>
     <div class="container stack">
-      <h2 class="section__title ts-title-t1" id="cs-result">{c.resultTitle}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-result">{c.resultTitle}</h2>
       <ul class="cs-grid3">
         {c.results.map((r) => (
           <li class="cs-metric">
@@ -122,7 +122,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
 
   <section class="section section--alt" aria-labelledby="cs-different" data-reveal>
     <div class="container cs-split">
-      <h2 class="section__title ts-title-t1" id="cs-different">{c.differentTitle}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-different">{c.differentTitle}</h2>
       <div class="stack">
         <p class="cs-prose ts-body-lg-regular">{c.different}</p>
         <div class="cs-actions">

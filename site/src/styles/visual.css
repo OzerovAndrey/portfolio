@@ -71,7 +71,8 @@ html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) *
    графіт — їх змішування. У dark ролі інвертуються самі: білий → срібло → сірий.
    Фон 200 % ширини їде туди-назад (alternate + easeInOutSine) — безшовно. color не чіпаємо (currentColor має лишитись
    справжнім), ховаємо тільки заливку. Без background-clip: text — суцільний колір; reduced motion — статичний градієнт.
-   Використання: додати клас до display-заголовка (hero, expertise, h1 сторінок). Не для рядкового тексту й цифр. */
+   Використання: усі заголовки рівня сторінки й секції — hero, expertise, h1 сторінок, h2 секцій (section__title), CTA-смуга,
+   statement на about. Не для заголовків карток / пунктів списку (ts-title-t3 / t4), рядкового тексту й цифр. */
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .text-shimmer {
     --shimmer-base: currentColor;

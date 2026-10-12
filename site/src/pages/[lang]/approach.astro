@@ -45,7 +45,7 @@ const hasBrandData = Object.keys(brandVars).length > 1;
   <section class="section section--alt" id="token-layers" aria-labelledby="token-layers-title" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="token-layers-title">{a.tokenLayers.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="token-layers-title">{a.tokenLayers.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{a.tokenLayers.lead}</p>
       </div>
       <Flow items={a.tokenLayers.layers} label={a.tokenLayers.diagramLabel} icons={["component", "braces", "palette"]} />
@@ -59,7 +59,7 @@ const hasBrandData = Object.keys(brandVars).length > 1;
   <section class="section" id="two-axes" aria-labelledby="two-axes-title" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="two-axes-title">{a.twoAxes.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="two-axes-title">{a.twoAxes.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{a.twoAxes.lead}</p>
       </div>
       <BrandMorph client:visible variant="matrix" ratio={morphRatio} labels={{ brand: d.brandMorph.brandLabel, mode: d.brandMorph.modeLabel, modes: d.brandMorph.modes, pause: d.brandMorph.pause, play: d.brandMorph.play, group: a.twoAxes.gridLabel }}>
@@ -82,7 +82,7 @@ const hasBrandData = Object.keys(brandVars).length > 1;
   <section class="section section--alt" id="components" aria-labelledby="components-title" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="components-title">{a.components.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="components-title">{a.components.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{a.components.lead}</p>
       </div>
       <div class="shots shots--components">
@@ -98,7 +98,7 @@ const hasBrandData = Object.keys(brandVars).length > 1;
   <section class="section" id="pipeline" aria-labelledby="pipeline-title" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="pipeline-title">{a.pipeline.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="pipeline-title">{a.pipeline.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{a.pipeline.lead}</p>
       </div>
       <Flow row items={a.pipeline.nodes} label={a.pipeline.diagramLabel} icons={["figma", "github", "wrench", "code"]} />
@@ -114,7 +114,7 @@ const hasBrandData = Object.keys(brandVars).length > 1;
   <section class="section section--alt" id="code-proof" aria-labelledby="code-proof-title" data-reveal>
     <div class="container stack">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="code-proof-title">{a.codeProof.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="code-proof-title">{a.codeProof.title}</h2>
         <p class="section__lead ts-body-lg-regular measure">{a.codeProof.lead}</p>
       </div>
       <div class="shots shots--2">

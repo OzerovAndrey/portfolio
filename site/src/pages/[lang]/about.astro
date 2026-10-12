@@ -43,7 +43,7 @@ const contacts = links(
           <figcaption class:list={["ab-portrait__cap", portrait && "ab-portrait__cap--photo"]}><span class="ts-title-t4">{a.name}</span><span class="ts-body-sm-regular">{a.role}</span></figcaption>
         </figure>
       <div class="ab-text">
-        <p class="ab-statement ts-title-t1">{a.statement}</p>
+        <p class="ab-statement ts-title-t1 text-shimmer">{a.statement}</p>
         <p class="ab-prose ts-body-lg-regular">{a.paragraph}</p>
       </div>
     </div>
@@ -51,7 +51,7 @@ const contacts = links(
 
   <section class="section section--alt" aria-labelledby="ab-exp" data-reveal>
     <div class="container ab-split">
-      <h2 class="section__title ts-title-t1" id="ab-exp">{a.experience.title}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="ab-exp">{a.experience.title}</h2>
       <div class="stack">
         <p class="ab-prose ts-body-lg-regular">{fillN(a.experience.detail)}</p>
         <ul class="ab-stats">
@@ -80,7 +80,7 @@ const contacts = links(
 
   <section class="section" aria-labelledby="ab-tools" data-reveal>
     <div class="container stack">
-      <h2 class="section__title ts-title-t1" id="ab-tools">{a.tools.title}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="ab-tools">{a.tools.title}</h2>
       <ul class="ab-grid3">
         {a.tools.items.map((x) => (
           <li class="info-card"><h3 class="info-card__title ts-title-t4">{x.name}</h3><p class="info-card__detail ts-body-md-regular">{x.detail}</p></li>
@@ -91,7 +91,7 @@ const contacts = links(
 
   <section class="section section--alt" aria-labelledby="ab-principles" data-reveal>
     <div class="container stack">
-      <h2 class="section__title ts-title-t1" id="ab-principles">{a.principles.title}</h2>
+      <h2 class="section__title ts-title-t1 text-shimmer" id="ab-principles">{a.principles.title}</h2>
       <ol class="info-grid">
         {a.principles.items.map((x, i) => (
           <li class="info-card">
@@ -107,7 +107,7 @@ const contacts = links(
   <section class="section" aria-labelledby="ab-contact" data-reveal>
     <div class="container ab-split">
       <div class="section__head">
-        <h2 class="section__title ts-title-t1" id="ab-contact">{a.contact.title}</h2>
+        <h2 class="section__title ts-title-t1 text-shimmer" id="ab-contact">{a.contact.title}</h2>
         <p class="section__lead ts-body-lg-regular">{a.contact.lead}</p>
       </div>
       <div class="stack">
