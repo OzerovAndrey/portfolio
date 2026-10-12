@@ -13,7 +13,6 @@ interface Props {
 }
 const { lang, compact = false, index = "04" } = Astro.props;
 const e = t(lang).expertise;
-const num = (i: number) => String(i + 1).padStart(2, "0");
 // Іконки напрямів — у тому ж порядку, що й expertise.items (EN = UK)
 const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "code", "figma", "tokens"];
 ---
@@ -30,7 +29,6 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "co
       <ul class="expertise__list" aria-label={e.listLabel}>
         {e.items.map((item, i) => (
           <li class="expertise__item">
-            <span class="expertise__num ts-label-md" aria-hidden="true">{num(i)}</span>
             <Icon name={ICON[i] ?? "component"} class="expertise__icon" />
             <span class="expertise__name ts-title-t3">{item}</span>
           </li>
@@ -52,7 +50,6 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "co
   .expertise__item { display: flex; align-items: baseline; gap: var(--space-gap-xl); padding-block: var(--space-padding-md); border-top: var(--borderWidth-control) solid var(--positioning-rule-br); min-width: 0; }
   .expertise__item:first-child { border-top: 0; }
   .expertise__item:last-child { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .expertise__num { flex: none; min-width: 2ch; color: var(--positioning-label-color); }
   .expertise__name { color: var(--positioning-title-color); overflow-wrap: anywhere; }
   .expertise__item :global(.expertise__icon) { align-self: center; --icon-size: var(--iconSize-lg); color: var(--positioning-label-color); }
   /* ≥ 1200: текст ліворуч, індекс напрямів праворуч; твердження лишається найбільшим елементом */
