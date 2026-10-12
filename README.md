@@ -8,6 +8,9 @@ tokens/   Token Studio JSON: дзеркало сетів демо + brand/site.j
 tools/    build-css.mjs (tokens → CSS) · check-tokens.mjs · sync-demo-tokens.mjs
 site/     Astro-сайт (EN/UK), збирається з tokens/
 tasks/    задачі для репо демо
+docs/     словник токенів (token-properties.md) + історичні аудити візуального шару (див. docs/README.md)
+qa/       скріни Home і /approach, Lighthouse, qa/shots.mjs
+BRIEF.md  бриф проєкту · SHOTS.md — план скрінів /approach
 CLAUDE.md правила для Claude Code
 ```
 
