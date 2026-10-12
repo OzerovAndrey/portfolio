@@ -21,7 +21,7 @@ live.searchParams.set("theme", "light");
   <div class="container hero__grid">
     <div class="hero__copy">
       <p class="hero__role ts-overline-md">{h.role}</p>
-      <h1 class="hero__title ts-display-d1" id="hero-title">
+      <h1 class="hero__title ts-display-d1 text-shimmer" id="hero-title">
         {h.title.map((line) => <span class="hero__line">{line}</span>)}
       </h1>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
@@ -165,32 +165,6 @@ live.searchParams.set("theme", "light");
     font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
   }
   .hero__line { display: block; }
-  /* Градієнт заголовка: монохром «чорний → графіт → сірий». Крайні тони — колір заголовка (text.primary), світла смуга —
-     hero.title.sheen (text.secondary), графіт між ними — їх змішування. У dark ті самі ролі інвертуються: білий → срібло → сірий.
-     Фон 200 % ширини повільно їде туди-назад (alternate + easeInOutSine) — безшовне переливання без стрибка.
-     Без background-clip: text — звичайний суцільний колір; reduced motion — статичний градієнт */
-  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-    .hero__title {
-      --hg-base: var(--hero-title-color);
-      --hg-sheen: var(--hero-title-sheen-color);
-      --hg-graphite: color-mix(in oklch, var(--hg-base), var(--hg-sheen));
-      background-image: linear-gradient(100deg,
-        var(--hg-base) 0%, var(--hg-base) 18%,
-        var(--hg-graphite) 34%, var(--hg-sheen) 50%, var(--hg-graphite) 66%,
-        var(--hg-base) 82%, var(--hg-base) 100%);
-      background-size: 200% 100%;
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; color: transparent;
-      animation: hero-shimmer var(--hero-title-shimmer-duration) var(--hero-title-shimmer-easing) infinite alternate;
-    }
-  }
-  /* виділення: прозора заливка інакше ховає текст під підсвіткою */
-  .hero__title::selection, .hero__title :global(*::selection) { -webkit-text-fill-color: var(--hero-title-color); }
-  @keyframes hero-shimmer {
-    from { background-position: 0% 50%; }
-    to { background-position: 100% 50%; }
-  }
-  @media (prefers-reduced-motion: reduce) { .hero__title { animation: none; background-position: 30% 50%; } }
   .hero__subtitle { color: var(--hero-subtitle-color); font-size: var(--hero-subtitle-fontSize); line-height: var(--hero-subtitle-lineHeight); max-width: var(--layout-measure-body); }
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   /* Вузькі екрани: CTA стовпчиком — перенос кнопок не залежить від підміни шрифту (CLS) */

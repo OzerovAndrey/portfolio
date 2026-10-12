@@ -610,24 +610,6 @@
       "letterSpacing": {
         "value": "{display.hero.letterSpacing}",
         "type": "letterSpacing"
-      },
-      "sheen": {
-        "color": {
-          "value": "{color.text.secondary}",
-          "type": "color",
-          "description": "світла смуга градієнта заголовка (графіт / срібло); крайні тони — title.color"
-        }
-      },
-      "shimmer": {
-        "duration": {
-          "value": "{duration.shimmer}",
-          "type": "duration",
-          "description": "повільне переливання градієнта в заголовку (alternate: туди-назад)"
-        },
-        "easing": {
-          "value": "{easing.ambient}",
-          "type": "cubicBezier"
-        }
       }
     },
     "subtitle": {
@@ -650,6 +632,24 @@
         "type": "spacing",
         "description": "24 між CTA в hero"
       }
+    }
+  },
+  "shimmer": {
+    "sheen": {
+      "color": {
+        "value": "{color.text.secondary}",
+        "type": "color",
+        "description": "світла смуга градієнта великих заголовків (графіт / срібло); крайні тони — власний колір заголовка"
+      }
+    },
+    "duration": {
+      "value": "{duration.shimmer}",
+      "type": "duration",
+      "description": "повільне переливання градієнта великих заголовків (alternate: туди-назад)"
+    },
+    "easing": {
+      "value": "{easing.ambient}",
+      "type": "cubicBezier"
     }
   },
   "section": {

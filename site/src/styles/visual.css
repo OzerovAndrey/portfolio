@@ -1,4 +1,4 @@
-/* Візуальний шар: glass, grain. Тільки var(--…) компонентних токенів (glass.*, grain.*, motion.*).
+/* Візуальний шар: glass, grain, text-shimmer. Тільки var(--…) компонентних токенів (glass.*, grain.*, motion.*, shimmer.*).
    Деградація: без підтримки backdrop-filter або з prefers-reduced-transparency — суцільна поверхня glass.solid. */
 
 /* ---------- glass ---------- */
@@ -64,3 +64,34 @@ html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) *
   .js [data-reveal] { opacity: 0; transform: translateY(var(--motion-reveal-distance)); transition: opacity var(--motion-duration-slow) var(--motion-easing-out), transform var(--motion-duration-slow) var(--motion-easing-out); }
   .js [data-reveal].is-visible { opacity: 1; transform: none; }
 }
+
+/* ---------- text-shimmer: великі заголовки (display) ----------
+   Монохромний градієнт «колір заголовка → графіт → світла смуга → графіт → колір заголовка», що повільно переливається.
+   Крайні тони — власний color елемента (currentColor: кожен заголовок лишається на своєму токені), смуга — shimmer.sheen,
+   графіт — їх змішування. У dark ролі інвертуються самі: білий → срібло → сірий.
+   Фон 200 % ширини їде туди-назад (alternate + easeInOutSine) — безшовно. color не чіпаємо (currentColor має лишитись
+   справжнім), ховаємо тільки заливку. Без background-clip: text — суцільний колір; reduced motion — статичний градієнт.
+   Використання: додати клас до display-заголовка (hero, expertise, h1 сторінок). Не для рядкового тексту й цифр. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .text-shimmer {
+    --shimmer-base: currentColor;
+    --shimmer-graphite: color-mix(in oklch, currentColor, var(--shimmer-sheen-color));
+    background-image: linear-gradient(100deg,
+      var(--shimmer-base) 0%, var(--shimmer-base) 18%,
+      var(--shimmer-graphite) 34%, var(--shimmer-sheen-color) 50%, var(--shimmer-graphite) 66%,
+      var(--shimmer-base) 82%, var(--shimmer-base) 100%);
+    background-size: 200% 100%;
+    /* градієнт тягнеться по ширині тексту, а не всього блока: інакше короткий заголовок («About») бачить лише край смуги */
+    inline-size: fit-content; max-inline-size: 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer var(--shimmer-duration) var(--shimmer-easing) infinite alternate;
+  }
+  /* виділення: прозора заливка інакше ховає текст під підсвіткою */
+  .text-shimmer::selection, .text-shimmer *::selection { -webkit-text-fill-color: currentColor; }
+}
+@keyframes text-shimmer {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+@media (prefers-reduced-motion: reduce) { .text-shimmer { animation: none; background-position: 30% 50%; } }
