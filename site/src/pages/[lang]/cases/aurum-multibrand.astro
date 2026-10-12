@@ -69,7 +69,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
       <ol class="cs-grid3">
         {c.problems.map((p, i) => (
           <li class="info-card">
-            <span class="info-card__head"><Icon name={PROBLEM_ICON[i] ?? "alert"} class="info-card__icon" /><span class="info-card__label ts-label-sm">0{i + 1}</span></span>
+            <Icon name={PROBLEM_ICON[i] ?? "alert"} class="info-card__icon" />
             <h3 class="info-card__title ts-title-t4">{p.title}</h3>
             <p class="info-card__detail ts-body-md-regular">{p.detail}</p>
           </li>
@@ -82,7 +82,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
     <div class="container stack">
       <div class="section__head">
         <h2 class="section__title ts-title-t1" id="cs-solution">{c.solutionTitle}</h2>
-        <p class="section__lead ts-body-lg-regular measure--lead">{c.solutionLead}</p>
+        <p class="section__lead ts-body-lg-regular measure">{c.solutionLead}</p>
       </div>
       <ol class="cs-layers" aria-label={c.layersLabel}>
         {layers.map((l) => (
