@@ -7,4 +7,4 @@
 - `visual-audit.md`, `visual-baseline.md`, `visual-foundation-proposal.md`, `visual-report.md`
 - `portfolio-visual-audit.md`, `clean-baseline.md`
 
-Частина згадок у них (напр. `DemoFrame.astro`) описує стан до чистки макета й може не збігатися з поточним кодом.
+Згадки в них про видалені компоненти (`DemoFrame.astro`, `SignatureWork.astro`) описують стан до чистки макета.
