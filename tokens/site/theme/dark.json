@@ -405,6 +405,10 @@
     "ambient": {
       "value": "{time.60000}",
       "type": "duration"
+    },
+    "shimmer": {
+      "value": "{time.14000}",
+      "type": "duration"
     }
   },
   "easing": {

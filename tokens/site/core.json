@@ -19,6 +19,11 @@
       "type": "duration",
       "description": "reveal: поява блоків і рядків display, scroll-перехід"
     },
+    "14000": {
+      "value": "14000ms",
+      "type": "duration",
+      "description": "shimmer: один прохід градієнта по hero-заголовку (туди; назад — стільки ж)"
+    },
     "60000": {
       "value": "60000ms",
       "type": "duration",

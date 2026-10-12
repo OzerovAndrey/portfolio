@@ -610,6 +610,17 @@
       "letterSpacing": {
         "value": "{display.hero.letterSpacing}",
         "type": "letterSpacing"
+      },
+      "shimmer": {
+        "duration": {
+          "value": "{duration.shimmer}",
+          "type": "duration",
+          "description": "повільне переливання градієнта в заголовку (alternate: туди-назад)"
+        },
+        "easing": {
+          "value": "{easing.ambient}",
+          "type": "cubicBezier"
+        }
       }
     },
     "subtitle": {
