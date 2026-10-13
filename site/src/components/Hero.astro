@@ -71,7 +71,9 @@ live.searchParams.set("theme", "light");
       watching.observe(r, { attributes: true, attributeFilter: ["data-theme"] });
     };
     iframe.addEventListener("load", watch);
-    new MutationObserver(() => {
+    const follow = () => {
+      // перехід теми сайту ще триває — свій перехід демо запускаємо після нього (одночасні View Transitions крешать Chrome)
+      if (html.dataset.themeTransition !== undefined) { window.addEventListener("themetransitionend", follow, { once: true }); return; }
       const want = siteTheme();
       if (pinned || !iframe.src) return;
       const look = demoLook(iframe);
@@ -83,7 +85,8 @@ live.searchParams.set("theme", "light");
       if (look) u.searchParams.set("brand", look.brand);
       u.searchParams.set("theme", want);
       iframe.src = u.href;
-    }).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+    };
+    new MutationObserver(follow).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
   const root = document.querySelector<HTMLElement>("[data-hero]");
