@@ -1509,6 +1509,17 @@
       "value": "{motionDistance.nudge}",
       "type": "spacing",
       "description": "зсув іконки дії на hover / фокус (Button, посилання з іконками)"
+    },
+    "themeSwitch": {
+      "duration": {
+        "value": "{duration.reveal}",
+        "type": "duration",
+        "description": "перемикання теми: нова тема розкривається колом від кнопки (View Transitions)"
+      },
+      "easing": {
+        "value": "{easing.reveal}",
+        "type": "cubicBezier"
+      }
     }
   },
   "action": {

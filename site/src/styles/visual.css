@@ -55,8 +55,19 @@
 /* Якорі (#demo, #how) не ховаються під плаваючою шапкою */
 html { scroll-padding-top: calc(var(--siteHeader-height) + var(--space-gap-md) * 2); }
 
-/* Перемикання теми (ThemeToggle → View Transitions): коротке перетікання кольорів замість миттєвої заміни */
+/* Перемикання теми (ThemeToggle → View Transitions): нова тема розкривається колом від кнопки перемикача, як у демо.
+   Центр і радіус кола ставить ThemeToggle (--theme-switch-x/y/r на <html>), прапорець [data-theme-transition] живе лише під час переходу.
+   Старий кадр стоїть нерухомо під новим — без напівпрозорого змішування двох тем */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--motion-duration-base); animation-timing-function: var(--motion-easing-standard); }
+html[data-theme-transition]::view-transition-old(root) { animation: none; }
+html[data-theme-transition]::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation: theme-switch-reveal var(--motion-themeSwitch-duration) var(--motion-themeSwitch-easing) both;
+}
+@keyframes theme-switch-reveal {
+  from { clip-path: circle(0 at var(--theme-switch-x) var(--theme-switch-y)); }
+  to { clip-path: circle(var(--theme-switch-r) at var(--theme-switch-x) var(--theme-switch-y)); }
+}
 
 /* Поява секцій (Base.astro → IntersectionObserver ставить .is-visible). Тільки transform + opacity, тривалість і easing — токени motion.*.
    Без JS (.js немає) і з prefers-reduced-motion секції видимі одразу */

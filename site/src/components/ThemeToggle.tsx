@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 
 type Theme = "light" | "dark";
 interface Props { labelToDark: string; labelToLight: string }
@@ -18,18 +18,29 @@ export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
     return () => mo.disconnect();
   }, []);
 
-  const toggle = () => {
+  const toggle = (e: MouseEvent<HTMLButtonElement>) => {
     const next: Theme = theme === "dark" ? "light" : "dark";
     const apply = () => { document.documentElement.dataset.theme = next; };
-    // Коротке перетікання кольорів (View Transitions): браузер тримає старий кадр, доки не готовий новий, —
-    // тож порожнього/чорного екрана між темами не буває. Без підтримки або з reduced-motion — миттєво
+    // View Transitions: браузер тримає старий кадр, доки не готовий новий (без порожнього/чорного екрана), а нова тема
+    // розкривається колом від центру кнопки (стилі — visual.css, токени motion.themeSwitch.*). Без підтримки або з reduced-motion — миттєво
     const vt = (document as Document & { startViewTransition?: (cb: () => void) => { finished: Promise<void> } }).startViewTransition;
     if (vt && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       // Поки йде перехід сайту, вкладені переходи (демо в iframe) чекають: два View Transitions одночасно валять вкладку Chrome (Aw, Snap, код 5).
       // Прапорець ставиться ДО зміни data-theme — спостерігачі (Hero) побачать його й відкладуть свою синхронізацію до події themetransitionend
       const root = document.documentElement;
+      // центр кола — кнопка (і для кліку, і для клавіатури); радіус — до найдальшого кута в'юпорту
+      const b = e.currentTarget.getBoundingClientRect();
+      const x = b.left + b.width / 2, y = b.top + b.height / 2;
+      const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      root.style.setProperty("--theme-switch-x", `${x}px`);
+      root.style.setProperty("--theme-switch-y", `${y}px`);
+      root.style.setProperty("--theme-switch-r", `${r}px`);
       root.dataset.themeTransition = "";
-      const done = () => { delete root.dataset.themeTransition; window.dispatchEvent(new Event("themetransitionend")); };
+      const done = () => {
+        delete root.dataset.themeTransition;
+        for (const k of ["x", "y", "r"]) root.style.removeProperty(`--theme-switch-${k}`);
+        window.dispatchEvent(new Event("themetransitionend"));
+      };
       try { vt.call(document, apply).finished.catch(() => {}).finally(done); } catch { apply(); done(); }
     } else apply();
     try { sessionStorage.setItem("theme", next); } catch { /* приватний режим — тема живе до перезавантаження */ }
