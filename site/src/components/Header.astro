@@ -17,6 +17,7 @@ const nav = [
 const path = Astro.url.pathname;
 ---
 <header class="header surface surface--glass-whisper" data-header>
+  <span class="header__progress" data-reading-progress aria-hidden="true"></span>
   <div class="container header__inner">
     <a class="header__logo" href={href(lang)} aria-label={d.a11y.home}>
       <Logo variant="full" class="logo-full" />
@@ -49,6 +50,22 @@ const path = Astro.url.pathname;
 
 <script>
   const header = document.querySelector<HTMLElement>("[data-header]");
+  // Один кадр на scroll; переобчислення після розкриття акордеонів і завантаження зображень.
+  const progress = header?.querySelector<HTMLElement>("[data-reading-progress]");
+  if (progress) {
+    let pending = false;
+    const paint = () => {
+      pending = false;
+      const length = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${length > 0 ? Math.max(0, Math.min(1, window.scrollY / length)) : 0})`;
+    };
+    const schedule = () => { if (!pending) { pending = true; requestAnimationFrame(paint); } };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("pageshow", schedule);
+    if ("ResizeObserver" in window) new ResizeObserver(schedule).observe(document.body);
+    paint();
+  }
   const btn = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
   if (header && btn) {
     const set = (open: boolean) => { header.dataset.menu = open ? "open" : "closed"; btn.setAttribute("aria-expanded", String(open)); };
@@ -64,6 +81,11 @@ const path = Astro.url.pathname;
 </script>
 
 <style>
+  .header__progress {
+    position: absolute; inset-inline: 0; bottom: 0; height: calc(var(--siteHeader-progress-height) * 2);
+    background: var(--siteHeader-progress-color); transform: scaleX(0); transform-origin: left center; pointer-events: none;
+  }
+
   /* Редакційна шапка: типографіка на смузі, а не контроли в капсулі. Матеріал — примітив .surface--glass-whisper (visual.css: blur 12 px, fallback, reduced transparency),
      але з локальним заповненням siteHeader.bg (напівпрозоре полотно α88): шапка накладається на демо й скріни, і whisper / default там не дають читабельності
      (текст на білій демо-панелі під dark whisper ≈ 1.2 : 1). На всю ширину: без радіуса й тіні, знизу тільки hairline. Загальна висота та сама, що була (siteHeader.height): контент нижче не зсувається.

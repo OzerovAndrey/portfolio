@@ -21,9 +21,11 @@ live.searchParams.set("theme", "light");
   <div class="container hero__grid">
     <div class="hero__copy">
       <p class="hero__role ts-overline-md">{h.role}</p>
+      <div class="hero__headline">
       <h1 class="hero__title ts-display-d1 text-shimmer" id="hero-title">
         {h.title.map((line) => <span class="hero__line">{line}</span>)}
       </h1>
+      </div>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
       <div class="hero__actions">
         <Button size="lg" icon="arrowUpRight" href={config.demoUrl} data-live-link target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
@@ -32,12 +34,10 @@ live.searchParams.set("theme", "light");
     </div>
 
     <div class="hero__product">
-      <div class="hero__stage" data-hero-stage>
       <div class="hero__live" data-live-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={live.href} title={h.liveTitle} referrerpolicy="strict-origin-when-cross-origin" data-live-iframe></iframe>
         <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
-      </div>
       </div>
       <!-- мобільні: другорядна дія — після живої системи -->
       <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--mobile" data-explore data-event="cta_explore">{h.ctaHow}</Button>
@@ -150,41 +150,6 @@ live.searchParams.set("theme", "light");
       measure();
       drift();
     }
-    // Рух не перекриває iframe: події читаємо також із його документа на спільному origin.
-    const stage = root.querySelector<HTMLElement>("[data-hero-stage]");
-    const enabled = matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    if (stage && frame && iframe) {
-      let raf = 0, x = 0, y = 0;
-      const paint = () => {
-        raf = 0;
-        stage.style.setProperty("--hero-effect-x", String(x));
-        stage.style.setProperty("--hero-effect-y", String(y));
-      };
-      const move = (nx: number, ny: number) => {
-        if (!enabled.matches) return;
-        x = Math.max(-1, Math.min(1, nx)); y = Math.max(-1, Math.min(1, ny));
-        if (!raf) raf = requestAnimationFrame(paint);
-      };
-      const reset = () => {
-        x = 0; y = 0;
-        if (raf) cancelAnimationFrame(raf);
-        paint();
-      };
-      root.addEventListener("pointermove", (event) => {
-        const r = stage.getBoundingClientRect();
-        move((event.clientX - r.left) / r.width * 2 - 1, (event.clientY - r.top) / r.height * 2 - 1);
-      });
-      root.addEventListener("pointerleave", reset);
-      window.addEventListener("blur", reset);
-      enabled.addEventListener("change", reset);
-      iframe.addEventListener("load", () => {
-        try {
-          const doc = iframe.contentDocument;
-          doc?.addEventListener("pointermove", (event) => move(event.clientX / iframe.clientWidth * 2 - 1, event.clientY / iframe.clientHeight * 2 - 1));
-          doc?.addEventListener("pointerleave", reset);
-        } catch { /* Інший origin: демо працює, рух читаємо тільки з hero. */ }
-      });
-    }
     // «Explore the system ↓»: перейти до акордеонів і відкрити перший (без JS — звичайний якір)
     root.querySelectorAll<HTMLAnchorElement>("[data-explore]").forEach((a) =>
       a.addEventListener("click", () => document.getElementById("explore")?.dispatchEvent(new CustomEvent("explore:open"))),
@@ -196,7 +161,7 @@ live.searchParams.set("theme", "light");
   /* Асиметрична композиція: текст (ідентичність → твердження → CTA) і продукт ділять перший екран.
      Мобільні: та сама послідовність стовпчиком — продукт одразу після CTA, до Positioning */
   /* вертикальний ритм сторінки (--l-row: 32 → 56), а не колонковий проміжок; зверху ще + gap.md (8) — повітря між хедером і «піднятою» рамкою */
-  .hero { overflow: clip; background: var(--hero-bg); padding-block: calc(var(--l-row) + var(--space-gap-md)) var(--l-row); }
+  .hero { background: var(--hero-bg); padding-block: calc(var(--l-row) + var(--space-gap-md)) var(--l-row); }
   .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hero-gap) var(--l-gap); align-items: center; }
   .hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: var(--hero-gap); min-width: 0; }
   .hero__role { color: var(--hero-eyebrow-color); }
@@ -205,28 +170,25 @@ live.searchParams.set("theme", "light");
     font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
   }
   .hero__line { display: block; }
+  /* Послідовна поява копі: заголовок лишається справжнім текстом, shimmer працює незалежно. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__role, .hero__headline, .hero__subtitle, .hero__actions {
+      animation: hero-copy-in var(--hero-intro-duration) var(--motion-easing-out) both;
+    }
+    .hero__headline { animation-delay: var(--hero-intro-step); }
+    .hero__subtitle { animation-delay: calc(var(--hero-intro-step) * 2); }
+    .hero__actions { animation-delay: calc(var(--hero-intro-step) * 3); }
+  }
+  @keyframes hero-copy-in {
+    from { opacity: 0; transform: translateY(var(--hero-intro-distance)); }
+    to { opacity: 1; transform: none; }
+  }
   .hero__subtitle { color: var(--hero-subtitle-color); font-size: var(--hero-subtitle-fontSize); line-height: var(--hero-subtitle-lineHeight); max-width: var(--layout-measure-body); }
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   /* Вузькі екрани: CTA стовпчиком — перенос кнопок не залежить від підміни шрифту (CLS) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
-  .hero__product { position: relative; isolation: isolate; perspective: var(--hero-effect-perspective); display: grid; gap: var(--space-gap-xl); min-width: 0; }
+  .hero__product { display: grid; gap: var(--space-gap-xl); min-width: 0; }
 
-  .hero__stage { position: relative; }
-  .hero__stage::before {
-    content: ""; position: absolute; inset: calc(var(--hero-effect-inset) * -1); z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse closest-side at calc(50% + var(--hero-effect-x, 0) * 18%) calc(50% + var(--hero-effect-y, 0) * 18%), color-mix(in srgb, var(--hero-effect-glow) 12%, transparent), transparent 100%);
-    opacity: .65;
-  }
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .hero__stage {
-      transform: rotateX(calc(var(--hero-effect-y, 0) * var(--hero-effect-tilt) * -1)) rotateY(calc(var(--hero-effect-x, 0) * var(--hero-effect-tilt)));
-      transition: transform var(--motion-duration-slow) var(--motion-easing-out), box-shadow var(--motion-duration-slow) var(--motion-easing-out);
-    }
-    .hero__live { box-shadow: var(--hero-effect-boxShadow); }
-  }
-  @media (prefers-reduced-motion: reduce), (prefers-reduced-transparency: reduce) {
-    .hero__stage::before { display: none; }
-  }
   /* друга дія: на десктопі поруч з основною, на мобільних — під сценою */
   .hero__product :global(.hero__more--mobile) { justify-self: center; }
   @media (max-width: 1023px) { .hero__actions :global(.hero__more--desktop) { display: none; } }

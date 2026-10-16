@@ -489,6 +489,16 @@
         "type": "color",
         "description": "ім'я власника поруч із лого"
       }
+    },
+    "progress": {
+      "height": {
+        "value": "{borderWidth.control}",
+        "type": "borderWidth"
+      },
+      "color": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      }
     }
   },
   "siteNav": {
@@ -645,24 +655,16 @@
         "description": "24 між CTA в hero"
       }
     },
-    "effect": {
-      "tilt": {
-        "value": "{motionTilt.subtle}",
-        "type": "other"
+    "intro": {
+      "duration": {
+        "value": "{duration.reveal}",
+        "type": "duration"
       },
-      "perspective": {
-        "value": "{layout.page.maxWidth}",
-        "type": "dimension"
+      "step": {
+        "value": "{duration.fast}",
+        "type": "duration"
       },
-      "boxShadow": {
-        "value": "{boxShadow.float}",
-        "type": "boxShadow"
-      },
-      "glow": {
-        "value": "{color.text.primary}",
-        "type": "color"
-      },
-      "inset": {
+      "distance": {
         "value": "{space.padding.xl}",
         "type": "spacing"
       }
