@@ -1,96 +1,44 @@
 ---
-// 02 Explore — другий шар Home: три редакційні рядки-акордеони (індекс · назва · +/−), без карток і заливок.
-// Кнопка-тригер з aria-expanded / aria-controls, панель — region з aria-labelledby. Одночасно відкритий лише один рядок.
-// Без JS панелі видимі; inline-скрипт згортає їх до першого кадру (без CLS), модульний — керує відкриттям.
 import { t, type Locale } from "../i18n";
-
+import ExploreIllustration from "./ExploreIllustration.astro";
+import { BRANDS, states } from "../lib/exhibit";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const e = t(lang).explore;
-const num = (i: number) => String(i + 1).padStart(2, "0");
+const accents = BRANDS.map((b,i)=>`--art-brand-${i+1}: ${states[`${b}|light`].colors["color.product1"]}`).join("; ");
 ---
-<section class="section explore-section" id="explore" aria-labelledby="explore-heading" data-accordion>
+<section class="section explore-section" id="explore" aria-labelledby="explore-heading">
   <div class="container">
     <h2 class="sr-only" id="explore-heading">{e.heading}</h2>
-    <div class="acc">
-      {e.items.map((item, i) => (
-        <div class="acc__item">
-          <h3 class="acc__heading">
-            <button type="button" class="acc__trigger" id={`acc-trigger-${i}`} aria-expanded="false" aria-controls={`acc-panel-${i}`} data-acc-trigger data-event={`explore_${i + 1}`}>
-              <span class="acc__num ts-label-md" aria-hidden="true">{num(i)}</span>
-              <span class="acc__title ts-title-t3">{item.title}</span>
-              <span class="acc__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="acc__panel" id={`acc-panel-${i}`} role="region" aria-labelledby={`acc-trigger-${i}`} data-acc-panel>
-            <div class="acc__body">
-              <p class="acc__detail ts-body-lg-regular">{item.detail}</p>
-              {i === 0 && (
-                <ol class="acc__chain ts-label-md" aria-label={e.chainLabel}>
-                  {e.chain.map((layer) => <li class="acc__layer">{layer}</li>)}
-                </ol>
-              )}
-            </div>
+    <div class="explore-grid">
+      {e.items.map((item,i)=>(
+        <article class="explore-card" aria-labelledby={`explore-title-${i}`} data-reveal>
+          <div class="explore-card__visual" style={accents}>
+            <span class="explore-card__num ts-label-sm" aria-hidden="true">{String(i+1).padStart(2,"0")}</span>
+            <ExploreIllustration index={i} />
           </div>
-        </div>
+          <div class="explore-card__copy">
+            <h3 class="explore-card__title ts-title-t3" id={`explore-title-${i}`}>{item.title}</h3>
+            <p class="explore-card__detail ts-body-md-regular">{item.detail}</p>
+          </div>
+          {i === 0 && <ol class="explore-card__chain ts-label-sm" aria-label={e.chainLabel}>{e.chain.map(layer=><li>{layer}</li>)}</ol>}
+          {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{BRANDS.map((brand,i)=><li><span class="explore-card__dot" style={`--art-brand: ${states[`${brand}|light`].colors["color.product1"]}`} aria-hidden="true"></span>{brand.charAt(0).toUpperCase()+brand.slice(1)}</li>)}</ul>}
+          {i === 2 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.productionChain.map(label=><li>{label}</li>)}</ul>}
+        </article>
       ))}
     </div>
   </div>
 </section>
-<script is:inline>
-  document.querySelectorAll("[data-accordion] [data-acc-panel]").forEach(function (p) { p.hidden = true; });
-</script>
-
-<script>
-  const root = document.querySelector<HTMLElement>("[data-accordion]");
-  if (root) {
-    const triggers = [...root.querySelectorAll<HTMLButtonElement>("[data-acc-trigger]")];
-    const panelOf = (b: HTMLButtonElement) => document.getElementById(b.getAttribute("aria-controls")!)!;
-    const set = (b: HTMLButtonElement, open: boolean) => { b.setAttribute("aria-expanded", String(open)); panelOf(b).hidden = !open; };
-    const toggle = (b: HTMLButtonElement) => { const open = b.getAttribute("aria-expanded") !== "true"; triggers.forEach((x) => set(x, x === b && open)); };
-    triggers.forEach((b) => b.addEventListener("click", () => toggle(b)));
-    // «Explore the system ↓» у Hero: відкрити перший рядок (якщо все закрито)
-    root.addEventListener("explore:open", () => { if (!triggers.some((b) => b.getAttribute("aria-expanded") === "true")) set(triggers[0], true); });
-  }
-</script>
-
 <style>
-  /* Редакційний індекс: рядки між hairline, номер приглушений, назва сильна, +/− праворуч. Без карток, заливок, тіней і скла */
-  .acc { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .acc__item { border-top: var(--borderWidth-control) solid var(--positioning-rule-br); }
-  .acc__heading { margin: 0; }
-  .acc__trigger {
-    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: var(--l-gap);
-    width: 100%; padding: var(--space-padding-lg) 0; margin: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer;
-  }
-  .acc__trigger:focus-visible { outline: calc(var(--focus-outline-borderWidth) * 2) solid var(--action-focus-color); outline-offset: calc(var(--focus-outline-borderWidth) * 2); }
-  .acc__num { color: var(--positioning-label-color); min-width: 2ch; font-variant-numeric: tabular-nums; }
-  .acc__title { color: var(--positioning-title-color); text-wrap: balance; }
-  @media (hover: hover) { .acc__trigger:hover .acc__title { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: var(--borderWidth-control); } }
-  /* «+» / «−» з двох смужок: стан — форма, не лише колір */
-  /* «+» з двох смужок; відкрито — весь знак повернутий на 45° (×). Рух прив'язаний до aria-expanded, не до hover */
-  .acc__icon { position: relative; width: var(--iconSize-md); height: var(--iconSize-md); transition: transform var(--motion-duration-slow) var(--motion-easing-standard); }
-  .acc__icon::before, .acc__icon::after { content: ""; position: absolute; inset-inline: 0; top: 50%; height: calc(var(--borderWidth-control) * 2); margin-top: calc(var(--borderWidth-control) * -1); background: var(--positioning-title-color); }
-  .acc__icon::after { transform: rotate(90deg); }
-  .acc__trigger[aria-expanded="true"] .acc__icon { transform: rotate(45deg); }
-  .acc__num { transition: color var(--motion-duration-fast) var(--motion-easing-out); }
-  @media (hover: hover) { .acc__trigger:hover .acc__num { color: var(--positioning-title-color); } }
-  .acc__trigger:focus-visible .acc__num { color: var(--positioning-title-color); }
-
-  .acc__body { display: grid; gap: var(--space-padding-lg); padding: 0 0 var(--space-padding-xl); }
-  .acc__detail { color: var(--positioning-item-detail-color); }
-  .acc__chain { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-md) var(--space-gap-xl); margin: 0; padding: 0; list-style: none; color: var(--positioning-title-color); }
-  .acc__layer { display: inline-flex; align-items: center; gap: var(--space-gap-xl); }
-  .acc__layer + .acc__layer::before { content: "→"; color: var(--positioning-label-color); }
-  /* ≥ 1024: текст займає 7/12 рядка — трохи за середину екрана, а не вузька колонка */
-  @media (min-width: 1024px) { .acc__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } .acc__body > * { grid-column: 1; } }
-  /* ≥ 768: текст панелі вирівняний з назвою (після колонки номера) */
-  @media (min-width: 768px) { .acc__body { padding-inline-start: calc(var(--l-gap) + 2ch); } }
-  /* Вузькі: номер над назвою, «+» праворуч на рівні назви */
-  @media (max-width: 559px) {
-    .acc__trigger { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "num num" "title icon"; row-gap: var(--space-gap-sm); }
-    .acc__num { grid-area: num; } .acc__title { grid-area: title; } .acc__icon { grid-area: icon; }
-  }
-  /* reduced motion: без обертання-анімації — стан (+ / ×) змінюється миттєво й лишається зрозумілим */
-  @media (prefers-reduced-motion: reduce) { .acc__icon { transition: none; } }
+  .explore-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--l-gap); }
+  .explore-card { display: flex; flex-direction: column; min-width: 0; border: var(--borderWidth-control) solid var(--color-line-subtle); border-radius: var(--borderRadius-surface); overflow: hidden; background: var(--color-surface-raised); }
+  .explore-card__visual { position: relative; background: var(--color-canvas-primary); border-bottom: var(--borderWidth-control) solid var(--color-line-subtle); }
+  .explore-card__num { position: absolute; inset-block-start: var(--space-padding-lg); inset-inline-start: var(--space-padding-lg); color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
+  .explore-card__copy { display: grid; gap: var(--space-padding-lg); padding: var(--space-padding-xl); }
+  .explore-card__title { color: var(--positioning-title-color); min-height: 2.5em; text-wrap: balance; }
+  .explore-card__detail { color: var(--positioning-item-detail-color); }
+  .explore-card__chain { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); padding: 0 var(--space-padding-xl) var(--space-padding-xl); margin: auto 0 0; list-style: none; color: var(--positioning-label-color); }
+  .explore-card__chain li { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid var(--color-line-subtle); border-radius: var(--borderRadius-control); }
+  .explore-card__dot { width: var(--space-gap-md); height: var(--space-gap-md); border-radius: 50%; background: var(--art-brand); }
+  @media (max-width: 899px) { .explore-grid { grid-template-columns: minmax(0, 1fr); } .explore-card__visual { padding-inline: var(--space-padding-xl); } .explore-card__title { min-height: 0; } }
 </style>

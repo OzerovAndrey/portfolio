@@ -150,10 +150,7 @@ live.searchParams.set("theme", "light");
       measure();
       drift();
     }
-    // «Explore the system ↓»: перейти до акордеонів і відкрити перший (без JS — звичайний якір)
-    root.querySelectorAll<HTMLAnchorElement>("[data-explore]").forEach((a) =>
-      a.addEventListener("click", () => document.getElementById("explore")?.dispatchEvent(new CustomEvent("explore:open"))),
-    );
+
   }
 </script>
 

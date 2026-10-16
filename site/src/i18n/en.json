@@ -704,12 +704,14 @@
         "detail": "The system connects design and implementation through reusable components, design tokens and automated checks — helping keep Figma and production UI aligned as the product scales."
       }
     ],
+    "productionChain": ["Figma", "Tokens", "Code"],
     "chainLabel": "Token layers, from foundation to interface",
     "chain": [
       "Core",
       "Brand",
       "Map",
       "Theme",
+      "Typography",
       "Components"
     ]
   },
