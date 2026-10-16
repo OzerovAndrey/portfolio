@@ -644,6 +644,28 @@
         "type": "spacing",
         "description": "24 між CTA в hero"
       }
+    },
+    "effect": {
+      "tilt": {
+        "value": "{motionTilt.subtle}",
+        "type": "other"
+      },
+      "perspective": {
+        "value": "{layout.page.maxWidth}",
+        "type": "dimension"
+      },
+      "boxShadow": {
+        "value": "{boxShadow.float}",
+        "type": "boxShadow"
+      },
+      "glow": {
+        "value": "{color.text.primary}",
+        "type": "color"
+      },
+      "inset": {
+        "value": "{space.padding.xl}",
+        "type": "spacing"
+      }
     }
   },
   "shimmer": {

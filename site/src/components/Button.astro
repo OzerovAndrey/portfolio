@@ -59,6 +59,7 @@ const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].
 
   /* Hover — тільки там, де він є (миша): на дотику не «залипає». Відгук — тон / рамка, без руху */
   @media (hover: hover) {
+    .btn:not(:disabled, [aria-disabled="true"]):hover { transform: translateY(calc(var(--motion-nudge) * -1)); }
     .btn--primary:hover { --btn-bg: var(--action-bg-hover); --btn-color: var(--action-color-hover); }
     .btn--secondary:hover { --btn-bg: var(--action-secondary-bg-hover); --btn-br: var(--action-secondary-br-hover); }
     .btn--text:hover { --btn-bg: var(--action-text-bg-hover); }
@@ -119,7 +120,7 @@ const brandAccent = BRANDS.map((b, i) => `--mb-${i + 1}: ${states[`${b}|light`].
   /* Reduced motion: без зсуву, кольорові переходи лишаються */
   @media (prefers-reduced-motion: reduce) {
     .btn { transition-property: background-color, border-color, color; }
-    .btn:active:not(:disabled, [aria-disabled="true"]) { transform: none; } /* та сама специфічність, що в правила натискання вище */
+    .btn:active:not(:disabled, [aria-disabled="true"]), .btn:not(:disabled, [aria-disabled="true"]):hover { transform: none; } /* та сама специфічність, що в правила натискання вище */
     .btn__mark, .btn__mark :global(.btn__icon) { transition: none; }
     .btn[data-motion] :global(.btn__icon) { transform: none !important; }
   }

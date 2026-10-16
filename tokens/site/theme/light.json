@@ -564,5 +564,12 @@
       "value": "{filter.none}",
       "type": "other"
     }
+  },
+  "motionTilt": {
+    "subtle": {
+      "value": "1.5deg",
+      "type": "other",
+      "description": "Делікатний нахил живого демо на точному вказівнику"
+    }
   }
 }
