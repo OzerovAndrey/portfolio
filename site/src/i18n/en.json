@@ -697,13 +697,14 @@
       },
       {
         "title": "One system. Multiple brands.",
-        "detail": "A shared product foundation supports multiple visual identities. Brand and theme tokens can re-skin the interface without rebuilding its components or product logic."
+        "detail": "Each project has its own brands and visual identities. A shared component foundation keeps the product consistent, while brand and theme tokens adapt its appearance to each identity."
       },
       {
         "title": "Built for production",
         "detail": "The system connects design and implementation through reusable components, design tokens and automated checks — helping keep Figma and production UI aligned as the product scales."
       }
     ],
+    "brandPrinciples": ["Shared components", "Brand identity", "Themes"],
     "productionChain": ["Figma", "Tokens", "Code"],
     "chainLabel": "Token layers, from foundation to interface",
     "chain": [

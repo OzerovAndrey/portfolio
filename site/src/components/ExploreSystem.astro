@@ -1,7 +1,6 @@
 ---
 import { t, type Locale } from "../i18n";
 import ExploreIllustration from "./ExploreIllustration.astro";
-import { BRANDS } from "../lib/exhibit";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const e = t(lang).explore;
@@ -20,7 +19,7 @@ const e = t(lang).explore;
             <h3 class="explore-card__title ts-title-t3" id={`explore-title-${i}`}>{item.title}</h3>
             <p class="explore-card__detail ts-body-md-regular">{item.detail}</p>
           {i === 0 && <ol class="explore-card__chain ts-label-sm" aria-label={e.chainLabel}>{e.chain.map(layer=><li>{layer}</li>)}</ol>}
-          {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{BRANDS.map((brand)=><li><span class="explore-card__dot" aria-hidden="true"></span>{brand.charAt(0).toUpperCase()+brand.slice(1)}</li>)}</ul>}
+          {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.brandPrinciples.map(label=><li>{label}</li>)}</ul>}
           {i === 2 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.productionChain.map(label=><li>{label}</li>)}</ul>}
           </div>
         </article>
@@ -39,6 +38,5 @@ const e = t(lang).explore;
   .explore-card__detail { color: var(--positioning-item-detail-color); max-width: var(--layout-measure-body); }
   .explore-card__chain { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); padding: 0; margin: 0; list-style: none; color: var(--positioning-label-color); }
   .explore-card__chain li { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid var(--color-line-subtle); border-radius: var(--borderRadius-control); }
-  .explore-card__dot { width: var(--space-gap-md); height: var(--space-gap-md); border-radius: 50%; background: var(--color-content-primary); }
   @media (max-width: 699px) { .explore-card { grid-template-columns: minmax(0, 1fr); } .explore-card__copy { padding-inline: 0; } }
 </style>
