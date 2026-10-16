@@ -1,40 +1,37 @@
 ---
-// Прості метафори: три шари; один інтерфейс із вибором бренду; код із перевіркою.
+// Та сама лінійна монохромна мова, що в ProcessFlow: невеликі контури й один суцільний акцент.
 interface Props { index: number }
 const { index } = Astro.props;
 ---
-<svg class="system-art" viewBox="0 0 360 240" fill="none" aria-hidden="true" focusable="false">
+<svg class="system-art" viewBox="0 0 200 140" fill="none" aria-hidden="true" focusable="false">
   {index === 0 && <>
-    <rect class="surface" x="100" y="55" width="160" height="52" rx="10" />
-    <rect class="surface" x="85" y="94" width="190" height="52" rx="10" />
-    <rect class="surface" x="70" y="133" width="220" height="52" rx="10" />
-    <path class="ink" d="M127 77h106M112 116h136M97 159h166" />
+    <path class="surface" d="m100 72 55 27-55 27-55-27Z" />
+    <path class="surface" d="m100 52 55 27-55 27-55-27Z" />
+    <path class="badge" d="m100 32 55 27-55 27-55-27Z" />
+    <path class="badge-mark" d="m86 58 10 5 19-10" />
   </>}
   {index === 1 && <>
-    <rect class="surface" x="78" y="43" width="204" height="132" rx="12" />
-    <path class="edge" d="M78 69h204" />
-    <circle class="brand-dot" cx="94" cy="56" r="4" style="--art-brand: var(--art-brand-1)" />
-    <rect class="soft" x="96" y="86" width="60" height="68" rx="5" />
-    <path class="ink" d="M174 93h85m-85 14h63" />
-    <rect class="brand-dot" x="174" y="131" width="65" height="23" rx="5" style="--art-brand: var(--art-brand-1)" />
-    {[0,1,2,3].map(i=><circle class="brand-dot" cx={132+i*32} cy="200" r="8" style={`--art-brand: var(--art-brand-${i+1})`} />)}
+    <rect class="surface" x="36" y="25" width="128" height="84" rx="9" />
+    <path class="ink" d="M36 43h128" />
+    <circle class="badge" cx="47" cy="34" r="2.5" /><circle class="muted-fill" cx="56" cy="34" r="2.5" />
+    <rect class="soft" x="48" y="55" width="33" height="40" rx="4" />
+    <path class="edge" d="M93 59h56M93 69h40" /><rect class="badge" x="93" y="82" width="37" height="13" rx="4" />
+    <circle class="badge" cx="77" cy="124" r="5" /><circle class="muted-fill" cx="100" cy="124" r="5" /><circle class="surface" cx="123" cy="124" r="5" />
   </>}
   {index === 2 && <>
-    <rect class="surface" x="96" y="43" width="150" height="154" rx="12" />
-    <path class="edge" d="M96 70h150" />
-    <path class="ink" d="m145 103-18 17 18 17m53-34 18 17-18 17m-36 7 15-48" />
-    <circle class="badge" cx="244" cy="173" r="31" />
-    <path class="badge-mark" d="m231 173 9 9 17-20" />
+    <path class="surface" d="M60 18h62l22 22v77a7 7 0 0 1-7 7H60a7 7 0 0 1-7-7V25a7 7 0 0 1 7-7Z" />
+    <path class="ink" d="M122 18v16a6 6 0 0 0 6 6h16M68 39h32m-22 22-10 10 10 10m39-20 10 10-10 10m-26 4 10-28" />
+    <path class="edge" d="M68 99h40" />
+    <circle class="badge" cx="145" cy="109" r="19" /><path class="badge-mark" d="m136 109 6 6 12-14" />
   </>}
 </svg>
 <style>
-  .system-art { display: block; width: 100%; height: auto; color: var(--positioning-label-color); }
-  .surface { fill: var(--color-surface-raised); stroke: var(--color-content-secondary); stroke-opacity: .35; stroke-width: 1.2; }
-  .soft { fill: var(--color-surface-base); stroke: var(--color-line-subtle); }
-  .edge, .connector { stroke: var(--color-content-secondary); stroke-opacity: .4; stroke-linecap: round; stroke-linejoin: round; }
-  .ink { stroke: var(--color-content-primary); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-  .node { fill: var(--color-content-secondary); }
-  .badge { fill: var(--color-content-primary); stroke: var(--color-line-default); }
-  .badge-mark { stroke: var(--color-canvas-primary); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .brand-dot { fill: var(--art-brand); }
+  .system-art { display: block; width: 100%; height: auto; padding: var(--space-padding-lg); }
+  .surface { fill: var(--color-surface-raised); stroke: var(--color-content-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .soft { fill: var(--color-surface-base); stroke: var(--color-content-secondary); stroke-width: 1.5; }
+  .edge { stroke: var(--color-content-secondary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .ink { stroke: var(--color-content-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .muted-fill { fill: var(--color-content-secondary); }
+  .badge { fill: var(--color-content-primary); }
+  .badge-mark { stroke: var(--color-canvas-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 </style>

@@ -1,11 +1,10 @@
 ---
 import { t, type Locale } from "../i18n";
 import ExploreIllustration from "./ExploreIllustration.astro";
-import { BRANDS, states } from "../lib/exhibit";
+import { BRANDS } from "../lib/exhibit";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const e = t(lang).explore;
-const accents = BRANDS.map((b,i)=>`--art-brand-${i+1}: ${states[`${b}|light`].colors["color.product1"]}`).join("; ");
 ---
 <section class="section explore-section" id="explore" aria-labelledby="explore-heading">
   <div class="container">
@@ -13,7 +12,7 @@ const accents = BRANDS.map((b,i)=>`--art-brand-${i+1}: ${states[`${b}|light`].co
     <div class="explore-grid">
       {e.items.map((item,i)=>(
         <article class="explore-card" aria-labelledby={`explore-title-${i}`} data-reveal>
-          <div class="explore-card__visual" style={accents}>
+          <div class="explore-card__visual">
             <span class="explore-card__num ts-label-sm" aria-hidden="true">{String(i+1).padStart(2,"0")}</span>
             <ExploreIllustration index={i} />
           </div>
@@ -21,7 +20,7 @@ const accents = BRANDS.map((b,i)=>`--art-brand-${i+1}: ${states[`${b}|light`].co
             <h3 class="explore-card__title ts-title-t3" id={`explore-title-${i}`}>{item.title}</h3>
             <p class="explore-card__detail ts-body-md-regular">{item.detail}</p>
           {i === 0 && <ol class="explore-card__chain ts-label-sm" aria-label={e.chainLabel}>{e.chain.map(layer=><li>{layer}</li>)}</ol>}
-          {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{BRANDS.map((brand,i)=><li><span class="explore-card__dot" style={`--art-brand: ${states[`${brand}|light`].colors["color.product1"]}`} aria-hidden="true"></span>{brand.charAt(0).toUpperCase()+brand.slice(1)}</li>)}</ul>}
+          {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{BRANDS.map((brand)=><li><span class="explore-card__dot" aria-hidden="true"></span>{brand.charAt(0).toUpperCase()+brand.slice(1)}</li>)}</ul>}
           {i === 2 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.productionChain.map(label=><li>{label}</li>)}</ul>}
           </div>
         </article>
@@ -31,15 +30,15 @@ const accents = BRANDS.map((b,i)=>`--art-brand-${i+1}: ${states[`${b}|light`].co
 </section>
 <style>
   .explore-grid { display: grid; gap: var(--space-padding-xl); }
-  .explore-card { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--color-line-subtle); }
+  .explore-card { display: grid; grid-template-columns: calc(var(--iconSize-xl) * 7) minmax(0, 1fr); align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--color-line-subtle); }
   .explore-card:last-child { border-bottom: var(--borderWidth-control) solid var(--color-line-subtle); }
-  .explore-card__visual { position: relative; background: var(--color-canvas-secondary); border-radius: var(--borderRadius-surface); }
+  .explore-card__visual { position: relative; max-width: calc(var(--iconSize-xl) * 7); background: var(--color-surface-base); border-radius: var(--borderRadius-surface); }
   .explore-card__num { position: absolute; inset-block-start: var(--space-padding-lg); inset-inline-start: var(--space-padding-lg); color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
-  .explore-card__copy { display: grid; gap: var(--space-padding-lg); padding-inline: var(--space-padding-xl); min-width: 0; }
+  .explore-card__copy { display: grid; gap: var(--space-padding-lg); padding-inline: 0; min-width: 0; }
   .explore-card__title { color: var(--positioning-title-color); text-wrap: balance; }
   .explore-card__detail { color: var(--positioning-item-detail-color); max-width: var(--layout-measure-body); }
   .explore-card__chain { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); padding: 0; margin: 0; list-style: none; color: var(--positioning-label-color); }
   .explore-card__chain li { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid var(--color-line-subtle); border-radius: var(--borderRadius-control); }
-  .explore-card__dot { width: var(--space-gap-md); height: var(--space-gap-md); border-radius: 50%; background: var(--art-brand); }
+  .explore-card__dot { width: var(--space-gap-md); height: var(--space-gap-md); border-radius: 50%; background: var(--color-content-primary); }
   @media (max-width: 699px) { .explore-card { grid-template-columns: minmax(0, 1fr); } .explore-card__copy { padding-inline: 0; } }
 </style>
