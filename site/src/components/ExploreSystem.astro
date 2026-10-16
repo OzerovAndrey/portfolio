@@ -16,8 +16,8 @@ const e = t(lang).explore;
             <ExploreIllustration index={i} />
           </div>
           <div class="explore-card__copy">
-            <h3 class="explore-card__title ts-title-t3" id={`explore-title-${i}`}>{item.title}</h3>
-            <p class="explore-card__detail ts-body-md-regular">{item.detail}</p>
+            <h3 class="explore-card__title ts-title-t2" id={`explore-title-${i}`}>{item.title}</h3>
+            <p class="explore-card__detail ts-body-lg-regular lead">{item.detail}</p>
           {i === 0 && <ol class="explore-card__chain ts-label-sm" aria-label={e.chainLabel}>{e.chain.map(layer=><li>{layer}</li>)}</ol>}
           {i === 1 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.brandPrinciples.map(label=><li>{label}</li>)}</ul>}
           {i === 2 && <ul class="explore-card__chain ts-label-sm" aria-label={item.title}>{e.productionChain.map(label=><li>{label}</li>)}</ul>}
@@ -31,9 +31,9 @@ const e = t(lang).explore;
   .explore-grid { display: grid; gap: var(--space-padding-xl); }
   .explore-card { display: grid; grid-template-columns: calc(var(--iconSize-xl) * 7) minmax(0, 1fr); align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--color-line-subtle); }
   .explore-card:last-child { border-bottom: var(--borderWidth-control) solid var(--color-line-subtle); }
-  .explore-card__visual { position: relative; max-width: calc(var(--iconSize-xl) * 7); background: var(--color-surface-base); border-radius: var(--borderRadius-surface); }
+  .explore-card__visual { position: relative; max-width: calc(var(--iconSize-xl) * 7); background: var(--section-bg-alt); border-radius: var(--borderRadius-surface); }
   .explore-card__num { position: absolute; inset-block-start: var(--space-padding-lg); inset-inline-start: var(--space-padding-lg); color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
-  .explore-card__copy { display: grid; gap: var(--space-padding-lg); padding-inline: 0; min-width: 0; }
+  .explore-card__copy { display: grid; gap: var(--section-text-heading); padding-inline: 0; min-width: 0; }
   .explore-card__title { color: var(--positioning-title-color); text-wrap: balance; }
   .explore-card__detail { color: var(--positioning-item-detail-color); }
   .explore-card__chain { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); padding: 0; margin: 0; list-style: none; color: var(--positioning-label-color); }
