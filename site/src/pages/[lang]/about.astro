@@ -15,7 +15,7 @@ const d = t(lang);
 const a = d.about;
 const portrait = Object.values(import.meta.glob<{ default: ImageMetadata }>("/src/assets/about/portrait.{jpg,jpeg,png,webp}", { eager: true }))[0]?.default;
 // Роки — від дат кар'єри (config.career, джерело LinkedIn), рахуються при білді; форма слова — Intl.PluralRules
-const nums: Record<string, number> = { years: yearsSince(career.start), igaming: yearsSince(career.igaming) };
+const nums: Record<string, number> = { years: yearsSince(career.start), igaming: career.igaming.years + yearsSince(career.igaming.asOf) };
 const pr = new Intl.PluralRules(lang);
 type Forms = Record<"one" | "few" | "many" | "other", string>;
 const word = (f: Forms, n: number) => f[pr.select(n) as keyof Forms] ?? f.other;

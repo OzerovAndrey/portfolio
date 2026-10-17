@@ -10,7 +10,8 @@ export const SHOW_PREVIEW_BANNER = false;
 export const SHOW_WANDA = false;
 
 // Кар'єра (джерело — LinkedIn Андрія, 08.10.2026). Роки на сайті рахуються від цих дат під час білду, щоб не застарівали.
-export const career = { start: "2003-09", igaming: "2023-09" };
+// Досвід iGaming уточнено Андрієм: 6 років станом на жовтень 2026, без припущення про точну дату початку.
+export const career = { start: "2003-09", igaming: { years: 6, asOf: "2026-10" } };
 /** Повних років від дати "YYYY-MM" до сьогодні */
 export const yearsSince = (ym: string, now = new Date()) => {
   const [y, m] = ym.split("-").map(Number);
