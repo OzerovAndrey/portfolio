@@ -2,8 +2,9 @@
 // Та сама лінійна монохромна мова, що в ProcessFlow: невеликі контури й один суцільний акцент.
 interface Props { index: number }
 const { index } = Astro.props;
+const viewBox = ["40 27 120 104", "31 20 138 113", "48 13 121 120"][index];
 ---
-<svg class="system-art" viewBox="0 0 200 140" fill="none" aria-hidden="true" focusable="false">
+<svg class="system-art" viewBox={viewBox} fill="none" aria-hidden="true" focusable="false">
   {index === 0 && <>
     <path class="surface" d="m100 72 55 27-55 27-55-27Z" />
     <path class="surface" d="m100 52 55 27-55 27-55-27Z" />
@@ -26,7 +27,7 @@ const { index } = Astro.props;
   </>}
 </svg>
 <style>
-  .system-art { display: block; width: 100%; height: auto; padding: var(--space-padding-lg); }
+  .system-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
   .surface { fill: var(--color-surface-raised); stroke: var(--color-content-primary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
   .soft { fill: var(--section-bg-alt); stroke: var(--color-content-secondary); stroke-width: 1.5; }
   .edge { stroke: var(--color-content-secondary); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
