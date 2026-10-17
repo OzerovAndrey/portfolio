@@ -1,8 +1,8 @@
 {
   "meta": {
     "siteName": "Andrey Ozerov — Multi-brand design systems",
-    "homeTitle": "Many brands, one codebase — multi-brand design systems by Andrey Ozerov",
-    "homeDescription": "Token architectures where a new brand is one file of 55 values and components never change. See it live: a casino lobby switching between 4 brands and 2 themes on the same code.",
+    "homeTitle": "Andrey Ozerov — Product Design & Multi-brand Systems",
+    "homeDescription": "Product flows, clear interfaces and reusable foundations. Explore my approach to brand identity, design tokens and collaboration with developers.",
     "contactTitle": "Contact — Andrey Ozerov",
     "contactDescription": "Running more than one brand? Tell me how many, on which platforms, and where your design system is today. I read every message myself.",
     "approachTitle": "Approach — Andrey Ozerov",
@@ -37,16 +37,16 @@
     "about": "About"
   },
   "hero": {
-    "role": "Product / UI/UX Designer · Multi-brand Design Systems",
+    "role": "Product / UI/UX Designer",
     "title": [
       "Multi-brand",
       "design systems",
       "for digital products."
     ],
-    "subtitle": "I design complex digital products and scalable systems that turn one product foundation into multiple distinct brands.",
-    "ctaLive": "Open live system",
-    "ctaLiveLabel": "Open live system (opens in a new tab)",
-    "ctaHow": "Explore the system",
+    "subtitle": "I’m Andrey Ozerov. I turn complex workflows into clear interfaces and help teams carry design decisions through to implementation.",
+    "ctaLive": "Try the live demo",
+    "ctaLiveLabel": "Try the live demo (opens in a new tab)",
+    "ctaHow": "See how I work",
     "liveTitle": "Interactive multi-brand design system preview"
   },
   "positioning": {
@@ -153,10 +153,10 @@
     "inspect": "Inspect the system, token by token"
   },
   "expertise": {
-    "label": "About / Expertise",
-    "statement": "I design complex digital products and the systems behind them.",
-    "paragraph": "I’m a UI/UX and Product Designer focused on complex interfaces, scalable design systems and multi-brand products. I work from product logic and user flows through interface design, reusable components and implementation with development teams.",
-    "closing": "From product logic to production-ready UI.",
+    "label": "How I think / What I do",
+    "statement": "Good interfaces start with the right questions.",
+    "paragraph": "What does someone need to do? Where might they get stuck? Which states and edge cases matter? I use flows and prototypes to work through those questions before shaping the final UI.",
+    "closing": "The handoff is part of the design.",
     "listLabel": "Areas of expertise",
     "items": [
       "Product Design",
@@ -274,9 +274,9 @@
     ]
   },
   "cta": {
-    "title": "Running more than one brand? Let's talk.",
-    "lead": "An audit of your current system, a token architecture, a full multi-brand library or just the Figma-to-code pipeline. Tell me where you are now.",
-    "button": "Tell me about your brands"
+    "title": "What needs to work better?",
+    "lead": "A tangled flow, a library that’s hard to maintain, or a new brand to launch. Tell me what’s holding the team back — we’ll work out where to start.",
+    "button": "Discuss your project"
   },
   "contact": {
     "title": "Let's talk",
@@ -689,19 +689,19 @@
     }
   },
   "explore": {
-    "heading": "How the system is built",
+    "heading": "My approach",
     "items": [
       {
-        "title": "How the system works",
-        "detail": "The system is built as a layered token architecture. Core values form the foundation, brand tokens define identity, semantic layers translate those values into UI decisions, and component tokens keep the interface consistent."
+        "title": "Every decision has a place",
+        "detail": "A colour or spacing change shouldn’t mean hunting through dozens of screens. I organise design decisions into connected token layers, so it’s clear what to change and where."
       },
       {
-        "title": "One system. Multiple brands.",
-        "detail": "Each project has its own brands and visual identities. A shared component foundation keeps the product consistent, while brand and theme tokens adapt its appearance to each identity."
+        "title": "A shared base. A distinct identity.",
+        "detail": "Each project has its own brand family. I separate what can be shared from what gives each brand its character — typography, colour, shape and theme."
       },
       {
-        "title": "Built for production",
-        "detail": "The system connects design and implementation through reusable components, design tokens and automated checks — helping keep Figma and production UI aligned as the product scales."
+        "title": "Check it before it ships",
+        "detail": "A polished mockup is only the start. I work through component states and implementation details with developers, backed by automated checks for token consistency and contrast."
       }
     ],
     "brandPrinciples": ["Shared components", "Brand identity", "Themes"],
