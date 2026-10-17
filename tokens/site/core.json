@@ -80,9 +80,9 @@
   "fontSize": {
     "fluid": {
       "hero": {
-        "value": "clamp(3.5rem, 1.67rem + 4.26vw, 5.5rem)",
+        "value": "clamp(2.52rem, 1.6576rem + 3.5728vw, 5.04rem)",
         "type": "fontSizes",
-        "description": "56 px до ~690 → 88 px на 1440; «One codebase.» лишається в один рядок від 900 px"
+        "description": "Головний заголовок: приблизно 40–81 px, на 12% більший за displayLg."
       },
       "lead": {
         "value": "clamp(1.125rem, 1.04rem + 0.36vw, 1.25rem)",

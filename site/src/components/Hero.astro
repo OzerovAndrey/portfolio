@@ -166,7 +166,10 @@ live.searchParams.set("theme", "light");
     color: var(--hero-title-color); text-wrap: balance; hyphens: none; overflow-wrap: break-word;
     font-size: var(--hero-title-fontSize); line-height: var(--hero-title-lineHeight); letter-spacing: var(--hero-title-letterSpacing);
   }
+  .hero__headline { width: 100%; min-width: 0; }
   .hero__line { display: block; }
+  /* Довге українське слово лишається цілим на найвужчих телефонах. */
+  @media (max-width: 359px) { .hero__title:lang(uk) { --hero-title-fontSize: var(--display-h2-fontSize); } }
   /* Послідовна поява копі: заголовок лишається справжнім текстом, shimmer працює незалежно. */
   @media (prefers-reduced-motion: no-preference) {
     .hero__role, .hero__headline, .hero__subtitle, .hero__actions {
