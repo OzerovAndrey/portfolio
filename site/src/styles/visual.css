@@ -95,6 +95,9 @@ html[data-theme-transition]::view-transition-new(root) {
     background-size: 200% 100%;
     /* градієнт тягнеться по ширині тексту, а не всього блока: інакше короткий заголовок («About») бачить лише край смуги */
     inline-size: fit-content; max-inline-size: 100%;
+    /* Запас для нижніх виносних елементів g/p/y: градієнт не має обрізати їх по line-box.
+       Від’ємний margin компенсує padding, зберігаючи відстань до наступного блока. */
+    padding-block-end: .16em; margin-block-end: -.16em;
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: text-shimmer var(--shimmer-duration) var(--shimmer-easing) infinite alternate;
