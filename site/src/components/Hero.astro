@@ -254,9 +254,13 @@ const live = new URL(config.driveUrl);
     /* «висить у повітрі»: багатошарова тінь + паралакс (--float-y 0…−1 ставить скрипт) + підйом при появі сторінки.
        translate (поява) і transform (скрол) — окремі властивості, тож не перебивають одна одну */
     box-shadow: var(--demoFrame-float-boxShadow);
-    transform: translate3d(0, calc(var(--float-y, 0) * var(--demoFrame-float-drift)), 0);
+    transform: translate3d(0, calc(var(--float-y, 0) * var(--demoFrame-float-drift) + var(--frame-hover-y, 0%)), 0);
+    transition: transform var(--motion-duration-base) var(--motion-easing-out), scale var(--motion-duration-base) var(--motion-easing-out), box-shadow var(--motion-duration-base) var(--motion-easing-out), border-color var(--motion-duration-base) var(--motion-easing-out);
     will-change: transform;
     animation: hero-float-in var(--demoFrame-float-duration) var(--demoFrame-float-easing) both;
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .hero__live:hover { --frame-hover-y: calc(var(--motion-nudge) * -2); scale: 1.008; box-shadow: var(--demoFrame-float-boxShadow), var(--demoFrame-float-boxShadow); border-color: var(--focus-outline-color); }
   }
   @keyframes hero-float-in {
     from { translate: 0 var(--demoFrame-float-rise); opacity: 0; box-shadow: none; }
