@@ -9,7 +9,7 @@ const { email, linkedin, telegram, phone, github, behance, dribbble, contra, upw
 const groups = [
   { title: d.footer.contacts, links: mk(["Email", email && `mailto:${email}`, "mail"], ["Telegram", telegram, "send"], [formatPhone(phone), phone && `tel:${phone}`, "phone"], ["LinkedIn", linkedin, "linkedin"]) },
   { title: d.footer.design, links: mk(["Behance", behance, "image"], ["Dribbble", dribbble, "palette"], ["Contra", contra, "briefcase"], ["Upwork", upwork, "briefcase"]) },
-  { title: d.footer.projects, links: mk([d.footer.demo, config.demoUrl, "window"], ["GitHub", github, "github"]) },
+  { title: d.footer.projects, links: mk(["Aurum", config.demoUrl, "window"], ["Atlas", config.atlasUrl, "window"], ["Drive", config.driveUrl, "window"], ["GitHub", github, "github"]) },
 ].filter(group => group.links.length);
 
 ---
