@@ -29,6 +29,8 @@ const live = new URL(config.driveUrl);
       <div class="hero__live" data-live-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={live.href} title={h.liveTitle} referrerpolicy="strict-origin-when-cross-origin" data-live-iframe></iframe>
+        <span class="hero__demo-hint ts-label-sm" data-demo-hint>{h.demoHint}</span>
+        <span class="hero__demo-ring" data-demo-ring hidden aria-hidden="true"></span>
         <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
       </div>
       <!-- мобільні: другорядна дія — після живої системи -->
@@ -75,6 +77,85 @@ const live = new URL(config.driveUrl);
     new MutationObserver(follow).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
+  /** One gentle scroll demonstration, only while the frame is visible and untouched. */
+  function introduceDemo(frame: HTMLElement, iframe: HTMLIFrameElement) {
+    const hint = frame.querySelector<HTMLElement>("[data-demo-hint]");
+    const ring = frame.querySelector<HTMLElement>("[data-demo-ring]");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    let used = false;
+    iframe.addEventListener("load", async () => {
+      if (used) return;
+      used = true;
+      const doc = demoRoot(iframe)?.ownerDocument;
+      const win = doc?.defaultView;
+      if (!doc || !win || !hint || !ring) return;
+      let cancelled = false, raf = 0, timer = 0, finish = 0;
+      let observer: IntersectionObserver;
+      const events = ["pointerdown", "wheel", "touchstart", "keydown"] as const;
+      const stop = () => {
+        cancelled = true;
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+        clearTimeout(finish);
+        observer?.disconnect();
+        frame.removeAttribute("data-demo-intro");
+        for (const event of events) {
+          doc.removeEventListener(event, stop, true);
+          frame.removeEventListener(event, stop, true);
+        }
+        document.removeEventListener("visibilitychange", visibility);
+        reduced.removeEventListener("change", stop);
+      };
+      const visibility = () => { if (document.hidden) stop(); };
+      for (const event of events) {
+        doc.addEventListener(event, stop, { capture: true, passive: true });
+        frame.addEventListener(event, stop, { capture: true, passive: true });
+      }
+      document.addEventListener("visibilitychange", visibility);
+      reduced.addEventListener("change", stop);
+      const start = () => {
+        if (cancelled || document.hidden) return;
+        frame.dataset.demoIntro = "active";
+        const dock = doc.querySelector<HTMLElement>('[aria-label="DRIVE appearance controls"]');
+        const placeRing = () => {
+          if (!dock || !ring) return;
+          const r = dock.getBoundingClientRect();
+          const scale = iframe.getBoundingClientRect().width / iframe.offsetWidth;
+          ring.style.left = `${r.left * scale}px`;
+          ring.style.top = `${r.top * scale}px`;
+          ring.style.width = `${r.width * scale}px`;
+          ring.style.height = `${r.height * scale}px`;
+          ring.hidden = false;
+        };
+        placeRing();
+        if (!reduced.matches) {
+          const scroller = doc.scrollingElement;
+          const from = win.scrollY;
+          const distance = Math.min(140, iframe.clientHeight * 0.16, (scroller?.scrollHeight ?? 0) - win.innerHeight - from);
+          const began = performance.now();
+          const tick = (now: number) => {
+            if (cancelled) return;
+            const progress = Math.min(1, (now - began) / 2200);
+            // Cosine takes the page down and back, with zero velocity at both ends.
+            const offset = distance > 0 ? distance * (1 - Math.cos(progress * Math.PI * 2)) / 2 : 0;
+            win.scrollTo({ top: from + offset, behavior: "instant" });
+            placeRing();
+            if (progress < 1) raf = requestAnimationFrame(tick);
+          };
+          raf = requestAnimationFrame(tick);
+        }
+        finish = window.setTimeout(stop, 4500);
+      };
+      observer = new IntersectionObserver((entries) => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        observer.disconnect();
+        timer = window.setTimeout(start, 800);
+      }, { threshold: 0.55 });
+      await doc.fonts.ready;
+      if (!cancelled) observer.observe(frame);
+    }, { once: true });
+  }
+
   const root = document.querySelector<HTMLElement>("[data-hero]");
   if (root) {
     // Жива система: рамка задає розмір (aspect-ratio), iframe підганяється. Рамка ≥ 448 — десктоп-розкладка демо (від 768) на віртуальній
@@ -95,6 +176,7 @@ const live = new URL(config.driveUrl);
       };
       new ResizeObserver(fit).observe(frame);
       fit();
+      introduceDemo(frame, iframe);
       if (iframe.dataset.src) {
         const src = new URL(iframe.dataset.src);
         iframe.src = src.href;
@@ -181,6 +263,11 @@ const live = new URL(config.driveUrl);
   }
   @media (prefers-reduced-motion: reduce) { .hero__live { transform: none; will-change: auto; animation: none; } }
   /* max-width: none — глобальне iframe { max-width: 100% } (base.css) інакше обрізає віртуальну ширину до рамки */
+  .hero__demo-hint { position: absolute; z-index: 2; top: var(--space-gap-md); left: var(--space-gap-md); right: var(--space-gap-md); width: fit-content; max-width: calc(100% - var(--space-gap-md) * 2); padding: var(--space-gap-sm) var(--space-gap-md); border-radius: var(--glass-borderRadius); background: var(--glass-bg); color: var(--glass-color-default); backdrop-filter: var(--glass-backdropFilter); box-shadow: var(--glass-boxShadow); opacity: 0; pointer-events: none; transition: opacity var(--motion-duration-base) var(--motion-easing-out); }
+  .hero__demo-ring { position: absolute; z-index: 2; pointer-events: none; border: var(--focus-outline-borderWidth) solid var(--caseCard-bg-default); border-radius: var(--demoFrame-borderRadius); box-shadow: 0 0 0 var(--focus-outline-borderWidth) var(--focus-outline-color); opacity: 0; }
+  [data-demo-intro] .hero__demo-hint, [data-demo-intro] .hero__demo-ring { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { [data-demo-intro] .hero__demo-ring { animation: demo-panel-hint calc(var(--motion-duration-slow) * 4) var(--motion-easing-out) 3; } }
+  @keyframes demo-panel-hint { 50% { opacity: 0.3; } }
   .hero__iframe { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
   @media (min-width: 480px) { .hero__live { aspect-ratio: 4 / 3; } }
   @media (min-width: 1024px) { .hero__live { aspect-ratio: 8 / 7; } }
