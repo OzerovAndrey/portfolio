@@ -16,6 +16,7 @@ const assets = import.meta.env.BASE_URL + "devices/";
         <img class="device-photo device-photo--display" style={`mask-image: url(${assets}studio-display-xdr-mask.svg)`} src={`${assets}studio-display-xdr.jpg`} alt="" aria-hidden="true" loading="lazy" />
         <img class="device-photo device-photo--mac" style={`mask-image: url(${assets}macbook-pro-mask.svg)`} src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
         <img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
+      <div class="device-screen-fill" aria-hidden="true"></div>
       <div class="hero__live" data-preview-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin" data-preview-iframe></iframe>
@@ -76,9 +77,10 @@ const assets = import.meta.env.BASE_URL + "devices/";
   [data-device="1"] .hero__live { left: 10.35%; top: 6.02%; width: 79.3%; height: 81.93%; }
   [data-device="2"] .hero__device-body { width: min(36%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
   [data-device="2"] .device-photo--phone { position: absolute; width: 205.863%; max-width: none; height: 48.5759%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
-  [data-device="2"] .hero__live { left: 4.25%; top: 8%; width: 91.5%; height: 90%; border-radius: 0 0 11% 11% / 0 0 5.3% 5.3%; }
-  .device-camera, .device-status { display: none; }
-  [data-device="2"] .device-status { display: block; position: absolute; left: 4.25%; top: 2%; width: 91.5%; height: 6.5%; background: var(--device-backdrop); border-radius: 11% 11% 0 0 / 75% 75% 0 0; pointer-events: none; }
+  [data-device="2"] .hero__live { left: 4.25%; top: 8%; width: 91.5%; height: 89.5%; border-radius: 0 0 18% 18% / 0 0 9% 9%; }
+  .device-camera, .device-status, .device-screen-fill { display: none; }
+  [data-device="2"] .device-screen-fill { display: block; position: absolute; left: 4%; top: 1.5%; width: 92%; height: 97%; border-radius: 18% / 8.7%; background: var(--device-backdrop); pointer-events: none; }
+  [data-device="2"] .device-status { display: block; position: absolute; left: 4%; top: 1.5%; width: 92%; height: 7%; background: var(--device-backdrop); border-radius: 20% 20% 0 0 / 100% 100% 0 0; pointer-events: none; }
   [data-device="2"] .device-camera { display: block; position: absolute; inset: 0; pointer-events: none; clip-path: inset(3.36% 39.4% 92.64% 39.4% round 45%); }
   @media (max-width: 767px) { [data-device="0"] .hero__device-body, [data-device="1"] .hero__device-body { width: 100%; } [data-device="2"] .hero__device-body { width: 76%; } }
   .product-preview { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-padding-md); }
