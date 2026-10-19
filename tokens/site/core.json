@@ -248,6 +248,10 @@
     "highlight": {
       "value": "#d9dbdf",
       "type": "color"
+    },
+    "backdrop": {
+      "value": "#000000",
+      "type": "color"
     }
   }
 }

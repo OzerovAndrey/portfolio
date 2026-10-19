@@ -3,6 +3,7 @@ import { t, type Locale } from "../i18n";
 interface Props { lang: Locale; src: string; title: string }
 const { lang, src, title } = Astro.props;
 const h = t(lang).hero;
+const assets = import.meta.env.BASE_URL + "devices/";
 ---
 <div class="product-preview" data-product-preview>
       <div class="hero__devices" role="group" aria-label={h.devicesLabel}>
@@ -12,6 +13,9 @@ const h = t(lang).hero;
       </div>
       <div class="hero__device-stage" data-device="0">
       <div class="hero__device-body">
+        <img class="device-photo device-photo--display" src={`${assets}studio-display-xdr.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--mac" src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--phone" src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
       <div class="hero__live" data-preview-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin" data-preview-iframe></iframe>
@@ -19,7 +23,8 @@ const h = t(lang).hero;
 
         <noscript><iframe class="hero__iframe" src={src} title={title}></iframe></noscript>
       </div>
-      <div class="hero__device-foot" aria-hidden="true"></div>
+      <div class="device-status" aria-hidden="true"></div>
+      <div class="device-camera" aria-hidden="true"><img class="device-photo device-photo--phone" src={`${assets}iphone-18-pro.jpg`} alt="" loading="lazy" /></div>
       </div>
       </div>
       <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">Studio Display XDR</p>
@@ -61,23 +66,24 @@ const h = t(lang).hero;
   .hero__device-tab svg { width: var(--iconSize-md); height: var(--iconSize-md); }
   .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
   .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
-  .hero__device-stage { display: grid; place-items: center; aspect-ratio: 1.4; width: 100%; }
-  .hero__device-body { margin-bottom: 10%; width: 100%; position: relative; padding: var(--space-gap-sm); border-radius: var(--space-padding-md); background: var(--device-bezel); transform: translateY(var(--frame-hover-y, 0%)); transition: transform var(--motion-duration-base) var(--motion-easing-out), scale var(--motion-duration-base) var(--motion-easing-out), box-shadow var(--motion-duration-base) var(--motion-easing-out); border: var(--borderWidth-control) solid var(--device-metal); box-shadow: var(--demoFrame-float-boxShadow); }
-  .hero__device-foot { position: absolute; top: 100%; left: 41%; width: 18%; height: 16%; background: linear-gradient(90deg, var(--device-metal), var(--device-highlight), var(--device-metal)); clip-path: polygon(25% 0, 75% 0, 82% 85%, 100% 94%, 100% 100%, 0 100%, 0 94%, 18% 85%); }
-  .hero__device-name { text-align: center; color: var(--positioning-label-color); margin-bottom: var(--space-padding-md); }
-  [data-device="1"] .hero__device-body { margin-bottom: 0; width: 92%; border-radius: var(--space-padding-md) var(--space-padding-md) 0 0; }
-  [data-device="1"] .hero__live { aspect-ratio: 16 / 10; }
-  [data-device="1"] .hero__device-foot { left: -5%; width: 110%; height: 5%; clip-path: polygon(0 0,100% 0,98% 80%,92% 100%,8% 100%,2% 80%); }
-  [data-device="2"] .hero__device-body { margin-bottom: 0; width: min(28%, calc(var(--container-maxWidth) / 3)); padding: var(--space-padding-xl) var(--space-gap-sm) var(--space-gap-sm); border-radius: calc(var(--demoFrame-borderRadius) * 1.6); }
-  [data-device="2"] .hero__live { aspect-ratio: 402 / 840; border-radius: calc(var(--demoFrame-borderRadius) * 1.3); }
-  [data-device="2"] .hero__device-body::before { content: ""; position: absolute; z-index: 4; pointer-events: none; width: 24%; height: 2%; border-radius: var(--borderRadius-pill); top: 2.5%; left: 38%; background: var(--device-bezel); }
-  [data-device="2"] .hero__device-foot { display: none; }
-  @media (max-width: 767px) { .hero__device-stage { aspect-ratio: .6; } [data-device="2"] .hero__device-body { margin-bottom: 0; width: 70%; } }
-
-
+  .hero__device-stage { display: grid; place-items: center; aspect-ratio: 1.3; width: 100%; background: var(--device-backdrop); border-radius: var(--demoFrame-borderRadius); overflow: hidden; }
+  .hero__device-body { width: 82%; aspect-ratio: 1388 / 1180; position: relative; }
+  .device-photo { display: none; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+  [data-device="0"] .device-photo--display, [data-device="1"] .device-photo--mac, [data-device="2"] .device-photo--phone { display: block; }
+  .hero__device-body .hero__live { position: absolute; left: 2.16%; top: 2.54%; width: 95.39%; height: 63.05%; aspect-ratio: auto; border-radius: 0; }
+  .hero__device-name { text-align: center; color: var(--positioning-label-color); }
+  [data-device="1"] .hero__device-body { width: 96%; aspect-ratio: 1092 / 664; }
+  [data-device="1"] .hero__live { left: 10.35%; top: 6.02%; width: 79.3%; height: 81.93%; }
+  [data-device="2"] .hero__device-body { width: min(30%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
+  [data-device="2"] .device-photo--phone { position: absolute; width: 205.863%; max-width: none; height: 48.5759%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
+  [data-device="2"] .hero__live { left: 4.25%; top: 8%; width: 91.5%; height: 90%; border-radius: 0 0 11% 11% / 0 0 5.3% 5.3%; }
+  .device-camera, .device-status { display: none; }
+  [data-device="2"] .device-status { display: block; position: absolute; left: 4.25%; top: 2%; width: 91.5%; height: 6.5%; background: var(--device-backdrop); border-radius: 11% 11% 0 0 / 75% 75% 0 0; pointer-events: none; }
+  [data-device="2"] .device-camera { display: block; position: absolute; inset: 0; pointer-events: none; clip-path: inset(3.36% 39.4% 92.64% 39.4% round 45%); }
+  @media (max-width: 767px) { .hero__device-stage { aspect-ratio: .65; } [data-device="0"] .hero__device-body, [data-device="1"] .hero__device-body { width: 96%; } [data-device="2"] .hero__device-body { width: 66%; } }
   .product-preview { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-padding-md); }
-  .hero__live { position: relative; overflow: hidden; min-width: 0; aspect-ratio: 16 / 9; border-radius: var(--space-gap-sm); background: var(--device-bezel); }
+  .hero__live { overflow: hidden; min-width: 0; background: var(--device-bezel); }
   .hero__iframe { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
   .hero__demo-hint { display: none; }
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .hero__device-body:hover { --frame-hover-y: calc(var(--motion-nudge) * -2); } }
+
 </style>

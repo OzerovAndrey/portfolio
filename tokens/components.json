@@ -1969,6 +1969,10 @@
     "highlight": {
       "value": "{color.device.highlight}",
       "type": "color"
+    },
+    "backdrop": {
+      "value": "{color.device.backdrop}",
+      "type": "color"
     }
   }
 }
