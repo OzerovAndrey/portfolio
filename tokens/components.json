@@ -764,7 +764,7 @@
       "type": "borderWidth"
     },
     "borderRadius": {
-      "value": "{borderRadius.surface}",
+      "value": "{borderRadius.panel}",
       "type": "borderRadius"
     },
     "padding": {
