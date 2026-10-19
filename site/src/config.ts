@@ -1,6 +1,6 @@
 import type { IconName } from "./components/Icon.astro";
 // Дані, які надає Андрій (бриф, розділ 8). Порожнє поле = блок на сайті не показується.
-type Contacts = { email: string; linkedin: string; telegram: string; phone: string; github: string; behance: string; dribbble: string; contra: string };
+type Contacts = { email: string; linkedin: string; telegram: string; phone: string; github: string; behance: string; dribbble: string; contra: string; upwork: string };
 
 // Прапори запуску. SITE_LAUNCHED=false → <meta robots noindex> на всіх сторінках.
 export const SITE_LAUNCHED = true;
@@ -41,6 +41,7 @@ export const config = {
     behance: "https://www.behance.net/ozerov",
     dribbble: "https://dribbble.com/ozerovdesign",
     contra: "https://contra.com/andrej_ozerov_vwcfoylm/work?r=andrej_ozerov_vwcfoylm",
+    upwork: "https://www.upwork.com/freelancers/~01b991b9dcd2d24113",
   } satisfies Contacts as Contacts,
 };
 

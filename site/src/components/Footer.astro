@@ -5,10 +5,10 @@ import Logo from "./Logo.astro";
 import { href, t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
-const { email, linkedin, telegram, phone, github, behance, dribbble, contra } = config.contacts;
+const { email, linkedin, telegram, phone, github, behance, dribbble, contra, upwork } = config.contacts;
 const groups = [
   { title: d.footer.contacts, links: mk(["Email", email && `mailto:${email}`, "mail"], ["Telegram", telegram, "send"], [formatPhone(phone), phone && `tel:${phone}`, "phone"], ["LinkedIn", linkedin, "linkedin"]) },
-  { title: d.footer.design, links: mk(["Behance", behance, "image"], ["Dribbble", dribbble, "palette"], ["Contra", contra, "briefcase"]) },
+  { title: d.footer.design, links: mk(["Behance", behance, "image"], ["Dribbble", dribbble, "palette"], ["Contra", contra, "briefcase"], ["Upwork", upwork, "briefcase"]) },
   { title: d.footer.projects, links: mk([d.footer.demo, config.demoUrl, "window"], ["GitHub", github, "github"]) },
 ].filter(group => group.links.length);
 
