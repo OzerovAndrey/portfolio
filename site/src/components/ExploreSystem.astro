@@ -1,4 +1,5 @@
 ---
+import ArtMotion from "./ArtMotion.astro";
 import { t, type Locale } from "../i18n";
 import ExploreIllustration from "./ExploreIllustration.astro";
 interface Props { lang: Locale }
@@ -10,7 +11,7 @@ const e = t(lang).explore;
     <h2 class="sr-only" id="explore-heading">{e.heading}</h2>
     <div class="explore-grid">
       {e.items.map((item,i)=>(
-        <article class="explore-card" aria-labelledby={`explore-title-${i}`} data-reveal>
+        <article class="explore-card" data-art-motion="illustration" aria-labelledby={`explore-title-${i}`} data-reveal>
           <div class="explore-card__visual">
             <ExploreIllustration index={i} />
           </div>
@@ -26,6 +27,7 @@ const e = t(lang).explore;
     </div>
   </div>
 </section>
+<ArtMotion />
 <style>
   .explore-grid { display: grid; gap: var(--space-padding-xl); }
   .explore-card { display: grid; grid-template-columns: calc(var(--iconSize-xl) * 8) minmax(0, 1fr); align-items: center; gap: var(--l-gap); padding-block: var(--space-padding-xl); border-top: var(--borderWidth-control) solid var(--color-line-subtle); }

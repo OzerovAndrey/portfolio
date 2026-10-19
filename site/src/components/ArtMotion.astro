@@ -1,0 +1,44 @@
+<script>
+  // Shared, finite motion for illustrations and expertise icons. Content is never hidden.
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const blocks = [...document.querySelectorAll<HTMLElement>("[data-art-motion]")];
+  const running = new Map<Element, Animation[]>();
+  const play = (block: HTMLElement) => {
+    if (reduced.matches || running.has(block)) return;
+    const art = block.querySelector<SVGElement>("svg");
+    if (!art) return;
+    const style = getComputedStyle(block);
+    const token = style.getPropertyValue("--motion-duration-slow").trim();
+    const time = parseFloat(token) * (token.endsWith("ms") ? 1 : 1000) || 300;
+    const icon = block.dataset.artMotion === "icon";
+    const distance = parseFloat(style.getPropertyValue("--space-gap-sm")) || 4;
+    const easing = style.getPropertyValue("--motion-easing-out").trim() || "ease-out";
+    const animations = [art.animate([
+      { transform: "translateY(0) rotate(0deg) scale(1)" },
+      { transform: `translateY(${-distance}px) rotate(${icon ? -7 : -1.5}deg) scale(${icon ? 1.08 : 1.02})`, offset: 0.4 },
+      { transform: "translateY(0) rotate(0deg) scale(1)" },
+    ], { duration: time * (icon ? 2 : 3), easing })];
+    art.querySelectorAll<SVGElement>("[data-art-detail]").forEach((detail, index) => {
+      animations.push(detail.animate([
+        { transform: "scale(1)" }, { transform: "scale(1.14)" }, { transform: "scale(1)" },
+      ], { duration: time * 2, delay: index * time / 3, easing }));
+    });
+    running.set(block, animations);
+    void Promise.allSettled(animations.map(animation => animation.finished)).then(() => { if (running.get(block) === animations) running.delete(block); });
+  };
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) play(entry.target as HTMLElement); });
+    }, { threshold: 0.45 });
+    blocks.forEach(block => observer.observe(block));
+  }
+  blocks.forEach(block => {
+    block.addEventListener("pointerenter", event => { if (event.pointerType === "mouse") play(block); });
+    block.addEventListener("focusin", () => play(block));
+  });
+  reduced.addEventListener("change", () => {
+    if (!reduced.matches) return;
+    running.forEach(animations => animations.forEach(animation => animation.cancel()));
+    running.clear();
+  });
+</script>

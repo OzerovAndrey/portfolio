@@ -17,7 +17,7 @@ const viewBox = ["40 27 120 104", "31 20 138 113", "48 13 121 120"][index];
     <circle class="badge" cx="47" cy="34" r="2.5" /><circle class="muted-fill" cx="56" cy="34" r="2.5" />
     <rect class="soft" x="48" y="55" width="33" height="40" rx="4" />
     <path class="edge" d="M93 59h56M93 69h40" /><rect class="badge" x="93" y="82" width="37" height="13" rx="4" />
-    <circle class="badge" cx="77" cy="124" r="5" /><circle class="muted-fill" cx="100" cy="124" r="5" /><circle class="surface" cx="123" cy="124" r="5" />
+    <circle data-art-detail class="badge" cx="77" cy="124" r="5" /><circle data-art-detail class="muted-fill" cx="100" cy="124" r="5" /><circle data-art-detail class="surface" cx="123" cy="124" r="5" />
   </>}
   {index === 2 && <>
     <path class="surface" d="M60 18h62l22 22v77a7 7 0 0 1-7 7H60a7 7 0 0 1-7-7V25a7 7 0 0 1 7-7Z" />
@@ -27,7 +27,8 @@ const viewBox = ["40 27 120 104", "31 20 138 113", "48 13 121 120"][index];
   </>}
 </svg>
 <style>
-  .system-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  [data-art-detail] { transform-box: fill-box; transform-origin: center; }
+  .system-art { transform-origin: center; position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
   .surface { fill: var(--color-surface-raised); stroke: var(--color-content-primary); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
   .soft { fill: var(--section-bg-alt); stroke: var(--color-content-secondary); stroke-width: 1; }
   .edge { stroke: var(--color-content-secondary); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
