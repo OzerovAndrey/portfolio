@@ -172,6 +172,16 @@
       "Передача розробникам",
       "Figma",
       "Tokens Studio"
+    ],
+    "skillsTitle": "Дизайн і реалізація",
+    "aiTitle": "ШІ-інструменти, які я використовую",
+    "aiTools": [
+      "ChatGPT",
+      "Codex",
+      "Claude Code",
+      "Figma Make",
+      "Figma Agent",
+      "Gemini"
     ]
   },
   "demo": {

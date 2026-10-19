@@ -172,6 +172,16 @@
       "Developer Handoff",
       "Figma",
       "Tokens Studio"
+    ],
+    "skillsTitle": "Design & delivery",
+    "aiTitle": "AI tools I use",
+    "aiTools": [
+      "ChatGPT",
+      "Codex",
+      "Claude Code",
+      "Figma Make",
+      "Figma Agent",
+      "Gemini"
     ]
   },
   "demo": {
