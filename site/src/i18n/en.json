@@ -319,7 +319,10 @@
   },
   "footer": {
     "rights": "This site runs on the same token system as the demo, as its own brand.",
-    "demo": "Live demo"
+    "demo": "Live demo",
+    "contacts": "Contact",
+    "design": "Design platforms",
+    "projects": "Projects & code"
   },
   "preview": {
     "banner": "Preview — content in progress"

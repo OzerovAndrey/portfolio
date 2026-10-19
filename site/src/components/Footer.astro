@@ -6,7 +6,12 @@ import { href, t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
 const { email, linkedin, telegram, phone, github, behance, dribbble } = config.contacts;
-const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `mailto:${email}`, "mail"], ["LinkedIn", linkedin, "linkedin"], ["Telegram", telegram, "send"], ["GitHub", github, "github"], [formatPhone(phone), phone && `tel:${phone}`, "phone"], ["Behance", behance, "image"], ["Dribbble", dribbble, "palette"]);
+const groups = [
+  { title: d.footer.contacts, links: mk(["Email", email && `mailto:${email}`, "mail"], ["Telegram", telegram, "send"], [formatPhone(phone), phone && `tel:${phone}`, "phone"], ["LinkedIn", linkedin, "linkedin"]) },
+  { title: d.footer.design, links: mk(["Behance", behance, "image"], ["Dribbble", dribbble, "palette"]) },
+  { title: d.footer.projects, links: mk([d.footer.demo, config.demoUrl, "window"], ["GitHub", github, "github"]) },
+].filter(group => group.links.length);
+
 ---
 <footer class="footer">
   <div class="container footer__inner">
@@ -14,9 +19,16 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
       <a class="footer__logo" href={href(Astro.props.lang)} aria-label={d.a11y.home}><Logo variant="full" /></a>
       <p class="footer__credit ts-body-sm-regular">{d.brand.credit}</p>
     </div>
-    <ul class="footer__links">
-      {links.map((l) => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.icon && <Icon name={l.icon} />}<span>{l.label}</span></a></li>)}
-    </ul>
+    <div class="footer__groups">
+      {groups.map((group, i) => (
+        <section class="footer__group" aria-labelledby={`footer-group-${i}`}>
+          <h2 class="footer__group-title ts-label-md" id={`footer-group-${i}`}>{group.title}</h2>
+          <ul class="footer__links">
+            {group.links.map(l => <li><a class="ts-title-t5" href={l.url} rel={l.url.startsWith("http") ? "noopener" : undefined}>{l.icon && <Icon name={l.icon} />}<span>{l.label}</span></a></li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
     <p class="footer__meta ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
   </div>
 </footer>
@@ -29,7 +41,11 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
   .footer__brand { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-gap-lg) var(--siteFooter-gap); }
   .footer__logo { --logo-size: var(--siteFooter-logo-size); display: inline-flex; color: var(--siteFooter-logo-color); }
   .footer__credit { color: var(--siteFooter-color); }
-  .footer__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-gap-lg) var(--siteFooter-gap); align-items: center; }
+  .footer__groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--section-text-block) var(--siteFooter-gap); }
+  .footer__group { min-width: 0; }
+  .footer__group-title { color: var(--siteFooter-color); margin-bottom: var(--space-padding-xl); }
+  .footer__links { display: grid; gap: var(--space-gap-xl); align-content: start; }
+  @media (min-width: 560px) { .footer__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .footer__links a { display: inline-flex; align-items: center; gap: var(--space-gap-md); color: var(--siteFooter-link-color-default); text-decoration: none; overflow-wrap: anywhere; transition: color var(--motion-duration-fast) var(--motion-easing-out); }
   .footer__links a:hover { color: var(--siteFooter-link-color-hover); }
   .footer__links a:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
@@ -39,6 +55,6 @@ const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `
   @media (prefers-reduced-motion: reduce) { .footer__links a :global(.icon) { transform: none !important; } }
   .footer__meta { padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
   @media (min-width: 768px) {
-    .footer__links { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-gap-xl) var(--siteFooter-gap); }
+    .footer__groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
 </style>
