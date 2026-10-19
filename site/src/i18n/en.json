@@ -52,7 +52,10 @@
     "ctaLiveLabel": "Try DRIVE (opens in a new tab)",
     "ctaHow": "See how I work",
     "liveTitle": "DRIVE — interactive multi-brand automotive demo",
-    "demoHint": "Live website · Scroll inside · Try the brands & themes"
+    "demoHint": "Live website · Scroll inside · Try the brands & themes",
+    "carouselRole": "carousel",
+    "carouselLabel": "Explore live projects",
+    "switchProject": "Open project"
   },
   "positioning": {
     "label": "Positioning",
