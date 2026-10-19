@@ -16,6 +16,8 @@ interface Props { lang: Locale }
 const { lang } = Astro.props;
 const d = t(lang);
 const c = d.cases.items;
+const paths = ["cases/aurum-multibrand", "cases/drive", "cases/atlas-finance"];
+const events = ["case_aurum", "case_drive", "case_atlas"];
 const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
   { image: aurumDark, alt: c[0].mediaAlt },
@@ -26,19 +28,19 @@ const covers = [
 <ul class="cases">
   {[0, 1, 2].map((i) => (
     <li class="case">
-      <div class="case__media">
+      <a class="case__media" href={href(lang, paths[i])} aria-label={c[i].title} data-event={events[i]}>
         {i !== 0 ? (
           <img src={covers[i].image.src} width={covers[i].image.width} height={covers[i].image.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img" />
         ) : (
           <Image src={covers[i].image} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].image.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img" />
         )}
 
-      </div>
+      </a>
       <div class="case__body">
         <span class="case__head"><Icon name={"window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
         <h3 class="case__title ts-title-t4">{c[i].title}</h3>
         <p class="case__detail ts-body-md-regular">{c[i].detail}</p>
-        <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={i === 0 ? href(lang, "cases/aurum-multibrand") : i === 1 ? href(lang, "cases/drive") : href(lang, "cases/atlas-finance")} data-event={i === 0 ? "case_aurum" : i === 1 ? "case_drive" : "case_atlas"}>{c[i].cta}</Button>
+        <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, paths[i])} data-event={events[i]}>{c[i].cta}</Button>
       </div>
     </li>
   ))}
@@ -52,6 +54,7 @@ const covers = [
 
   /* Обкладинка-кадр проєкту */
   .case__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--caseCard-media-bg); border: var(--caseCard-borderWidth) solid var(--caseCard-media-br); border-radius: var(--caseCard-media-borderRadius); }
+  .case__media:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
   .case__media :global(.case__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform var(--motion-duration-slow) var(--motion-easing-out); }
   @media (hover: hover) { .case:hover .case__media :global(.case__img) { transform: scale(1.04); } }
   @media (prefers-reduced-motion: reduce) { .case__media :global(.case__img) { transform: none !important; } }
