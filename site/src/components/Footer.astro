@@ -5,8 +5,8 @@ import Logo from "./Logo.astro";
 import { href, t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const d = t(Astro.props.lang);
-const { email, linkedin, telegram, phone, github } = config.contacts;
-const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `mailto:${email}`, "mail"], ["LinkedIn", linkedin, "linkedin"], ["Telegram", telegram, "send"], ["GitHub", github, "github"], [formatPhone(phone), phone && `tel:${phone}`, "phone"]);
+const { email, linkedin, telegram, phone, github, behance, dribbble } = config.contacts;
+const links = mk([d.footer.demo, config.demoUrl, "window"], ["Email", email && `mailto:${email}`, "mail"], ["LinkedIn", linkedin, "linkedin"], ["Telegram", telegram, "send"], ["GitHub", github, "github"], [formatPhone(phone), phone && `tel:${phone}`, "phone"], ["Behance", behance, "image"], ["Dribbble", dribbble, "palette"]);
 ---
 <footer class="footer">
   <div class="container footer__inner">
