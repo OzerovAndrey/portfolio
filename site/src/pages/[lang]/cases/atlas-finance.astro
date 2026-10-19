@@ -46,7 +46,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
         <Button size="lg" icon="arrowUpRight" href={config.atlasUrl} target="_blank" rel="noopener" data-event="case_atlas_demo">{c.ctaDemo}</Button>
         <Button size="lg" variant="secondary" icon="arrowRight" href={config.atlasSourceUrl} data-event="case_atlas_approach">{c.ctaApproach}</Button>
       </div>
-      <Shot id="atlas-overview" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" loading="eager" />
+      <Shot original id="atlas-overview" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" loading="eager" />
     </div>
   </section>
 
@@ -90,7 +90,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
       <div class="cs-shots">
         {["atlas-pulse", "atlas-transfers"].map((id, i) => (
           <figure class="cs-shot">
-            <Shot id={id} lang={lang} sizes="(min-width: 1024px) 50vw, 100vw" />
+            <Shot original id={id} lang={lang} sizes="(min-width: 1024px) 50vw, 100vw" />
             <figcaption class="cs-shot__cap ts-body-sm-regular">{c.shotsCaption[i]}</figcaption>
           </figure>
         ))}

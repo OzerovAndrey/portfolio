@@ -364,7 +364,7 @@
     "id": "atlas-overview",
     "file": "shots/atlas/light.png",
     "ratio": "16/9",
-    "size": "1280×720",
+    "size": "2560×1440",
     "alt": {
       "en": "Atlas Finance: VANTA banking overview",
       "uk": "Atlas Finance: банківський огляд VANTA"
@@ -378,7 +378,7 @@
     "id": "atlas-pulse",
     "file": "shots/atlas/pulse.png",
     "ratio": "16/9",
-    "size": "1280×720",
+    "size": "2560×1440",
     "alt": {
       "en": "Atlas Finance: PULSE overview in dark mode",
       "uk": "Atlas Finance: огляд PULSE у темній темі"
@@ -392,7 +392,7 @@
     "id": "atlas-transfers",
     "file": "shots/atlas/transfers.png",
     "ratio": "16/9",
-    "size": "1280×720",
+    "size": "2560×1440",
     "alt": {
       "en": "Atlas Finance: transfer recipient selection and summary",
       "uk": "Atlas Finance: вибір отримувача та підсумок переказу"

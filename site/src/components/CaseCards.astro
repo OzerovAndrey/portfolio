@@ -30,8 +30,14 @@ const covers = [
   {[0, 1, 2].map((i) => (
     <li class="case">
       <div class="case__media">
+        {i === 2 ? <>
+          <img src={covers[i].light.src} width={covers[i].light.width} height={covers[i].light.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--light" />
+          <img src={covers[i].dark.src} width={covers[i].dark.width} height={covers[i].dark.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--dark" />
+        </> : <>
         <Image src={covers[i].light} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].light.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--light" />
         <Image src={covers[i].dark} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].dark.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--dark" />
+        </>}
+
       </div>
       <div class="case__body">
         <span class="case__head"><Icon name={i === 1 ? "palette" : "window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
