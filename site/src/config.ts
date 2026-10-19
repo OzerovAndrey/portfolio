@@ -20,6 +20,8 @@ export const yearsSince = (ym: string, now = new Date()) => {
 
 export const config = {
   name: "Andrey Ozerov",
+  driveUrl: "https://ozerovandrey.github.io/drive/",
+  driveSourceUrl: "https://github.com/OzerovAndrey/drive",
   atlasUrl: "https://ozerovandrey.github.io/atlas-finance/",
   atlasSourceUrl: "https://github.com/OzerovAndrey/atlas-finance",
   demoUrl: "https://ozerovandrey.github.io/multibrand-design-system/",

@@ -2,7 +2,7 @@
 // Три карточки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
 // Обкладинки — src/assets/cases/*-{light,dark}.webp (16:9), реальні кадри:
 //   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
-//   site  — головна цього сайту (hero з постером демо).
+//   Drive — головна автомобільного демо, PNG 2× без втрат.
 // Atlas — справжній огляд банківського демо.
 import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
@@ -12,8 +12,8 @@ import aurumLight from "../assets/cases/aurum-light.webp";
 import aurumDark from "../assets/cases/aurum-dark.webp";
 import atlasLight from "../assets/shots/atlas/light.png";
 import atlasDark from "../assets/shots/atlas/dark.png";
-import siteLight from "../assets/cases/site-light.webp";
-import siteDark from "../assets/cases/site-dark.webp";
+import driveLight from "../assets/shots/drive/light.png";
+import driveDark from "../assets/shots/drive/dark.png";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
@@ -22,7 +22,7 @@ const c = d.cases.items;
 const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
   { light: aurumLight, dark: aurumDark, alt: c[0].mediaAlt },
-  { light: siteLight, dark: siteDark, alt: c[1].mediaAlt },
+  { light: driveLight, dark: driveDark, alt: c[1].mediaAlt },
   { light: atlasLight, dark: atlasDark, alt: c[2].mediaAlt },
 ];
 ---
@@ -30,7 +30,7 @@ const covers = [
   {[0, 1, 2].map((i) => (
     <li class="case">
       <div class="case__media">
-        {i === 2 ? <>
+        {i !== 0 ? <>
           <img src={covers[i].light.src} width={covers[i].light.width} height={covers[i].light.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--light" />
           <img src={covers[i].dark.src} width={covers[i].dark.width} height={covers[i].dark.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--dark" />
         </> : <>
@@ -40,10 +40,10 @@ const covers = [
 
       </div>
       <div class="case__body">
-        <span class="case__head"><Icon name={i === 1 ? "palette" : "window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
+        <span class="case__head"><Icon name={"window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
         <h3 class="case__title ts-title-t4">{c[i].title}</h3>
         <p class="case__detail ts-body-md-regular">{c[i].detail}</p>
-        <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={i === 0 ? href(lang, "cases/aurum-multibrand") : i === 1 ? href(lang, "approach") : href(lang, "cases/atlas-finance")} data-event={i === 0 ? "case_aurum" : i === 1 ? "case_site" : "case_atlas"}>{c[i].cta}</Button>
+        <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={i === 0 ? href(lang, "cases/aurum-multibrand") : i === 1 ? href(lang, "cases/drive") : href(lang, "cases/atlas-finance")} data-event={i === 0 ? "case_aurum" : i === 1 ? "case_drive" : "case_atlas"}>{c[i].cta}</Button>
       </div>
     </li>
   ))}

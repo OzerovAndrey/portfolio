@@ -51,6 +51,7 @@
 - Скріни `/approach` — `site/src/assets/shots/**.webp` з маніфесту `shots.json`. Перезняти: `node tools/shots/render.mjs [id …]` (DEMO_DIST, DEMO_REPO).
   Кадри інструментів — відтворення на даних репо, не вигадані значення. Помітно змінився вигляд демо → перезняти.
 - Обкладинки карток кейсів — `site/src/assets/cases/{aurum,site}-{light,dark}.webp` (16:9, реальні кадри: aurum — банер демо, розрізаний на 4 бренди з `shots/brand-morph`; site — головна сайту з постером демо в hero). Помітно змінився вигляд демо або hero → перезняти.
+- Drive: `site/src/assets/shots/drive/*.png` — реальні кадри 2560×1440, 2×, без втратного перекодування (`Shot original` і оригінальні PNG у картках).
 - Atlas: `site/src/assets/shots/atlas/*.png` — оригінальні кадри 2560×1440 (інтерфейс 1280×720, відрендерений у 2×). У Shot використовувати `original`, обкладинки також показувати з вихідного PNG: без втратного перекодування та збільшення малого растра.
 - Фото для `/about` — `site/src/assets/about/portrait.(jpg|png|webp)`; поки файлу немає — монограма.
 - Постер демо — `site/public/demo/poster-{wide,mid,mobile}-{light,dark}.webp` (кадри демо в пропорціях рамки 27:25, 4:5, 9:16@2x,

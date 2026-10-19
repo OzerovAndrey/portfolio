@@ -401,5 +401,47 @@
       "en": "Atlas Finance: transfer recipient selection and summary",
       "uk": "Atlas Finance: вибір отримувача та підсумок переказу"
     }
+  },
+  {
+    "id": "drive-home",
+    "file": "shots/drive/light.png",
+    "ratio": "16/9",
+    "size": "2560×1440",
+    "alt": {
+      "en": "DRIVE: TORQ automotive home in light mode",
+      "uk": "DRIVE: автомобільна головна TORQ у світлій темі"
+    },
+    "what": {
+      "en": "DRIVE: TORQ automotive home in light mode",
+      "uk": "DRIVE: автомобільна головна TORQ у світлій темі"
+    }
+  },
+  {
+    "id": "drive-forma",
+    "file": "shots/drive/forma.png",
+    "ratio": "16/9",
+    "size": "2560×1440",
+    "alt": {
+      "en": "DRIVE: FORMA brand on the same discovery platform",
+      "uk": "DRIVE: бренд FORMA у спільній автомобільній платформі"
+    },
+    "what": {
+      "en": "DRIVE: FORMA brand on the same discovery platform",
+      "uk": "DRIVE: бренд FORMA у спільній автомобільній платформі"
+    }
+  },
+  {
+    "id": "drive-configurator",
+    "file": "shots/drive/configurator.png",
+    "ratio": "16/9",
+    "size": "2560×1440",
+    "alt": {
+      "en": "DRIVE: four-step FORMA X3 configurator",
+      "uk": "DRIVE: чотирикроковий конфігуратор FORMA X3"
+    },
+    "what": {
+      "en": "DRIVE: four-step FORMA X3 configurator",
+      "uk": "DRIVE: чотирикроковий конфігуратор FORMA X3"
+    }
   }
 ]

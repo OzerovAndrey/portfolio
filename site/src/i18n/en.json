@@ -16,7 +16,9 @@
     "caseAurumTitle": "Aurum Multibrand — case study · Andrey Ozerov",
     "caseAurumDescription": "One casino lobby in four brands and two themes on one set of components: context, problem, token architecture, results and what I would do differently.",
     "caseAtlasTitle": "Atlas Finance — case study",
-    "caseAtlasDescription": "A multi-brand banking case study: four identities, two themes and seven interactive modules built on one token system."
+    "caseAtlasDescription": "A multi-brand banking case study: four identities, two themes and seven interactive modules built on one token system.",
+    "caseDriveTitle": "DRIVE — case study",
+    "caseDriveDescription": "DRIVE automotive case study: three brands, two themes and a connected discovery, comparison and configuration journey."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -338,11 +340,11 @@
         "mediaAlt": "The same banner illustration sliced across the four demo brands: Aurum, Nova, Fiesta, Ultra"
       },
       {
-        "tag": "This site",
-        "title": "A portfolio on its own brand",
-        "detail": "This site runs on the same token system as the demo, as a separate brand called site.",
-        "cta": "How it's built",
-        "mediaAlt": "Home page of this site: the hero with the live demo"
+        "tag": "Automotive demo",
+        "title": "DRIVE",
+        "detail": "Discover, compare and configure a car. Three brand identities connect expressive design with a practical selection journey.",
+        "cta": "Read the case",
+        "mediaAlt": "DRIVE TORQ automotive home page with a studio coupe and the heading Find your next obsession"
       },
       {
         "tag": "Fintech demo",
@@ -379,7 +381,7 @@
         "detail": "One honest paragraph."
       }
     ],
-    "formatLead": "Aurum and Atlas follow the same five parts: from the product context to what I would improve next."
+    "formatLead": "Aurum, DRIVE and Atlas follow the same five parts: from the product context to what I would improve next."
   },
   "approach": {
     "title": "How the system is built",
@@ -925,6 +927,104 @@
     ],
     "differentTitle": "What I would develop next",
     "different": "The next step is to validate the longer tasks with people: finding a payment, reviewing a transfer and managing a card. The demo makes these journeys testable; usability sessions would show where the hierarchy and feedback need work before expanding the product.",
+    "backToWork": "All work"
+  },
+  "caseDrive": {
+    "tag": "Automotive · interactive demo",
+    "title": "DRIVE",
+    "lead": "From the first impression to a considered choice. An automotive discovery platform that connects browsing, comparison and configuration across three distinct brands.",
+    "facts": [
+      {
+        "k": "Role",
+        "items": [
+          "Product / UX design",
+          "Design system",
+          "Front-end implementation"
+        ]
+      },
+      {
+        "k": "Scope",
+        "items": [
+          "3 brands × 2 themes",
+          "Discovery to demo test drive"
+        ]
+      },
+      {
+        "k": "Stack",
+        "items": [
+          "React",
+          "TypeScript",
+          "Tokens Studio",
+          "Figma",
+          "CSS variables"
+        ]
+      },
+      {
+        "k": "Status",
+        "items": [
+          "Live interactive demo",
+          "Fictional automotive concepts"
+        ]
+      }
+    ],
+    "ctaDemo": "Open the live demo",
+    "ctaApproach": "View the source",
+    "ctaContact": "Discuss your product",
+    "contextTitle": "Context",
+    "context": "Choosing a car moves between emotion and detail: a striking first impression, practical requirements and a clear view of the options. DRIVE connects those moments in one journey. Technological VOLT, performance-led TORQ and considered FORMA share the same catalogue and product logic. This is a self-initiated portfolio project with fictional cars, specifications and prices; test-drive confirmations stay inside the demo.",
+    "problemTitle": "Problem",
+    "problems": [
+      {
+        "title": "Inspiration needs a next step",
+        "detail": "A cinematic landing page should lead somewhere useful: filters, a relevant shortlist and details that help someone make a decision."
+      },
+      {
+        "title": "Comparisons must reduce effort",
+        "detail": "Saving cars and viewing differences side by side should make trade-offs easier to understand without losing the selection."
+      },
+      {
+        "title": "Three identities, one journey",
+        "detail": "Typography, tone and geometry can change between brands while filters, saved cars and configurations stay intact."
+      }
+    ],
+    "solutionTitle": "Solution",
+    "solutionLead": "One shared React product and six token layers connect the expressive landing page with practical selection tools. The journey continues through a guided match finder, comparison, model details and a four-step configurator with an itemized price.",
+    "layersLabel": "Token layers, top to bottom",
+    "layers": {
+      "components": "Shared cards, filters, comparison tables and configuration controls.",
+      "theme": "Light and dark surfaces, content, borders and interaction states.",
+      "typography": "Brand-specific type with a consistent content hierarchy.",
+      "map": "Color ramps resolved from each brand palette.",
+      "brand": "VOLT, TORQ and FORMA identity, type and geometry.",
+      "core": "Shared scales for spacing, dimensions and shapes."
+    },
+    "brandNote": "changes per brand",
+    "perBrand": "per brand",
+    "componentsUnit": "components",
+    "shotsCaption": [
+      "FORMA: a quieter identity and editorial type within the same discovery platform.",
+      "Four-step configuration: exterior, interior, packages and summary, with a live configured price."
+    ],
+    "resultTitle": "Result",
+    "results": [
+      {
+        "amount": "{brands}",
+        "label": "distinct identities",
+        "detail": "VOLT, TORQ and FORMA express different characters through the shared token architecture."
+      },
+      {
+        "amount": "{combos}",
+        "label": "brand and theme combinations",
+        "detail": "Three brands, each in light and dark, share the same components and product state."
+      },
+      {
+        "amount": "{steps}",
+        "label": "configuration steps",
+        "detail": "Exterior, interior, compatible packages and a summary that can be downloaded as JSON."
+      }
+    ],
+    "differentTitle": "What I would develop next",
+    "different": "I would test how people move from inspiration to comparison: which specifications they need first, when a guided shortlist helps and where configuration becomes work. I would also develop dedicated imagery for each model and option; the current demo uses reference photography and swatches rather than simulating paint and interior changes.",
     "backToWork": "All work"
   }
 }
