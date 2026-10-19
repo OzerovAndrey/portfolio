@@ -4,7 +4,7 @@ interface Props { lang: Locale; src: string; title: string }
 const { lang, src, title } = Astro.props;
 const copy = t(lang).productPreview;
 ---
-<section class="preview" data-product-preview aria-label={copy.label}>
+<section class="product-preview" data-product-preview aria-label={copy.label}>
   <div class="toolbar" role="group" aria-label={copy.label}>
     <button class="preset ts-label-sm" data-full aria-pressed="true">{copy.full}</button>
     {[375,768,1024,1280,1440].map(width => <button class="preset ts-label-sm" data-width={width} aria-pressed="false">{width}</button>)}
@@ -95,7 +95,7 @@ const copy = t(lang).productPreview;
   });
 </script>
 <style>
-  .preview { min-width: 0; width: 100%; }
+  .product-preview { min-width: 0; width: 100%; }
   .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-gap-sm); }
   .preset { padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
   .preset[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
@@ -103,7 +103,7 @@ const copy = t(lang).productPreview;
   .workspace { position: relative; max-width: 100%; padding: var(--space-padding-md); box-sizing: border-box; }
   .screen { position: relative; overflow: hidden; background: var(--caseCard-bg-default); outline: var(--borderWidth-control) solid var(--demoFrame-br); }
   iframe { position: absolute; inset: 0; max-width: none; border: 0; transform-origin: top left; }
-  .ruler { opacity: var(--preview-ruler-opacity); position: absolute; overflow: hidden; color: var(--positioning-label-color); background: var(--demoFrame-placeholder-bg); font-variant-numeric: tabular-nums; }
+  .ruler { opacity: var(--preview-ruler-opacity); position: absolute; overflow: hidden; color: var(--positioning-label-color); background: transparent; font-variant-numeric: tabular-nums; }
   .ruler-x { top: 0; left: var(--space-padding-md); right: var(--space-padding-md); height: var(--space-padding-md); }
   .ruler-y { left: 0; top: var(--space-padding-md); bottom: var(--space-padding-md); width: var(--space-padding-md); }
   .origin { opacity: var(--preview-ruler-opacity); position: absolute; top: 0; left: 0; color: var(--positioning-label-color); }
