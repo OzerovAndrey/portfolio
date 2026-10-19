@@ -1,5 +1,5 @@
 ---
-// Hero: живий Atlas Finance. Власні перемикачі бренду й теми зберігають стан демо.
+// Hero: живий DRIVE. Власні перемикачі бренду й теми зберігають стан демо.
 import Button from "./Button.astro";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
@@ -7,7 +7,7 @@ import { t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const h = t(lang).hero;
-const live = new URL(config.atlasUrl);
+const live = new URL(config.driveUrl);
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
@@ -20,7 +20,7 @@ const live = new URL(config.atlasUrl);
       </div>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
       <div class="hero__actions">
-        <Button size="lg" icon="arrowUpRight" href={config.atlasUrl} data-live-link target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
+        <Button size="lg" icon="arrowUpRight" href={config.driveUrl} data-live-link target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
         <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--desktop" data-explore data-event="cta_explore">{h.ctaHow}</Button>
       </div>
     </div>
@@ -43,7 +43,7 @@ const live = new URL(config.atlasUrl);
   const siteTheme = (): Theme => (html.dataset.theme === "dark" ? "dark" : "light");
   /** <html> демо в iframe — той самий origin (GitHub Pages); локально (інший порт) — null */
   const demoRoot = (f: HTMLIFrameElement | null) => { try { return f?.contentDocument?.documentElement ?? null; } catch { return null; } };
-  // Atlas має власний React-перемикач теми. На тому самому origin синхронізуємо
+  // DRIVE має власний React-перемикач теми. На тому самому origin синхронізуємо
   // через нього, щоб DOM, стан React і контрол залишались узгодженими.
   function syncTheme(iframe: HTMLIFrameElement) {
     let pinned = false;
@@ -56,7 +56,7 @@ const live = new URL(config.atlasUrl);
         return;
       }
       const r = demoRoot(iframe);
-      const sw = r?.querySelector<HTMLButtonElement>('[role="switch"][aria-label="Dark theme"]');
+      const sw = r?.querySelector<HTMLButtonElement>('button.theme-toggle');
       if (!r || !sw) return;
       expected = siteTheme();
       if (r.dataset.theme !== expected) sw.click();
