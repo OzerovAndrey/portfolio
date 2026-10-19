@@ -4,6 +4,7 @@
 import Base from "../../../layouts/Base.astro";
 import Button from "../../../components/Button.astro";
 import Icon from "../../../components/Icon.astro";
+import ProductPreview from "../../../components/ProductPreview.astro";
 import Shot from "../../../components/Shot.astro";
 import meta from "../../../generated/demo/meta.json";
 import { config } from "../../../config";
@@ -52,7 +53,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
         <Button size="lg" icon="arrowUpRight" href={config.demoUrl} target="_blank" rel="noopener" data-event="case_aurum_demo">{c.ctaDemo}</Button>
         <Button size="lg" variant="secondary" icon="arrowRight" href={href(lang, "approach")} data-event="case_aurum_approach">{c.ctaApproach}</Button>
       </div>
-      <Shot id="comp-four-brands" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" loading="eager" />
+      <ProductPreview lang={lang} src={config.demoUrl} title={c.title} />
     </div>
   </section>
 

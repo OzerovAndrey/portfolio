@@ -3,6 +3,7 @@
 import Base from "../../../layouts/Base.astro";
 import Button from "../../../components/Button.astro";
 import Icon from "../../../components/Icon.astro";
+import ProductPreview from "../../../components/ProductPreview.astro";
 import Shot from "../../../components/Shot.astro";
 
 import { config } from "../../../config";
@@ -46,7 +47,7 @@ const FACTS = [{ i: 1, icon: "grid" }, { i: 0, icon: "user" }, { i: 3, icon: "ac
         <Button size="lg" icon="arrowUpRight" href={config.driveUrl} target="_blank" rel="noopener" data-event="case_drive_demo">{c.ctaDemo}</Button>
         <Button size="lg" variant="secondary" icon="arrowRight" href={config.driveSourceUrl} data-event="case_drive_approach">{c.ctaApproach}</Button>
       </div>
-      <Shot original id="drive-home" lang={lang} sizes="(min-width: 1280px) 1232px, 100vw" loading="eager" />
+      <ProductPreview lang={lang} src={config.driveUrl} title={c.title} />
     </div>
   </section>
 

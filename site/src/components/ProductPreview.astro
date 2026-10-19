@@ -1,0 +1,83 @@
+---
+import { t, type Locale } from "../i18n";
+interface Props { lang: Locale; src: string; title: string }
+const { lang, src, title } = Astro.props;
+const h = t(lang).hero;
+---
+<div class="product-preview" data-product-preview>
+      <div class="hero__devices" role="group" aria-label={h.devicesLabel}>
+        {h.devices.map((label, i) => <button type="button" class="hero__device-tab ts-label-sm" data-device-select={i} aria-pressed={i === 0} title={["Studio Display XDR", "MacBook Pro 14″ · M5 Pro", "iPhone 18 Pro"][i]}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{i === 0 ? <><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></> : i === 1 ? <><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M2 18h20l-2 2H4Z"/></> : <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M10 19h4"/></>}</svg>{label}
+        </button>)}
+      </div>
+      <div class="hero__device-stage" data-device="0">
+      <div class="hero__device-body">
+      <div class="hero__live" data-preview-frame>
+        <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
+        <iframe class="hero__iframe" data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin" data-preview-iframe></iframe>
+        <span class="hero__demo-hint ts-label-sm" >{h.demoHint}</span>
+
+        <noscript><iframe class="hero__iframe" src={src} title={title}></iframe></noscript>
+      </div>
+      <div class="hero__device-foot" aria-hidden="true"></div>
+      </div>
+      </div>
+      <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">Studio Display XDR</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-product-preview]").forEach(root => {
+    const frame = root.querySelector<HTMLElement>("[data-preview-frame]")!;
+    const iframe = root.querySelector<HTMLIFrameElement>("[data-preview-iframe]")!;
+    const stage = root.querySelector<HTMLElement>("[data-device]")!;
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-device-select]");
+    const label = root.querySelector<HTMLElement>("[data-device-name]")!;
+    const devices = [{ width: 1440, name: "Studio Display XDR" }, { width: 1024, name: "MacBook Pro 14″ · M5 Pro" }, { width: 402, name: "iPhone 18 Pro" }];
+    let selected = matchMedia("(max-width: 767px)").matches ? 2 : 0;
+    const fit = () => {
+      const width = frame.clientWidth;
+      if (!width || !frame.clientHeight) return;
+      const scale = width / devices[selected].width;
+      iframe.style.width = `${devices[selected].width}px`;
+      iframe.style.height = `${frame.clientHeight / scale}px`;
+      iframe.style.transform = `scale(${scale})`;
+    };
+    const select = (index: number) => {
+      selected = index;
+      stage.dataset.device = String(index);
+      tabs.forEach((tab, i) => tab.setAttribute("aria-pressed", String(i === index)));
+      label.textContent = devices[index].name;
+      fit();
+    };
+    tabs.forEach((tab, i) => tab.addEventListener("click", () => select(i)));
+    select(selected);
+    new ResizeObserver(fit).observe(frame);
+    iframe.src = iframe.dataset.src!;
+  });
+</script>
+<style>
+  .hero__devices { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-gap-sm); }
+  .hero__device-tab { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
+  .hero__device-tab svg { width: var(--iconSize-md); height: var(--iconSize-md); }
+  .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
+  .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
+  .hero__device-stage { display: grid; place-items: center; aspect-ratio: 1.4; width: 100%; }
+  .hero__device-body { margin-bottom: 10%; width: 100%; position: relative; padding: var(--space-gap-sm); border-radius: var(--space-padding-md); background: var(--device-bezel); transform: translateY(var(--frame-hover-y, 0%)); transition: transform var(--motion-duration-base) var(--motion-easing-out), scale var(--motion-duration-base) var(--motion-easing-out), box-shadow var(--motion-duration-base) var(--motion-easing-out); border: var(--borderWidth-control) solid var(--device-metal); box-shadow: var(--demoFrame-float-boxShadow); }
+  .hero__device-foot { position: absolute; top: 100%; left: 41%; width: 18%; height: 16%; background: linear-gradient(90deg, var(--device-metal), var(--device-highlight), var(--device-metal)); clip-path: polygon(25% 0, 75% 0, 82% 85%, 100% 94%, 100% 100%, 0 100%, 0 94%, 18% 85%); }
+  .hero__device-name { text-align: center; color: var(--positioning-label-color); margin-bottom: var(--space-padding-md); }
+  [data-device="1"] .hero__device-body { margin-bottom: 0; width: 92%; border-radius: var(--space-padding-md) var(--space-padding-md) 0 0; }
+  [data-device="1"] .hero__live { aspect-ratio: 16 / 10; }
+  [data-device="1"] .hero__device-foot { left: -5%; width: 110%; height: 5%; clip-path: polygon(0 0,100% 0,98% 80%,92% 100%,8% 100%,2% 80%); }
+  [data-device="2"] .hero__device-body { margin-bottom: 0; width: min(28%, calc(var(--container-maxWidth) / 3)); padding: var(--space-padding-xl) var(--space-gap-sm) var(--space-gap-sm); border-radius: calc(var(--demoFrame-borderRadius) * 1.6); }
+  [data-device="2"] .hero__live { aspect-ratio: 402 / 840; border-radius: calc(var(--demoFrame-borderRadius) * 1.3); }
+  [data-device="2"] .hero__device-body::before { content: ""; position: absolute; z-index: 4; pointer-events: none; width: 24%; height: 2%; border-radius: var(--borderRadius-pill); top: 2.5%; left: 38%; background: var(--device-bezel); }
+  [data-device="2"] .hero__device-foot { display: none; }
+  @media (max-width: 767px) { .hero__device-stage { aspect-ratio: .6; } [data-device="2"] .hero__device-body { margin-bottom: 0; width: 70%; } }
+
+
+  .product-preview { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-padding-md); }
+  .hero__live { position: relative; overflow: hidden; min-width: 0; aspect-ratio: 16 / 9; border-radius: var(--space-gap-sm); background: var(--device-bezel); }
+  .hero__iframe { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
+  .hero__demo-hint { display: none; }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .hero__device-body:hover { --frame-hover-y: calc(var(--motion-nudge) * -2); } }
+</style>

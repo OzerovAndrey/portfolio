@@ -26,13 +26,6 @@ const live = new URL(config.driveUrl);
     </div>
 
     <div class="hero__product">
-      <div class="hero__devices" role="group" aria-label={h.devicesLabel}>
-        {h.devices.map((label, i) => <button type="button" class="hero__device-tab ts-label-sm" data-device-select={i} aria-pressed={i === 0} title={["Studio Display XDR", "MacBook Pro 14″ · M5 Pro", "iPhone 18 Pro"][i]}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{i === 0 ? <><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></> : i === 1 ? <><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M2 18h20l-2 2H4Z"/></> : <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M10 19h4"/></>}</svg>{label}
-        </button>)}
-      </div>
-      <div class="hero__device-stage" data-device="0">
-      <div class="hero__device-body">
       <div class="hero__live" data-live-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={live.href} title={h.liveTitle} referrerpolicy="strict-origin-when-cross-origin" data-live-iframe></iframe>
@@ -40,10 +33,6 @@ const live = new URL(config.driveUrl);
         <span class="hero__demo-ring" data-demo-ring hidden aria-hidden="true"></span>
         <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
       </div>
-      <div class="hero__device-foot" aria-hidden="true"></div>
-      </div>
-      </div>
-      <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">Studio Display XDR</p>
       <!-- мобільні: другорядна дія — після живої системи -->
       <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--mobile" data-explore data-event="cta_explore">{h.ctaHow}</Button>
     </div>
@@ -169,33 +158,22 @@ const live = new URL(config.driveUrl);
 
   const root = document.querySelector<HTMLElement>("[data-hero]");
   if (root) {
-    // Один iframe зберігає стан; змінюємо лише віртуальну ширину під обраний пристрій.
+    // Жива система: рамка задає розмір (aspect-ratio), iframe підганяється. Рамка ≥ 448 — десктоп-розкладка демо (від 768) на віртуальній
+    // ширині 960 (рамка ≥ 600) або 800 (вужча, напр. 1024 у дві колонки) і масштаб = ширина рамки / віртуальна; вужча за 448 —
+    // рідна мобільна розкладка демо 1:1. Без JS iframe просто заповнює рамку
     const frame = root.querySelector<HTMLElement>("[data-live-frame]");
     const iframe = root.querySelector<HTMLIFrameElement>("[data-live-iframe]");
     if (frame && iframe) {
-      const stage = root.querySelector<HTMLElement>(".hero__device-stage")!;
-      const tabs = root.querySelectorAll<HTMLButtonElement>("[data-device-select]");
-      const deviceName = root.querySelector<HTMLElement>("[data-device-name]")!;
-      const devices = [{ width: 1440, name: "Studio Display XDR" }, { width: 1024, name: "MacBook Pro 14″ · M5 Pro" }, { width: 402, name: "iPhone 18 Pro" }];
-      let selected = matchMedia("(max-width: 767px)").matches ? 2 : 0;
+      const MIN_SCALED = 448;
       const fit = () => {
         const w = frame.clientWidth, hgt = frame.clientHeight;
         if (!w || !hgt) return;
-        const virtual = devices[selected].width;
-        const k = w / virtual;
+        const virtual = w >= 600 ? 960 : 800;
+        const k = w >= MIN_SCALED ? Math.min(1, w / virtual) : 1;
         iframe.style.width = `${w / k}px`;
         iframe.style.height = `${hgt / k}px`;
         iframe.style.transform = k === 1 ? "" : `scale(${k})`;
       };
-      const select = (index: number) => {
-        selected = index;
-        stage.dataset.device = String(index);
-        tabs.forEach((tab, i) => tab.setAttribute("aria-pressed", String(i === index)));
-        deviceName.textContent = devices[index].name;
-        fit();
-      };
-      tabs.forEach((tab, i) => tab.addEventListener("click", () => select(i)));
-      select(selected);
       new ResizeObserver(fit).observe(frame);
       fit();
       introduceDemo(frame, iframe);
@@ -204,6 +182,30 @@ const live = new URL(config.driveUrl);
         iframe.src = src.href;
       }
       syncTheme(iframe);
+    }
+    // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс до −drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
+    // 1 — виходить угорі); y = −(p − p0) / (1 − p0) відносно стартового p0 → у спокої рамка на місці (відступ від хедера
+    // не з'їдається), при скролі вниз плавно йде вгору. CSS множить y на токен drift. Тільки transform, один кадр на rAF
+    if (frame && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      let raf = 0;
+      // позиція рамки в документі без поточного зсуву: p0 — її шлях при scrollY = 0
+      const path = (top: number, h: number, vh: number) => Math.min(1, Math.max(0, (vh - top) / (vh + h)));
+      let p0 = 0;
+      const measure = () => { const r = frame.getBoundingClientRect(); p0 = path(r.top + scrollY - frameShift(), r.height, innerHeight); };
+      const frameShift = () => new DOMMatrixReadOnly(getComputedStyle(frame).transform).m42;
+      const drift = () => {
+        raf = 0;
+        const r = frame.getBoundingClientRect(), vh = innerHeight;
+        if (r.bottom < 0 || r.top > vh) return;
+        const p = path(r.top - frameShift(), r.height, vh);
+        const y = p0 >= 1 ? 0 : -Math.max(0, p - p0) / (1 - p0);
+        frame.style.setProperty("--float-y", y.toFixed(4));
+      };
+      const queue = () => { if (!raf) raf = requestAnimationFrame(drift); };
+      addEventListener("scroll", queue, { passive: true });
+      addEventListener("resize", () => { measure(); queue(); });
+      measure();
+      drift();
     }
 
   }
@@ -239,40 +241,31 @@ const live = new URL(config.driveUrl);
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   /* Вузькі екрани: CTA стовпчиком — перенос кнопок не залежить від підміни шрифту (CLS) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
-  .hero__product { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-gap-xl); min-width: 0; }
+  .hero__product { display: grid; gap: var(--space-gap-xl); min-width: 0; }
 
   /* друга дія: на десктопі поруч з основною, на мобільних — під сценою */
   .hero__product :global(.hero__more--mobile) { justify-self: center; }
   @media (max-width: 1023px) { .hero__actions :global(.hero__more--desktop) { display: none; } }
   @media (min-width: 1024px) { .hero__product :global(.hero__more--mobile) { display: none; } }
-
-  .hero__devices { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-gap-sm); }
-  .hero__device-tab { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
-  .hero__device-tab svg { width: var(--iconSize-md); height: var(--iconSize-md); }
-  .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
-  .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
-  .hero__device-stage { display: grid; place-items: center; aspect-ratio: 1.12; width: 100%; }
-  .hero__device-body { width: 100%; position: relative; padding: var(--space-gap-sm); border-radius: var(--space-padding-md); background: var(--device-bezel); transform: translateY(var(--frame-hover-y, 0%)); transition: transform var(--motion-duration-base) var(--motion-easing-out), scale var(--motion-duration-base) var(--motion-easing-out), box-shadow var(--motion-duration-base) var(--motion-easing-out); border: var(--borderWidth-control) solid var(--device-metal); box-shadow: var(--demoFrame-float-boxShadow); }
-  .hero__device-foot { position: absolute; top: 100%; left: 41%; width: 18%; height: 16%; background: linear-gradient(90deg, var(--device-metal), var(--device-highlight), var(--device-metal)); clip-path: polygon(25% 0, 75% 0, 82% 85%, 100% 94%, 100% 100%, 0 100%, 0 94%, 18% 85%); }
-  .hero__device-name { text-align: center; color: var(--positioning-label-color); margin-bottom: var(--space-padding-md); }
-  [data-device="1"] .hero__device-body { width: 92%; border-radius: var(--space-padding-md) var(--space-padding-md) 0 0; }
-  [data-device="1"] .hero__live { aspect-ratio: 16 / 10; }
-  [data-device="1"] .hero__device-foot { left: -5%; width: 110%; height: 5%; clip-path: polygon(0 0,100% 0,98% 80%,92% 100%,8% 100%,2% 80%); }
-  [data-device="2"] .hero__device-body { width: 44%; padding: var(--space-gap-sm); border-radius: calc(var(--demoFrame-borderRadius) * 1.6); }
-  [data-device="2"] .hero__live { aspect-ratio: 402 / 840; border-radius: calc(var(--demoFrame-borderRadius) * 1.3); }
-  [data-device="2"] .hero__device-body::before { content: ""; position: absolute; z-index: 4; pointer-events: none; width: 24%; height: 2%; border-radius: var(--borderRadius-pill); top: 2.5%; left: 38%; background: var(--device-bezel); }
-  [data-device="2"] .hero__device-foot { display: none; }
-  @media (max-width: 767px) { .hero__device-stage { aspect-ratio: .85; } [data-device="2"] .hero__device-body { width: 64%; } }
-
   /* Рамка живої системи: нейтральна, тонка межа, стриманий радіус, без хрому браузера й світіння. Колір дає сама система */
   .hero__live {
-    position: relative; overflow: hidden; min-width: 0; aspect-ratio: 16 / 9;
-    background: var(--demoFrame-placeholder-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--space-gap-sm);
-
+    position: relative; overflow: hidden; min-width: 0; aspect-ratio: 9 / 14;
+    background: var(--demoFrame-placeholder-bg); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius);
+    /* «висить у повітрі»: багатошарова тінь + паралакс (--float-y 0…−1 ставить скрипт) + підйом при появі сторінки.
+       translate (поява) і transform (скрол) — окремі властивості, тож не перебивають одна одну */
+    box-shadow: var(--demoFrame-float-boxShadow);
+    transform: translate3d(0, calc(var(--float-y, 0) * var(--demoFrame-float-drift) + var(--frame-hover-y, 0%)), 0);
+    transition: transform var(--motion-duration-base) var(--motion-easing-out), scale var(--motion-duration-base) var(--motion-easing-out), box-shadow var(--motion-duration-base) var(--motion-easing-out), border-color var(--motion-duration-base) var(--motion-easing-out);
+    will-change: transform;
+    animation: hero-float-in var(--demoFrame-float-duration) var(--demoFrame-float-easing) both;
   }
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .hero__device-body:hover { --frame-hover-y: calc(var(--motion-nudge) * -2); scale: 1.008; box-shadow: var(--demoFrame-float-boxShadow), var(--demoFrame-float-boxShadow); border-color: var(--focus-outline-color); }
+    .hero__live:hover { --frame-hover-y: calc(var(--motion-nudge) * -2); scale: 1.008; box-shadow: var(--demoFrame-float-boxShadow), var(--demoFrame-float-boxShadow); border-color: var(--focus-outline-color); }
   }
+  @keyframes hero-float-in {
+    from { translate: 0 var(--demoFrame-float-rise); opacity: 0; box-shadow: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero__live { transform: none; will-change: auto; animation: none; } }
   /* max-width: none — глобальне iframe { max-width: 100% } (base.css) інакше обрізає віртуальну ширину до рамки */
   .hero__demo-hint { position: absolute; z-index: 2; top: var(--space-gap-md); left: var(--space-gap-md); right: var(--space-gap-md); width: fit-content; max-width: calc(100% - var(--space-gap-md) * 2); padding: var(--space-gap-sm) var(--space-gap-md); border-radius: var(--glass-borderRadius); background: var(--glass-bg); color: var(--glass-color-default); backdrop-filter: var(--glass-backdropFilter); box-shadow: var(--glass-boxShadow); opacity: 0; pointer-events: none; transition: opacity var(--motion-duration-base) var(--motion-easing-out); }
   .hero__demo-ring { position: absolute; z-index: 2; pointer-events: none; border: var(--focus-outline-borderWidth) solid var(--caseCard-bg-default); border-radius: var(--demoFrame-borderRadius); box-shadow: 0 0 0 var(--focus-outline-borderWidth) var(--focus-outline-color); opacity: 0; }
@@ -280,8 +273,8 @@ const live = new URL(config.driveUrl);
   @media (prefers-reduced-motion: no-preference) { [data-demo-intro] .hero__demo-ring { animation: demo-panel-hint calc(var(--motion-duration-slow) * 4) var(--motion-easing-out) 3; } }
   @keyframes demo-panel-hint { 50% { opacity: 0.3; } }
   .hero__iframe { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
-
-
+  @media (min-width: 480px) { .hero__live { aspect-ratio: 4 / 3; } }
+  @media (min-width: 1024px) { .hero__live { aspect-ratio: 8 / 7; } }
   @media (min-width: 1024px) { .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
   @media (min-width: 1280px) { .hero__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 7fr); } }
 </style>
