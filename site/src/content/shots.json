@@ -404,16 +404,16 @@
   },
   {
     "id": "drive-home",
-    "file": "shots/drive/light.png",
+    "file": "shots/drive/dark.png",
     "ratio": "16/9",
     "size": "2560×1440",
     "alt": {
-      "en": "DRIVE: TORQ automotive home in light mode",
-      "uk": "DRIVE: автомобільна головна TORQ у світлій темі"
+      "en": "DRIVE: TORQ automotive home in dark mode",
+      "uk": "DRIVE: автомобільна головна TORQ у темній темі"
     },
     "what": {
-      "en": "DRIVE: TORQ automotive home in light mode",
-      "uk": "DRIVE: автомобільна головна TORQ у світлій темі"
+      "en": "DRIVE: TORQ automotive home in dark mode",
+      "uk": "DRIVE: автомобільна головна TORQ у темній темі"
     }
   },
   {
