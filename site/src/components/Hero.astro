@@ -1,10 +1,5 @@
 ---
-// Hero (Home, перший екран): роль → твердження → CTA ліворуч, праворуч — СПРАВЖНЯ жива система в iframe (той самий origin, GitHub Pages).
-// iframe = миттєвий доказ, «Open live system ↗» = повноекранне дослідження. Стартовий стан демо — Aurum + тема сайту через ?brand&theme
-// (демо читає їх при старті). Далі iframe йде за темою сайту, доки відвідувач сам не перемкне тему всередині демо — після цього
-// тема системи незалежна. «Open live system» відкриває демо в тому бренді й темі, що зараз в iframe.
-// Розміри: рамка має фіксовані пропорції (aspect-ratio) → без CLS. Широка рамка: демо рендериться на віртуальній ширині
-// (десктоп-розкладка демо від 768) і пропорційно зменшується; вузька — рідна мобільна розкладка демо, без масштабу.
+// Hero: живий Atlas Finance. Власні перемикачі бренду й теми зберігають стан демо.
 import Button from "./Button.astro";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
@@ -12,10 +7,7 @@ import { t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const h = t(lang).hero;
-const live = new URL(config.demoUrl);
-live.searchParams.set("brand", "aurum");
-// без JS (noscript) — світла; зі JS тему підставляє скрипт з <html data-theme>
-live.searchParams.set("theme", "light");
+const live = new URL(config.atlasUrl);
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
@@ -28,7 +20,7 @@ live.searchParams.set("theme", "light");
       </div>
       <p class="hero__subtitle ts-body-lg-regular">{h.subtitle}</p>
       <div class="hero__actions">
-        <Button size="lg" icon="arrowUpRight" href={config.demoUrl} data-live-link target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
+        <Button size="lg" icon="arrowUpRight" href={config.atlasUrl} data-live-link target="_blank" rel="noopener" aria-label={h.ctaLiveLabel} data-event="cta_live_system">{h.ctaLive}</Button>
         <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--desktop" data-explore data-event="cta_explore">{h.ctaHow}</Button>
       </div>
     </div>
@@ -51,43 +43,35 @@ live.searchParams.set("theme", "light");
   const siteTheme = (): Theme => (html.dataset.theme === "dark" ? "dark" : "light");
   /** <html> демо в iframe — той самий origin (GitHub Pages); локально (інший порт) — null */
   const demoRoot = (f: HTMLIFrameElement | null) => { try { return f?.contentDocument?.documentElement ?? null; } catch { return null; } };
-  const demoLook = (f: HTMLIFrameElement | null) => {
-    const r = demoRoot(f);
-    return r?.dataset.theme ? { brand: r.dataset.brand ?? "aurum", theme: r.dataset.theme as Theme } : null;
-  };
-
-  // Тема iframe іде за темою сайту, поки відвідувач не перемкнув її в самому демо (свіч «Dark» або тур) — тоді система незалежна.
-  // Перемикаємо штатним свічем демо: та сама анімація, стан React і свіч не розходяться. Свіча нема / інший origin — перезапуск
-  // iframe з ?brand&theme (бренд зберігається).
+  // Atlas має власний React-перемикач теми. На тому самому origin синхронізуємо
+  // через нього, щоб DOM, стан React і контрол залишались узгодженими.
   function syncTheme(iframe: HTMLIFrameElement) {
-    let pinned = false, expected: Theme = siteTheme(), watching: MutationObserver | null = null;
-    const watch = () => {
-      watching?.disconnect(); watching = null;
+    let pinned = false;
+    let expected: Theme = siteTheme();
+    let watching: MutationObserver | null = null;
+    const follow = () => {
+      if (pinned) return;
+      if (html.dataset.themeTransition !== undefined) {
+        window.addEventListener("themetransitionend", follow, { once: true });
+        return;
+      }
+      const r = demoRoot(iframe);
+      const sw = r?.querySelector<HTMLButtonElement>('[role="switch"][aria-label="Dark theme"]');
+      if (!r || !sw) return;
+      expected = siteTheme();
+      if (r.dataset.theme !== expected) sw.click();
+    };
+    iframe.addEventListener("load", () => {
+      watching?.disconnect();
       const r = demoRoot(iframe);
       if (!r) return;
-      expected = (r.dataset.theme as Theme) || expected;
+      follow();
       watching = new MutationObserver(() => {
-        const now = r.dataset.theme as Theme;
-        if (now && now !== expected) pinned = true; // змінив відвідувач, не ми
+        const now = r.dataset.theme;
+        if (now && now !== expected) pinned = true;
       });
       watching.observe(r, { attributes: true, attributeFilter: ["data-theme"] });
-    };
-    iframe.addEventListener("load", watch);
-    const follow = () => {
-      // перехід теми сайту ще триває — свій перехід демо запускаємо після нього (одночасні View Transitions крешать Chrome)
-      if (html.dataset.themeTransition !== undefined) { window.addEventListener("themetransitionend", follow, { once: true }); return; }
-      const want = siteTheme();
-      if (pinned || !iframe.src) return;
-      const look = demoLook(iframe);
-      if (look?.theme === want) return;
-      expected = want;
-      const sw = demoRoot(iframe)?.querySelector<HTMLInputElement>('.panel__theme input[role="switch"]');
-      if (sw && sw.checked !== (want === "dark")) { sw.click(); return; }
-      const u = new URL(iframe.src);
-      if (look) u.searchParams.set("brand", look.brand);
-      u.searchParams.set("theme", want);
-      iframe.src = u.href;
-    };
+    });
     new MutationObserver(follow).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
   }
 
@@ -113,19 +97,10 @@ live.searchParams.set("theme", "light");
       fit();
       if (iframe.dataset.src) {
         const src = new URL(iframe.dataset.src);
-        src.searchParams.set("theme", siteTheme());
         iframe.src = src.href;
       }
       syncTheme(iframe);
     }
-    // «Open live system ↗»: на весь екран — у тому ж бренді й темі, що зараз в iframe
-    root.querySelector<HTMLAnchorElement>("[data-live-link]")?.addEventListener("click", (e) => {
-      const a = e.currentTarget as HTMLAnchorElement, look = demoLook(iframe);
-      const u = new URL(a.href);
-      u.searchParams.set("brand", look?.brand ?? "aurum");
-      u.searchParams.set("theme", look?.theme ?? siteTheme());
-      a.href = u.href;
-    });
     // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс до −drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
     // 1 — виходить угорі); y = −(p − p0) / (1 − p0) відносно стартового p0 → у спокої рамка на місці (відступ від хедера
     // не з'їдається), при скролі вниз плавно йде вгору. CSS множить y на токен drift. Тільки transform, один кадр на rAF
