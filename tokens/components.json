@@ -1956,5 +1956,13 @@
         "type": "color"
       }
     }
+  },
+  "preview": {
+    "ruler": {
+      "opacity": {
+        "value": "{opacity.previewRuler}",
+        "type": "number"
+      }
+    }
   }
 }

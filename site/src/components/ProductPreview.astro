@@ -10,7 +10,6 @@ const copy = t(lang).productPreview;
     {[375,768,1024,1280,1440].map(width => <button class="preset ts-label-sm" data-width={width} aria-pressed="false">{width}</button>)}
     <output class="dimensions ts-label-sm" data-dimensions></output>
   </div>
-  <p class="hint ts-caption-md">{copy.hint}</p>
   <div class="workspace" data-workspace>
     <div class="origin ts-caption-md" aria-hidden="true">↘</div>
     <div class="ruler ruler-x ts-caption-md" data-ruler-x aria-hidden="true"></div>
@@ -100,15 +99,14 @@ const copy = t(lang).productPreview;
   .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-gap-sm); }
   .preset { padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
   .preset[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
-  .dimensions { margin-inline-start: auto; color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
-  .hint { color: var(--positioning-label-color); margin-block: var(--space-gap-md); }
+  .dimensions { opacity: var(--preview-ruler-opacity); margin-inline-start: auto; color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
   .workspace { position: relative; max-width: 100%; padding: var(--space-padding-md); box-sizing: border-box; }
   .screen { position: relative; overflow: hidden; background: var(--caseCard-bg-default); outline: var(--borderWidth-control) solid var(--demoFrame-br); }
   iframe { position: absolute; inset: 0; max-width: none; border: 0; transform-origin: top left; }
-  .ruler { position: absolute; overflow: hidden; color: var(--positioning-label-color); background: var(--demoFrame-placeholder-bg); font-variant-numeric: tabular-nums; }
+  .ruler { opacity: var(--preview-ruler-opacity); position: absolute; overflow: hidden; color: var(--positioning-label-color); background: var(--demoFrame-placeholder-bg); font-variant-numeric: tabular-nums; }
   .ruler-x { top: 0; left: var(--space-padding-md); right: var(--space-padding-md); height: var(--space-padding-md); }
   .ruler-y { left: 0; top: var(--space-padding-md); bottom: var(--space-padding-md); width: var(--space-padding-md); }
-  .origin { position: absolute; top: 0; left: 0; color: var(--positioning-label-color); }
+  .origin { opacity: var(--preview-ruler-opacity); position: absolute; top: 0; left: 0; color: var(--positioning-label-color); }
   .ruler :global(.tick) { position: absolute; border-color: var(--demoFrame-br); border-style: solid; border-width: 0; }
   .ruler-x :global(.tick) { bottom: 0; height: 20%; border-left-width: var(--borderWidth-control); }
   .ruler-y :global(.tick) { right: 0; width: 20%; border-top-width: var(--borderWidth-control); }

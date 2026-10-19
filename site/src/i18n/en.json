@@ -1044,7 +1044,6 @@
   "productPreview": {
     "label": "Responsive preview",
     "full": "Full width",
-    "hint": "Drag the right or bottom edge to resize. Scroll and interact inside the preview.",
     "width": "Resize width",
     "height": "Resize height",
     "both": "Resize width and height"

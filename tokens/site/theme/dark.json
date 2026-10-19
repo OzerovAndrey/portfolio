@@ -564,5 +564,11 @@
       "value": "{filter.none}",
       "type": "other"
     }
+  },
+  "opacity": {
+    "previewRuler": {
+      "value": 0.28,
+      "type": "number"
+    }
   }
 }
