@@ -1,0 +1,48 @@
+<div class="ambient" aria-hidden="true" data-ambient>
+  <div class="ambient__float ambient__float--left"><div class="ambient__shape"></div></div>
+  <div class="ambient__float ambient__float--right"><div class="ambient__shape"></div></div>
+</div>
+
+<style>
+  .ambient { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: clip; }
+  .ambient__float { position: absolute; width: min(28vw, calc(var(--container-maxWidth) / 3)); aspect-ratio: .8; top: 28%; translate: 0 calc(var(--ambient-progress, 0) * var(--ambient-drift) * -2); }
+  .ambient__float--left { left: max(-12vw, calc((100% - var(--container-maxWidth)) / 4 - 14vw)); }
+  .ambient__float--right { right: max(-12vw, calc((100% - var(--container-maxWidth)) / 4 - 14vw)); top: 48%; translate: 0 calc(var(--ambient-progress, 0) * var(--ambient-drift) * 2); }
+  .ambient__shape { width: 100%; height: 100%; opacity: .65; border-radius: 62% 38% 48% 52% / 42% 55% 45% 58%; background: radial-gradient(ellipse at 30% 30%, var(--ambient-first), transparent 68%), radial-gradient(ellipse at 70% 65%, var(--ambient-second), transparent 70%), radial-gradient(ellipse at 45% 80%, var(--ambient-third), transparent 66%); mask-image: radial-gradient(ellipse, black 25%, transparent 72%); animation: ambient-morph calc(var(--ambient-duration) * 2) var(--shimmer-easing) infinite alternate; animation-play-state: paused; }
+  .ambient__float--right .ambient__shape { animation-delay: calc(var(--ambient-duration) * -1); rotate: 160deg; }
+  .ambient.is-active .ambient__shape { animation-play-state: running; }
+  @keyframes ambient-morph {
+    from { transform: rotate(-12deg) scale(.92); border-radius: 62% 38% 48% 52% / 42% 55% 45% 58%; }
+    to { transform: rotate(16deg) scale(1.08); border-radius: 38% 62% 60% 40% / 60% 38% 62% 40%; }
+  }
+  @media (max-width: 1439px) { .ambient__float { width: 24vw; opacity: .35; } .ambient__float--left { left: -16vw; } .ambient__float--right { right: -16vw; } }
+  @media (prefers-reduced-motion: reduce) { .ambient__float { translate: none; } .ambient__shape { animation: none; } }
+</style>
+
+<script>
+  const ambient = document.querySelector<HTMLElement>("[data-ambient]");
+  if (ambient) {
+    const host = ambient.parentElement!;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (!visible || reduced.matches) return;
+      const rect = host.getBoundingClientRect();
+      const progress = Math.max(-1, Math.min(1, (innerHeight / 2 - rect.top - rect.height / 2) / ((innerHeight + rect.height) / 2)));
+      ambient.style.setProperty("--ambient-progress", progress.toFixed(4));
+    };
+    const schedule = () => { if (visible && !reduced.matches && !frame) frame = requestAnimationFrame(update); };
+    const sync = () => {
+      ambient.classList.toggle("is-active", visible && !reduced.matches && !document.hidden);
+      if (reduced.matches) ambient.style.removeProperty("--ambient-progress");
+      schedule();
+    };
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }).observe(host);
+    addEventListener("scroll", schedule, { passive: true });
+    addEventListener("resize", schedule, { passive: true });
+    reduced.addEventListener("change", sync);
+    document.addEventListener("visibilitychange", sync);
+  }
+</script>

@@ -235,5 +235,31 @@
       "type": "dimension",
       "description": "ширина заголовка, що переноситься по словах"
     }
+  },
+  "ambientPalette": {
+    "lilac": {
+      "value": "#c6baf0",
+      "type": "color"
+    },
+    "ice": {
+      "value": "#b6dfe2",
+      "type": "color"
+    },
+    "sand": {
+      "value": "#ead8bd",
+      "type": "color"
+    },
+    "violet": {
+      "value": "#39304e",
+      "type": "color"
+    },
+    "teal": {
+      "value": "#234248",
+      "type": "color"
+    },
+    "bronze": {
+      "value": "#494032",
+      "type": "color"
+    }
   }
 }

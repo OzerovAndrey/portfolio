@@ -274,6 +274,20 @@
         "type": "color",
         "description": "розсіяна тінь далеко під поверхнею"
       }
+    },
+    "ambient": {
+      "first": {
+        "value": "{ambientPalette.violet}",
+        "type": "color"
+      },
+      "second": {
+        "value": "{ambientPalette.teal}",
+        "type": "color"
+      },
+      "third": {
+        "value": "{ambientPalette.bronze}",
+        "type": "color"
+      }
     }
   },
   "boxShadow": {
