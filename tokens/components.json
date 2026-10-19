@@ -1956,23 +1956,5 @@
         "type": "color"
       }
     }
-  },
-  "device": {
-    "bezel": {
-      "value": "{color.device.bezel}",
-      "type": "color"
-    },
-    "metal": {
-      "value": "{color.device.metal}",
-      "type": "color"
-    },
-    "highlight": {
-      "value": "{color.device.highlight}",
-      "type": "color"
-    },
-    "backdrop": {
-      "value": "{color.device.backdrop}",
-      "type": "color"
-    }
   }
 }

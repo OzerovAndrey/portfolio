@@ -52,14 +52,7 @@
     "ctaLiveLabel": "Try DRIVE (opens in a new tab)",
     "ctaHow": "See how I work",
     "liveTitle": "DRIVE — interactive multi-brand automotive demo",
-    "demoHint": "Live website · Scroll inside · Try the brands & themes",
-    "devicesLabel": "Preview on a device",
-    "devices": [
-      "Display",
-      "MacBook",
-      "iPhone",
-      "Duo"
-    ]
+    "demoHint": "Live website · Scroll inside · Try the brands & themes"
   },
   "positioning": {
     "label": "Positioning",
@@ -1047,5 +1040,13 @@
     "differentTitle": "What I would develop next",
     "different": "I would test how people move from inspiration to comparison: which specifications they need first, when a guided shortlist helps and where configuration becomes work. I would also develop dedicated imagery for each model and option; the current demo uses reference photography and swatches rather than simulating paint and interior changes.",
     "backToWork": "All work"
+  },
+  "productPreview": {
+    "label": "Responsive preview",
+    "full": "Full width",
+    "hint": "Drag the right or bottom edge to resize. Scroll and interact inside the preview.",
+    "width": "Resize width",
+    "height": "Resize height",
+    "both": "Resize width and height"
   }
 }

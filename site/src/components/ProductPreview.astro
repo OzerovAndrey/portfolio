@@ -2,99 +2,124 @@
 import { t, type Locale } from "../i18n";
 interface Props { lang: Locale; src: string; title: string }
 const { lang, src, title } = Astro.props;
-const h = t(lang).hero;
-const assets = import.meta.env.BASE_URL + "devices/";
+const copy = t(lang).productPreview;
 ---
-<div class="product-preview" data-product-preview>
-      <div class="hero__devices" role="group" aria-label={h.devicesLabel}>
-        {h.devices.map((label, i) => <button type="button" class="hero__device-tab ts-label-sm" data-device-select={i} aria-pressed={i === 0} title={["iMac 24″", "MacBook Pro 14″ · M5 Pro", "iPhone 18 Pro", "iPhone Duo · 768 px"][i]}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{i === 0 ? <><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></> : i === 1 ? <><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M2 18h20l-2 2H4Z"/></> : i === 3 ? <><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M12 4v16"/></> : <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M10 19h4"/></>}</svg>{label}
-        </button>)}
-      </div>
-      <div class="hero__device-stage" data-device="0">
-      <div class="hero__device-body">
-        <img class="device-photo device-photo--display" style={`mask-image: url(${assets}imac-blue-mask.svg)`} src={`${assets}imac-blue-keyboard-mouse.jpg`} alt="" aria-hidden="true" loading="lazy" />
-        <img class="device-photo device-photo--mac" style={`mask-image: url(${assets}macbook-pro-mask.svg)`} src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
-        <img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
-      <div class="duo-panel" aria-hidden="true"><img class="device-photo device-photo--duo" style={`mask-image: url(${assets}iphone-duo-open-mask.svg)`} src={`${assets}iphone-duo-open.jpg`} alt="" loading="lazy" /></div>
-      <div class="device-screen-fill" aria-hidden="true"></div>
-      <div class="hero__live" data-preview-frame>
-        <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
-        <iframe class="hero__iframe" data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin" data-preview-iframe></iframe>
-        <span class="hero__demo-hint ts-label-sm" >{h.demoHint}</span>
-
-        <noscript><iframe class="hero__iframe" src={src} title={title}></iframe></noscript>
-      </div>
-      <img class="duo-hands" style={`mask-image: url(${assets}iphone-duo-hands-mask.svg)`} src={`${assets}iphone-duo-hands.jpg`} alt="" aria-hidden="true" loading="lazy" />
-      <div class="device-status" aria-hidden="true"></div>
-      <div class="device-camera" aria-hidden="true"><img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" loading="lazy" /></div>
-      </div>
-      </div>
-      <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">iMac 24″</p>
-</div>
-
+<section class="preview" data-product-preview aria-label={copy.label}>
+  <div class="toolbar" role="group" aria-label={copy.label}>
+    <button class="preset ts-label-sm" data-full aria-pressed="true">{copy.full}</button>
+    {[375,768,1024,1280,1440].map(width => <button class="preset ts-label-sm" data-width={width} aria-pressed="false">{width}</button>)}
+    <output class="dimensions ts-label-sm" data-dimensions></output>
+  </div>
+  <p class="hint ts-caption-md">{copy.hint}</p>
+  <div class="workspace" data-workspace>
+    <div class="origin ts-caption-md" aria-hidden="true">↘</div>
+    <div class="ruler ruler-x ts-caption-md" data-ruler-x aria-hidden="true"></div>
+    <div class="ruler ruler-y ts-caption-md" data-ruler-y aria-hidden="true"></div>
+    <div class="screen" data-screen>
+      <iframe data-preview-iframe data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <div class="drag-cover" aria-hidden="true"></div>
+    </div>
+    <button class="handle handle-x" data-resize="x" aria-label={copy.width} title={copy.width}>⋮</button>
+    <button class="handle handle-y" data-resize="y" aria-label={copy.height} title={copy.height}>⋯</button>
+    <button class="handle handle-both" data-resize="both" aria-label={copy.both} title={copy.both}>↘</button>
+  </div>
+</section>
 <script>
-  document.querySelectorAll<HTMLElement>("[data-product-preview]").forEach(root => {
-    const frame = root.querySelector<HTMLElement>("[data-preview-frame]")!;
-    const iframe = root.querySelector<HTMLIFrameElement>("[data-preview-iframe]")!;
-    const stage = root.querySelector<HTMLElement>("[data-device]")!;
-    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-device-select]");
-    const label = root.querySelector<HTMLElement>("[data-device-name]")!;
-    const devices = [{ width: 1440, name: "iMac 24″" }, { width: 1024, name: "MacBook Pro 14″ · M5 Pro" }, { width: 402, name: "iPhone 18 Pro" }, { width: 768, name: "iPhone Duo · 768 px" }];
-    let selected = matchMedia("(max-width: 767px)").matches ? 2 : 0;
-    const fit = () => {
-      const width = frame.clientWidth;
-      if (!width || !frame.clientHeight) return;
-      const scale = width / devices[selected].width;
-      iframe.style.width = `${devices[selected].width}px`;
-      iframe.style.height = `${frame.clientHeight / scale}px`;
+  document.querySelectorAll<HTMLElement>('[data-product-preview]').forEach(root => {
+    const workspace = root.querySelector<HTMLElement>('[data-workspace]')!;
+    const screen = root.querySelector<HTMLElement>('[data-screen]')!;
+    const iframe = root.querySelector<HTMLIFrameElement>('iframe')!;
+    const output = root.querySelector<HTMLOutputElement>('output')!;
+    const full = root.querySelector<HTMLButtonElement>('[data-full]')!;
+    const presets = root.querySelectorAll<HTMLButtonElement>('[data-width]');
+    let width = 0, height = 720, automatic = true, scale = 1;
+    const gutter = () => Number.parseFloat(getComputedStyle(workspace).paddingLeft);
+    const available = () => Math.max(1, root.clientWidth - gutter() * 2);
+    const draw = () => {
+      if (automatic) width = Math.round(available());
+      scale = Math.min(1, available() / width);
+      workspace.style.width = `${width * scale + gutter() * 2}px`;
+      workspace.style.height = `${height * scale + gutter() * 2}px`;
+      screen.style.width = `${width * scale}px`;
+      screen.style.height = `${height * scale}px`;
+      iframe.style.width = `${width}px`;
+      iframe.style.height = `${height}px`;
       iframe.style.transform = `scale(${scale})`;
+      output.textContent = `${width} × ${height} px`;
+      full.setAttribute('aria-pressed', String(automatic));
+      presets.forEach(button => button.setAttribute('aria-pressed', String(!automatic && Number(button.dataset.width) === width)));
+      for (const axis of ['x','y']) {
+        const ruler = root.querySelector<HTMLElement>(`[data-ruler-${axis}]`)!;
+        const length = axis === 'x' ? width : height;
+        ruler.replaceChildren();
+        for (let value = 0; value <= length; value += 10) {
+          const tick = document.createElement('span');
+          tick.className = `tick ${value % 100 === 0 ? 'major' : ''}`;
+          tick.style[axis === 'x' ? 'left' : 'top'] = `${value * scale}px`;
+          if (value % 100 === 0) tick.textContent = String(value);
+          ruler.append(tick);
+        }
+      }
     };
-    const select = (index: number) => {
-      selected = index;
-      stage.dataset.device = String(index);
-      tabs.forEach((tab, i) => tab.setAttribute("aria-pressed", String(i === index)));
-      label.textContent = devices[index].name;
-      fit();
-    };
-    tabs.forEach((tab, i) => tab.addEventListener("click", () => select(i)));
-    select(selected);
-    new ResizeObserver(fit).observe(frame);
-    iframe.src = iframe.dataset.src!;
+    full.addEventListener('click', () => { automatic = true; draw(); });
+    presets.forEach(button => button.addEventListener('click', () => { automatic = false; width = Number(button.dataset.width); draw(); }));
+    root.querySelectorAll<HTMLButtonElement>('[data-resize]').forEach(handle => {
+      const axis = handle.dataset.resize;
+      handle.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        event.preventDefault();
+        handle.setPointerCapture(event.pointerId);
+        const startX = event.clientX, startY = event.clientY, startWidth = width, startHeight = height, startScale = scale;
+        root.dataset.dragging = 'true';
+        automatic = false;
+        const move = (next: PointerEvent) => {
+          if (axis !== 'y') width = Math.round(Math.max(280, Math.min(2560, startWidth + (next.clientX - startX) / startScale)));
+          if (axis !== 'x') height = Math.round(Math.max(320, Math.min(1600, startHeight + (next.clientY - startY) / startScale)));
+          draw();
+        };
+        const stop = () => { delete root.dataset.dragging; handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', stop); handle.removeEventListener('pointercancel', stop); };
+        handle.addEventListener('pointermove', move);
+        handle.addEventListener('pointerup', stop);
+        handle.addEventListener('pointercancel', stop);
+      });
+      handle.addEventListener('keydown', event => {
+        if (!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) return;
+        event.preventDefault(); automatic = false;
+        const step = event.shiftKey ? 1 : 10;
+        if (axis !== 'y' && ['ArrowLeft','ArrowRight'].includes(event.key)) width = Math.max(280, Math.min(2560, width + (event.key === 'ArrowRight' ? step : -step)));
+        if (axis !== 'x' && ['ArrowUp','ArrowDown'].includes(event.key)) height = Math.max(320, Math.min(1600, height + (event.key === 'ArrowDown' ? step : -step)));
+        draw();
+      });
+    });
+    new ResizeObserver(draw).observe(root);
+    draw(); iframe.src = iframe.dataset.src!;
   });
 </script>
 <style>
-  .hero__devices { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-gap-sm); }
-  .hero__device-tab { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
-  .hero__device-tab svg { width: var(--iconSize-md); height: var(--iconSize-md); }
-  .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
-  .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
-  .duo-panel, .duo-hands { display: none; }
-  [data-device="3"] .hero__device-body { width: 100%; aspect-ratio: 1932 / 1280; }
-  [data-device="3"] .duo-panel { display: block; position: absolute; left: 16.56%; top: 5.47%; width: 66.98%; height: 72.66%; }
-  [data-device="3"] .device-photo--duo { display: block; }
-  [data-device="3"] .hero__device-body .hero__live { left: 18.07%; top: 7.83%; width: 63.96%; height: 67.94%; border-radius: 7% / 10%; }
-  [data-device="3"] .duo-hands { display: block; position: absolute; inset: 0; width: 100%; height: 100%; mask-size: 100% 100%; mask-repeat: no-repeat; pointer-events: none; }
-  .hero__device-stage { display: grid; place-items: center; width: 100%; }
-  .hero__device-body { overflow: hidden; width: 100%; aspect-ratio: 717 / 649; position: relative; }
-  .device-photo { display: none; width: 100%; height: 100%; object-fit: contain; pointer-events: none; mask-size: 100% 100%; mask-repeat: no-repeat; }
-  [data-device="0"] .device-photo--display, [data-device="1"] .device-photo--mac, [data-device="2"] .device-photo--phone { display: block; }
-  .device-photo--display { position: absolute; width: 234.31%; max-width: none; height: 114.02%; left: -67.085%; top: -6.934%; }
-  .hero__device-body .hero__live { position: absolute; left: 2.23%; top: 2.62%; width: 95.26%; height: 59.01%; aspect-ratio: auto; border-radius: 0; }
-  .hero__device-name { text-align: center; color: var(--positioning-label-color); }
-  [data-device="1"] .hero__device-body { overflow: hidden; width: 100%; aspect-ratio: 1092 / 664; }
-  [data-device="1"] .hero__live { left: 10.35%; top: 6.02%; width: 79.3%; height: 81.93%; }
-  [data-device="2"] .hero__device-body { width: min(36%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
-  [data-device="2"] .device-photo--phone { position: absolute; width: 205.863%; max-width: none; height: 48.5759%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
-  [data-device="2"] .hero__live { left: 4.25%; top: 8%; width: 91.5%; height: 89.5%; border-radius: 0 0 18% 18% / 0 0 9% 9%; }
-  .device-camera, .device-status, .device-screen-fill { display: none; }
-  [data-device="2"] .device-screen-fill { display: block; position: absolute; left: 4%; top: 1.5%; width: 92%; height: 97%; border-radius: 18% / 8.7%; background: var(--device-backdrop); pointer-events: none; }
-  [data-device="2"] .device-status { display: block; position: absolute; left: 4%; top: 1.5%; width: 92%; height: 7%; background: var(--device-backdrop); border-radius: 20% 20% 0 0 / 100% 100% 0 0; pointer-events: none; }
-  [data-device="2"] .device-camera { display: block; position: absolute; inset: 0; pointer-events: none; clip-path: inset(3.36% 39.4% 92.64% 39.4% round 45%); }
-  @media (max-width: 767px) { [data-device="0"] .hero__device-body, [data-device="1"] .hero__device-body { width: 100%; } [data-device="2"] .hero__device-body { width: 76%; } }
-  .product-preview { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-padding-md); }
-  .hero__live { overflow: hidden; min-width: 0; background: var(--device-bezel); }
-  .hero__iframe { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
-  .hero__demo-hint { display: none; }
-
+  .preview { min-width: 0; width: 100%; }
+  .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-gap-sm); }
+  .preset { padding: var(--space-gap-sm) var(--space-gap-md); border: var(--borderWidth-control) solid transparent; border-radius: var(--button-borderRadius); background: transparent; color: var(--positioning-label-color); cursor: pointer; }
+  .preset[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
+  .dimensions { margin-inline-start: auto; color: var(--positioning-label-color); font-variant-numeric: tabular-nums; }
+  .hint { color: var(--positioning-label-color); margin-block: var(--space-gap-md); }
+  .workspace { position: relative; max-width: 100%; padding: var(--space-padding-md); box-sizing: border-box; }
+  .screen { position: relative; overflow: hidden; background: var(--caseCard-bg-default); outline: var(--borderWidth-control) solid var(--demoFrame-br); }
+  iframe { position: absolute; inset: 0; max-width: none; border: 0; transform-origin: top left; }
+  .ruler { position: absolute; overflow: hidden; color: var(--positioning-label-color); background: var(--demoFrame-placeholder-bg); font-variant-numeric: tabular-nums; }
+  .ruler-x { top: 0; left: var(--space-padding-md); right: var(--space-padding-md); height: var(--space-padding-md); }
+  .ruler-y { left: 0; top: var(--space-padding-md); bottom: var(--space-padding-md); width: var(--space-padding-md); }
+  .origin { position: absolute; top: 0; left: 0; color: var(--positioning-label-color); }
+  .ruler :global(.tick) { position: absolute; border-color: var(--demoFrame-br); border-style: solid; border-width: 0; }
+  .ruler-x :global(.tick) { bottom: 0; height: 20%; border-left-width: var(--borderWidth-control); }
+  .ruler-y :global(.tick) { right: 0; width: 20%; border-top-width: var(--borderWidth-control); }
+  .ruler-x :global(.major) { height: 100%; padding-left: var(--space-gap-xs); }
+  .ruler-y :global(.major) { width: 100%; writing-mode: vertical-rl; padding-top: var(--space-gap-xs); }
+  .handle { position: absolute; border: 0; padding: 0; background: transparent; color: var(--positioning-label-color); touch-action: none; }
+  .handle-x { right: 0; top: var(--space-padding-md); bottom: var(--space-padding-md); width: var(--space-padding-md); cursor: ew-resize; }
+  .handle-y { bottom: 0; left: var(--space-padding-md); right: var(--space-padding-md); height: var(--space-padding-md); cursor: ns-resize; }
+  .handle-both { right: 0; bottom: 0; width: var(--space-padding-md); height: var(--space-padding-md); cursor: nwse-resize; }
+  .preset:focus-visible, .handle:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); }
+  .drag-cover { display: none; position: absolute; inset: 0; }
+  [data-dragging] .drag-cover { display: block; }
+  [data-dragging] { user-select: none; }
 </style>

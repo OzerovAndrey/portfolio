@@ -274,24 +274,6 @@
         "type": "color",
         "description": "розсіяна тінь далеко під поверхнею"
       }
-    },
-    "device": {
-      "bezel": {
-        "value": "{deviceMaterial.bezel}",
-        "type": "color"
-      },
-      "metal": {
-        "value": "{deviceMaterial.metal}",
-        "type": "color"
-      },
-      "highlight": {
-        "value": "{deviceMaterial.highlight}",
-        "type": "color"
-      },
-      "backdrop": {
-        "value": "{deviceMaterial.backdrop}",
-        "type": "color"
-      }
     }
   },
   "boxShadow": {
