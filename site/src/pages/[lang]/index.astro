@@ -3,7 +3,6 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Hero from "../../components/Hero.astro";
 import ExploreSystem from "../../components/ExploreSystem.astro";
-import AmbientShapes from "../../components/AmbientShapes.astro";
 import Expertise from "../../components/Expertise.astro";
 import { href, staticLangPaths, t, type Locale } from "../../i18n";
 
@@ -18,8 +17,6 @@ const d = t(lang);
        (компоненти й копі лишились: Approach, Cases, About). Головна інтерактивна сцена — тільки в Hero -->
   <ExploreSystem lang={lang} />
 
-  <div class="home-atmosphere">
-  <AmbientShapes />
   <Expertise lang={lang} compact />
 
   <section class="section section--alt" aria-labelledby="cta-title" data-reveal>
@@ -33,12 +30,9 @@ const d = t(lang);
       </div>
     </div>
   </section>
-  </div>
 </Base>
 
 <style>
-  .home-atmosphere { position: relative; isolation: isolate; overflow: clip; }
-  .home-atmosphere :global(.container) { position: relative; z-index: 2; }
   /* Фінальний CTA: без рамки й плашки — великий заголовок, лід і основна кнопка (action) */
   .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ctaBand-gap); }
   .cta__text { display: flex; flex-direction: column; gap: var(--section-text-heading); }

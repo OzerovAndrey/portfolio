@@ -1956,27 +1956,5 @@
         "type": "color"
       }
     }
-  },
-  "ambient": {
-    "first": {
-      "value": "{color.ambient.first}",
-      "type": "color"
-    },
-    "second": {
-      "value": "{color.ambient.second}",
-      "type": "color"
-    },
-    "third": {
-      "value": "{color.ambient.third}",
-      "type": "color"
-    },
-    "duration": {
-      "value": "{duration.shimmer}",
-      "type": "duration"
-    },
-    "drift": {
-      "value": "{motionDistance.drift}",
-      "type": "spacing"
-    }
   }
 }
