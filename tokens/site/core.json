@@ -235,5 +235,19 @@
       "type": "dimension",
       "description": "ширина заголовка, що переноситься по словах"
     }
+  },
+  "deviceMaterial": {
+    "bezel": {
+      "value": "#111214",
+      "type": "color"
+    },
+    "metal": {
+      "value": "#86898d",
+      "type": "color"
+    },
+    "highlight": {
+      "value": "#d9dbdf",
+      "type": "color"
+    }
   }
 }

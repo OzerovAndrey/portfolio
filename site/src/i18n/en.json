@@ -52,7 +52,13 @@
     "ctaLiveLabel": "Try DRIVE (opens in a new tab)",
     "ctaHow": "See how I work",
     "liveTitle": "DRIVE — interactive multi-brand automotive demo",
-    "demoHint": "Live website · Scroll inside · Try the brands & themes"
+    "demoHint": "Live website · Scroll inside · Try the brands & themes",
+    "devicesLabel": "Preview on a device",
+    "devices": [
+      "Display",
+      "MacBook",
+      "iPhone"
+    ]
   },
   "positioning": {
     "label": "Positioning",
