@@ -359,5 +359,47 @@
       "en": "The commit that added the Ultra brand: a new tokens/brand/ultra.json, theme entries, components.json untouched",
       "uk": "Коміт, що додав бренд Ultra: новий tokens/brand/ultra.json, записи тем, components.json не змінено"
     }
+  },
+  {
+    "id": "atlas-overview",
+    "file": "shots/atlas/light.png",
+    "ratio": "16/9",
+    "size": "1280×720",
+    "alt": {
+      "en": "Atlas Finance: VANTA banking overview",
+      "uk": "Atlas Finance: банківський огляд VANTA"
+    },
+    "what": {
+      "en": "Atlas Finance: VANTA banking overview",
+      "uk": "Atlas Finance: банківський огляд VANTA"
+    }
+  },
+  {
+    "id": "atlas-pulse",
+    "file": "shots/atlas/pulse.png",
+    "ratio": "16/9",
+    "size": "1280×720",
+    "alt": {
+      "en": "Atlas Finance: PULSE overview in dark mode",
+      "uk": "Atlas Finance: огляд PULSE у темній темі"
+    },
+    "what": {
+      "en": "Atlas Finance: PULSE overview in dark mode",
+      "uk": "Atlas Finance: огляд PULSE у темній темі"
+    }
+  },
+  {
+    "id": "atlas-transfers",
+    "file": "shots/atlas/transfers.png",
+    "ratio": "16/9",
+    "size": "1280×720",
+    "alt": {
+      "en": "Atlas Finance: transfer recipient selection and summary",
+      "uk": "Atlas Finance: вибір отримувача та підсумок переказу"
+    },
+    "what": {
+      "en": "Atlas Finance: transfer recipient selection and summary",
+      "uk": "Atlas Finance: вибір отримувача та підсумок переказу"
+    }
   }
 ]

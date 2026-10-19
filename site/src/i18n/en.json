@@ -14,7 +14,9 @@
     "aboutTitle": "About — Andrey Ozerov",
     "aboutDescription": "Who is behind the system: experience, products, tools and working principles.",
     "caseAurumTitle": "Aurum Multibrand — case study · Andrey Ozerov",
-    "caseAurumDescription": "One casino lobby in four brands and two themes on one set of components: context, problem, token architecture, results and what I would do differently."
+    "caseAurumDescription": "One casino lobby in four brands and two themes on one set of components: context, problem, token architecture, results and what I would do differently.",
+    "caseAtlasTitle": "Atlas Finance — case study",
+    "caseAtlasDescription": "A multi-brand banking case study: four identities, two themes and seven interactive modules built on one token system."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -343,11 +345,11 @@
         "mediaAlt": "Home page of this site: the hero with the live demo"
       },
       {
-        "tag": "Coming soon",
-        "title": "More cases are on the way",
-        "detail": "iGaming and fintech cases appear here after the client agrees to publish them.",
-        "cta": "",
-        "mediaAlt": ""
+        "tag": "Fintech demo",
+        "title": "Atlas Finance",
+        "detail": "A digital banking experience with four identities. Accounts, transfers, cards and analytics in one shared product.",
+        "cta": "Read the case",
+        "mediaAlt": "Atlas Finance VANTA banking overview with balances and money-flow charts"
       }
     ]
   },
@@ -377,7 +379,7 @@
         "detail": "One honest paragraph."
       }
     ],
-    "formatLead": "Every case on this site follows the same five parts. Aurum Multibrand is the first one written this way."
+    "formatLead": "Aurum and Atlas follow the same five parts: from the product context to what I would improve next."
   },
   "approach": {
     "title": "How the system is built",
@@ -704,8 +706,16 @@
         "detail": "A polished mockup is only the start. I work through component states and implementation details with developers, backed by automated checks for token consistency and contrast."
       }
     ],
-    "brandPrinciples": ["Shared components", "Brand identity", "Themes"],
-    "productionChain": ["Figma", "Tokens", "Code"],
+    "brandPrinciples": [
+      "Shared components",
+      "Brand identity",
+      "Themes"
+    ],
+    "productionChain": [
+      "Figma",
+      "Tokens",
+      "Code"
+    ],
     "chainLabel": "Token layers, from foundation to interface",
     "chain": [
       "Core",
@@ -818,5 +828,103 @@
     "name": "AO Studio",
     "owner": "Andrey Ozerov",
     "credit": "Design & ownership — Andrey Ozerov"
+  },
+  "caseAtlas": {
+    "tag": "Fintech · interactive demo",
+    "title": "Atlas Finance",
+    "lead": "Everyday banking, four different personalities. A working product where accounts, cards and transfers share the same UX while each brand keeps its own identity.",
+    "facts": [
+      {
+        "k": "Role",
+        "items": [
+          "Product design",
+          "Design system",
+          "Front-end implementation"
+        ]
+      },
+      {
+        "k": "Scope",
+        "items": [
+          "4 brands × 2 themes",
+          "7 banking modules"
+        ]
+      },
+      {
+        "k": "Stack",
+        "items": [
+          "Figma",
+          "Tokens Studio",
+          "React",
+          "TypeScript",
+          "Vite"
+        ]
+      },
+      {
+        "k": "Status",
+        "items": [
+          "Live interactive demo",
+          "Fictional banking data"
+        ]
+      }
+    ],
+    "ctaDemo": "Open the live demo",
+    "ctaApproach": "View the source",
+    "ctaContact": "Discuss your product",
+    "contextTitle": "Context",
+    "context": "A banking interface has to make balances, spending and decisions easy to read. Atlas explores how that clarity can survive four distinct identities: premium VANTA, expressive PULSE, structured NORTH and friendly FLOW. It is a self-initiated portfolio project with fictional accounts and transactions; no real banking services or payments are connected.",
+    "problemTitle": "Problem",
+    "problems": [
+      {
+        "title": "Identity without a fork",
+        "detail": "Different typography, shapes and accents should give each brand character without creating four separate products."
+      },
+      {
+        "title": "A brand switch must preserve the task",
+        "detail": "Changing appearance should keep the current page, demo data and an unfinished transfer intact."
+      },
+      {
+        "title": "More than a polished dashboard",
+        "detail": "A credible banking experience needs transaction details, validation, card controls and useful feedback beyond its first screen."
+      }
+    ],
+    "solutionTitle": "Solution",
+    "solutionLead": "One shared React application, with brand and theme resolved through six token layers. The same navigation and banking modules serve every identity; the visual rules change without rebuilding the flows.",
+    "layersLabel": "Token layers, top to bottom",
+    "layers": {
+      "components": "Shared rules for controls, cards, navigation and charts.",
+      "theme": "Light and dark surface, text, border and feedback meanings.",
+      "typography": "A consistent hierarchy for labels, amounts and content.",
+      "map": "Color ramps derived from each brand palette.",
+      "brand": "VANTA, PULSE, NORTH and FLOW identity values.",
+      "core": "Foundational scales for spacing, dimensions and shapes."
+    },
+    "brandNote": "changes per brand",
+    "perBrand": "per brand",
+    "componentsUnit": "components",
+    "shotsCaption": [
+      "PULSE in dark mode: the same overview and demo data under another identity.",
+      "Transfers: recipient → amount → review → result, with an updating summary and input validation."
+    ],
+    "resultTitle": "Result",
+    "results": [
+      {
+        "amount": "{brands}",
+        "label": "distinct brand identities",
+        "detail": "VANTA, PULSE, NORTH and FLOW use one shared implementation."
+      },
+      {
+        "amount": "{combos}",
+        "label": "visual configurations",
+        "detail": "Each of the four brands has a light and a dark theme."
+      },
+      {
+        "amount": "{modules}",
+        "label": "banking modules",
+        "detail": "Overview, Accounts, Transactions, Transfers, Cards, Analytics and Settings."
+      }
+    ],
+    "differentTitle": "What I would develop next",
+    "different": "The next step is to validate the longer tasks with people: finding a payment, reviewing a transfer and managing a card. The demo makes these journeys testable; usability sessions would show where the hierarchy and feedback need work before expanding the product.",
+    "backToWork": "All work"
   }
 }

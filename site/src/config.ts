@@ -20,6 +20,8 @@ export const yearsSince = (ym: string, now = new Date()) => {
 
 export const config = {
   name: "Andrey Ozerov",
+  atlasUrl: "https://ozerovandrey.github.io/atlas-finance/",
+  atlasSourceUrl: "https://github.com/OzerovAndrey/atlas-finance",
   demoUrl: "https://ozerovandrey.github.io/multibrand-design-system/",
   // Formspree / Resend endpoint. Можна задати через PUBLIC_FORM_ENDPOINT у GitHub → Settings → Variables.
   formEndpoint: (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) ?? "",
