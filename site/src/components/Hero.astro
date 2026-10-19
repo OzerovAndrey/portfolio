@@ -1,8 +1,5 @@
 ---
 // Hero: живий DRIVE. Власні перемикачі бренду й теми зберігають стан демо.
-import aurumCover from "../assets/cases/aurum-dark.webp";
-import driveCover from "../assets/shots/drive/dark.png";
-import atlasCover from "../assets/shots/atlas/light.png";
 import Button from "./Button.astro";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
@@ -11,11 +8,6 @@ interface Props { lang: Locale }
 const { lang } = Astro.props;
 const h = t(lang).hero;
 const live = new URL(config.driveUrl);
-const projects = [
-  { name: "Aurum", url: config.demoUrl, image: aurumCover },
-  { name: "DRIVE", url: config.driveUrl, image: driveCover },
-  { name: "Atlas", url: config.atlasUrl, image: atlasCover },
-];
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
@@ -34,24 +26,12 @@ const projects = [
     </div>
 
     <div class="hero__product">
-      <div class="hero__carousel" data-carousel data-switch-label={h.switchProject} role="region" aria-roledescription={h.carouselRole} aria-label={h.carouselLabel}>
-        <script type="application/json" data-projects set:html={JSON.stringify(projects.map(({ name, url, image }) => ({ name, url, image: image.src })))} />
-        {[{ project: projects[0], side: "previous" }, { project: projects[2], side: "next" }].map(({ project, side }) => (
-          <button type="button" class={`hero__peek hero__peek--${side}`} data-project-side={side} aria-label={`${h.switchProject}: ${project.name}`}>
-            <img src={project.image.src} alt="" width={project.image.width} height={project.image.height} loading="eager" />
-            <span class="hero__peek-name ts-label-sm">{project.name}</span>
-          </button>
-        ))}
       <div class="hero__live" data-live-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={live.href} title={h.liveTitle} referrerpolicy="strict-origin-when-cross-origin" data-live-iframe></iframe>
         <span class="hero__demo-hint ts-label-sm" data-demo-hint>{h.demoHint}</span>
         <span class="hero__demo-ring" data-demo-ring hidden aria-hidden="true"></span>
         <noscript><iframe class="hero__iframe" src={live.href} title={h.liveTitle}></iframe></noscript>
-      </div>
-      </div>
-      <div class="hero__project-choices" role="group" aria-label={h.carouselLabel}>
-        {projects.map((project, index) => <button type="button" class="hero__project-choice ts-label-sm" data-project-choice={index} aria-pressed={index === 1}>{project.name}</button>)}
       </div>
       <!-- мобільні: другорядна дія — після живої системи -->
       <Button size="lg" variant="secondary" icon="arrowDown" href="#explore" class="hero__more hero__more--mobile" data-explore data-event="cta_explore">{h.ctaHow}</Button>
@@ -188,7 +168,7 @@ const projects = [
       const fit = () => {
         const w = frame.clientWidth, hgt = frame.clientHeight;
         if (!w || !hgt) return;
-        const virtual = w >= 540 ? 960 : 800;
+        const virtual = w >= 600 ? 960 : 800;
         const k = w >= MIN_SCALED ? Math.min(1, w / virtual) : 1;
         iframe.style.width = `${w / k}px`;
         iframe.style.height = `${hgt / k}px`;
@@ -202,99 +182,6 @@ const projects = [
         iframe.src = src.href;
       }
       syncTheme(iframe);
-      const carousel = root.querySelector<HTMLElement>("[data-carousel]");
-      const projects = JSON.parse(carousel?.querySelector("[data-projects]")?.textContent ?? "[]") as { name: string; url: string; image: string }[];
-      const choices = [...root.querySelectorAll<HTMLButtonElement>("[data-project-choice]")];
-      const liveLink = root.querySelector<HTMLAnchorElement>("[data-live-link]");
-      let selected = 1, moving = false, revision = 0;
-      const wrap = (i: number) => (i + projects.length) % projects.length;
-      const paint = () => {
-        choices.forEach((button, index) => button.setAttribute("aria-pressed", String(index === selected)));
-        for (const side of ["previous", "next"] as const) {
-          const button = carousel?.querySelector<HTMLButtonElement>(`[data-project-side="${side}"]`);
-          const project = projects[wrap(selected + (side === "previous" ? -1 : 1))];
-          if (!button || !project) continue;
-          const image = button.querySelector("img")!;
-          image.src = project.image;
-          button.querySelector("span")!.textContent = project.name;
-          button.setAttribute("aria-label", `${carousel?.dataset.switchLabel}: ${project.name}`);
-        }
-      };
-      const select = async (index: number, direction: number) => {
-        if (!carousel || moving || index === selected || !projects[index]) return;
-        moving = true;
-        const turn = ++revision;
-        const project = projects[index];
-        const side = carousel.querySelector<HTMLElement>(`[data-project-side="${direction < 0 ? "previous" : "next"}"]`)!;
-        const from = side.getBoundingClientRect(), to = frame.getBoundingClientRect();
-        const card = document.createElement("img");
-        card.className = "hero__transition-card";
-        card.src = project.image;
-        card.alt = "";
-        carousel.append(card);
-        // Cancel the initial scroll hint before navigating the live document.
-        frame.dispatchEvent(new Event("pointerdown"));
-        frame.removeAttribute("data-demo-intro");
-        const ready = new Promise<void>(resolve => iframe.addEventListener("load", () => resolve(), { once: true }));
-        selected = index;
-        iframe.title = project.name;
-        iframe.src = project.url;
-        if (liveLink) { liveLink.href = project.url; liveLink.setAttribute("aria-label", `${project.name} ↗`); }
-        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (!reduced) {
-          await card.animate([
-            { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width}, ${from.height / to.height}) rotate(${direction < 0 ? -4 : 4}deg)` },
-            { transform: "none" },
-          ], { duration: 520, easing: "cubic-bezier(.22,.68,0,1)", fill: "both" }).finished;
-        }
-        paint();
-        moving = false;
-        // A screenshot covers the loading frame, then yields to the actual interactive page.
-        await Promise.race([ready, new Promise(resolve => setTimeout(resolve, 12000))]);
-        if (turn === revision && !reduced) await card.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: "forwards" }).finished;
-        card.remove();
-      };
-      carousel?.querySelectorAll<HTMLButtonElement>("[data-project-side]").forEach(button => {
-        button.addEventListener("click", () => {
-          const direction = button.dataset.projectSide === "previous" ? -1 : 1;
-          void select(wrap(selected + direction), direction);
-        });
-      });
-      choices.forEach((button, index) => {
-        button.addEventListener("click", () => void select(index, index === wrap(selected - 1) ? -1 : 1));
-        button.addEventListener("keydown", event => {
-          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-          event.preventDefault();
-          const direction = event.key === "ArrowLeft" ? -1 : 1;
-          const next = wrap(selected + direction);
-          choices[next].focus();
-          void select(next, direction);
-        });
-      });
-      const swipe = (target: EventTarget) => {
-        let point: { x: number; y: number } | null = null;
-        target.addEventListener("touchstart", ((event: TouchEvent) => {
-          if ((event.target as Element).closest?.("a, button, input, select, textarea")) { point = null; return; }
-          const touch = event.touches[0];
-          point = touch ? { x: touch.clientX, y: touch.clientY } : null;
-        }) as EventListener, { passive: true });
-        target.addEventListener("touchend", ((event: TouchEvent) => {
-          const touch = event.changedTouches[0];
-          if (!point || !touch) return;
-          const dx = touch.clientX - point.x, dy = touch.clientY - point.y;
-          point = null;
-          if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-          const direction = dx < 0 ? 1 : -1;
-          void select(wrap(selected + direction), direction);
-        }) as EventListener, { passive: true });
-      };
-      if (carousel) swipe(carousel);
-      iframe.addEventListener("load", () => {
-        const doc = demoRoot(iframe)?.ownerDocument;
-        if (doc) swipe(doc);
-      });
-      paint();
-
     }
     // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс до −drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
     // 1 — виходить угорі); y = −(p − p0) / (1 − p0) відносно стартового p0 → у спокої рамка на місці (відступ від хедера
@@ -354,20 +241,6 @@ const projects = [
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--hero-actions-gap); margin-top: var(--space-gap-md); }
   /* Вузькі екрани: CTA стовпчиком — перенос кнопок не залежить від підміни шрифту (CLS) */
   @media (max-width: 559px) { .hero__actions { flex-direction: column; align-items: stretch; align-self: stretch; } }
-  .hero__carousel { position: relative; isolation: isolate; padding-inline: var(--space-padding-xl); }
-  .hero__carousel .hero__live { z-index: 2; }
-  .hero__peek { position: absolute; top: 0; bottom: 0; left: var(--space-padding-xl); right: var(--space-padding-xl); border: var(--demoFrame-borderWidth) solid var(--demoFrame-br); border-radius: var(--demoFrame-borderRadius); padding: 0; background: var(--demoFrame-placeholder-bg); overflow: hidden; cursor: pointer; box-shadow: var(--demoFrame-float-boxShadow); transition: transform var(--motion-duration-slow) var(--motion-easing-out); }
-  .hero__peek--previous { transform: translateX(calc(var(--space-padding-xl) * -1)) scale(0.94) rotate(-4deg); }
-  .hero__peek--next { transform: translateX(var(--space-padding-xl)) scale(0.94) rotate(4deg); }
-  .hero__peek img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .hero__peek-name { position: absolute; bottom: var(--space-gap-md); left: var(--space-gap-md); padding: var(--space-gap-sm); border-radius: var(--glass-borderRadius); background: var(--glass-bg); color: var(--glass-color-default); }
-  .hero__peek:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--focus-outline-borderWidth); }
-  .hero__project-choices { display: flex; justify-content: center; gap: var(--space-gap-sm); }
-  .hero__project-choice { font: inherit; cursor: pointer; padding: var(--space-gap-sm) var(--space-gap-md); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--glass-borderRadius); background: var(--caseCard-bg-default); color: var(--section-lead-color); }
-  .hero__project-choice[aria-pressed="true"] { background: var(--section-title-color); color: var(--caseCard-bg-default); }
-  .hero__project-choice:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--focus-outline-borderWidth); }
-  .hero__carousel :global(.hero__transition-card) { position: absolute; z-index: 3; top: 0; left: var(--space-padding-xl); width: calc(100% - var(--space-padding-xl) * 2); height: 100%; object-fit: cover; object-position: top; border-radius: var(--demoFrame-borderRadius); pointer-events: none; transform-origin: top left; }
-  @media (prefers-reduced-motion: reduce) { .hero__peek { transition: none; } }
   .hero__product { display: grid; gap: var(--space-gap-xl); min-width: 0; }
 
   /* друга дія: на десктопі поруч з основною, на мобільних — під сценою */
