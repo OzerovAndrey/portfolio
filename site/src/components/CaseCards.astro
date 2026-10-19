@@ -1,6 +1,6 @@
 ---
 // Три карточки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
-// Обкладинки — src/assets/cases/*-{light,dark}.webp (16:9), реальні кадри:
+// Обкладинки завжди в темних темах проєктів незалежно від теми портфоліо. Реальні кадри:
 //   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
 //   Drive — головна автомобільного демо, PNG 2× без втрат.
 // Atlas — справжній огляд банківського демо.
@@ -8,11 +8,8 @@ import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import Button from "./Button.astro";
 import { href, t, type Locale } from "../i18n";
-import aurumLight from "../assets/cases/aurum-light.webp";
 import aurumDark from "../assets/cases/aurum-dark.webp";
-import atlasLight from "../assets/shots/atlas/light.png";
 import atlasDark from "../assets/shots/atlas/dark.png";
-import driveLight from "../assets/shots/drive/light.png";
 import driveDark from "../assets/shots/drive/dark.png";
 
 interface Props { lang: Locale }
@@ -21,22 +18,20 @@ const d = t(lang);
 const c = d.cases.items;
 const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
-  { light: aurumLight, dark: aurumDark, alt: c[0].mediaAlt },
-  { light: driveLight, dark: driveDark, alt: c[1].mediaAlt },
-  { light: atlasLight, dark: atlasDark, alt: c[2].mediaAlt },
+  { image: aurumDark, alt: c[0].mediaAlt },
+  { image: driveDark, alt: c[1].mediaAlt },
+  { image: atlasDark, alt: c[2].mediaAlt },
 ];
 ---
 <ul class="cases">
   {[0, 1, 2].map((i) => (
     <li class="case">
       <div class="case__media">
-        {i !== 0 ? <>
-          <img src={covers[i].light.src} width={covers[i].light.width} height={covers[i].light.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--light" />
-          <img src={covers[i].dark.src} width={covers[i].dark.width} height={covers[i].dark.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img case__img--dark" />
-        </> : <>
-        <Image src={covers[i].light} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].light.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--light" />
-        <Image src={covers[i].dark} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].dark.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img case__img--dark" />
-        </>}
+        {i !== 0 ? (
+          <img src={covers[i].image.src} width={covers[i].image.width} height={covers[i].image.height} alt={covers[i].alt} loading="lazy" decoding="async" class="case__img" />
+        ) : (
+          <Image src={covers[i].image} alt={covers[i].alt} widths={[480, 800, 1280, 1920].filter(w => w <= covers[i].image.width)} quality={90} sizes={sizes} loading="lazy" decoding="async" class="case__img" />
+        )}
 
       </div>
       <div class="case__body">
@@ -58,7 +53,6 @@ const covers = [
   /* Обкладинка-кадр проєкту */
   .case__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--caseCard-media-bg); border: var(--caseCard-borderWidth) solid var(--caseCard-media-br); border-radius: var(--caseCard-media-borderRadius); }
   .case__media :global(.case__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform var(--motion-duration-slow) var(--motion-easing-out); }
-  :global(:root[data-theme="dark"]) .case__media :global(.case__img--light), :global(:root:not([data-theme="dark"])) .case__media :global(.case__img--dark) { display: none; }
   @media (hover: hover) { .case:hover .case__media :global(.case__img) { transform: scale(1.04); } }
   @media (prefers-reduced-motion: reduce) { .case__media :global(.case__img) { transform: none !important; } }
 
