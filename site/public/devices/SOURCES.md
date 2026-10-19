@@ -11,3 +11,10 @@
 SVG-маски відсікають лише чорне тло за зовнішніми контурами оригіналів. Пікселі зображень пристроїв збережено; підложка — власний фон сторінки.
 
 - iMac 24″, Magic Keyboard та Magic Mouse (той самий ракурс, що у наданому референсі): https://www.apple.com/v/imac/w/images/overview/closer-look/colors_pf_blue__bshbmf5v5rki_xlarge_2x.jpg — оригінал 3360×1480, без перекодування.
+
+## Duo — композиція з оригінальних матеріалів Apple
+
+Повністю відкритий корпус та руки поєднані через HTML/CSS-маски; вихідні файли збережені без перекодування.
+- Корпус: https://www.apple.com/v/iphone-duo/d/images/overview/product-stories/immersive/hero__dbnzxlb3ia2q_large_2x.jpg
+- Руки: https://www.apple.com/v/iphone-duo/d/images/overview/media-hero/hero_endframe__gdt3l3spaqie_large_2x.jpg
+- Віртуальний брейкпоінт 768 px — налаштування демо, не фізична роздільність пристрою.
