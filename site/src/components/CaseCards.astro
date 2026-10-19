@@ -1,6 +1,6 @@
 ---
 // Три карточки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
-// Обкладинки завжди в темних темах проєктів незалежно від теми портфоліо. Реальні кадри:
+// Обкладинки фіксовані: Aurum і Drive темні, Atlas світлий. Реальні кадри:
 //   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
 //   Drive — головна автомобільного демо, PNG 2× без втрат.
 // Atlas — справжній огляд банківського демо.
@@ -9,7 +9,7 @@ import Icon from "./Icon.astro";
 import Button from "./Button.astro";
 import { href, t, type Locale } from "../i18n";
 import aurumDark from "../assets/cases/aurum-dark.webp";
-import atlasDark from "../assets/shots/atlas/dark.png";
+import atlasLight from "../assets/shots/atlas/light.png";
 import driveDark from "../assets/shots/drive/dark.png";
 
 interface Props { lang: Locale }
@@ -20,7 +20,7 @@ const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
   { image: aurumDark, alt: c[0].mediaAlt },
   { image: driveDark, alt: c[1].mediaAlt },
-  { image: atlasDark, alt: c[2].mediaAlt },
+  { image: atlasLight, alt: c[2].mediaAlt },
 ];
 ---
 <ul class="cases">
