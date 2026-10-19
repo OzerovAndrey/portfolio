@@ -13,9 +13,9 @@ const assets = import.meta.env.BASE_URL + "devices/";
       </div>
       <div class="hero__device-stage" data-device="0">
       <div class="hero__device-body">
-        <img class="device-photo device-photo--display" src={`${assets}studio-display-xdr.jpg`} alt="" aria-hidden="true" loading="lazy" />
-        <img class="device-photo device-photo--mac" src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
-        <img class="device-photo device-photo--phone" src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--display" style={`mask-image: url(${assets}studio-display-xdr-mask.svg)`} src={`${assets}studio-display-xdr.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--mac" style={`mask-image: url(${assets}macbook-pro-mask.svg)`} src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
       <div class="hero__live" data-preview-frame>
         <!-- src ставить скрипт після підгонки розміру: демо одразу стартує у правильній розкладці, без перебудови мобільна → десктоп -->
         <iframe class="hero__iframe" data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin" data-preview-iframe></iframe>
@@ -24,7 +24,7 @@ const assets = import.meta.env.BASE_URL + "devices/";
         <noscript><iframe class="hero__iframe" src={src} title={title}></iframe></noscript>
       </div>
       <div class="device-status" aria-hidden="true"></div>
-      <div class="device-camera" aria-hidden="true"><img class="device-photo device-photo--phone" src={`${assets}iphone-18-pro.jpg`} alt="" loading="lazy" /></div>
+      <div class="device-camera" aria-hidden="true"><img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" loading="lazy" /></div>
       </div>
       </div>
       <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">Studio Display XDR</p>
@@ -66,21 +66,21 @@ const assets = import.meta.env.BASE_URL + "devices/";
   .hero__device-tab svg { width: var(--iconSize-md); height: var(--iconSize-md); }
   .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
   .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
-  .hero__device-stage { display: grid; place-items: center; aspect-ratio: 1.3; width: 100%; background: var(--device-backdrop); border-radius: var(--demoFrame-borderRadius); overflow: hidden; }
-  .hero__device-body { width: 82%; aspect-ratio: 1388 / 1180; position: relative; }
-  .device-photo { display: none; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+  .hero__device-stage { display: grid; place-items: center; width: 100%; }
+  .hero__device-body { width: 100%; aspect-ratio: 1388 / 1180; position: relative; }
+  .device-photo { display: none; width: 100%; height: 100%; object-fit: contain; pointer-events: none; mask-size: 100% 100%; mask-repeat: no-repeat; }
   [data-device="0"] .device-photo--display, [data-device="1"] .device-photo--mac, [data-device="2"] .device-photo--phone { display: block; }
   .hero__device-body .hero__live { position: absolute; left: 2.16%; top: 2.54%; width: 95.39%; height: 63.05%; aspect-ratio: auto; border-radius: 0; }
   .hero__device-name { text-align: center; color: var(--positioning-label-color); }
-  [data-device="1"] .hero__device-body { width: 96%; aspect-ratio: 1092 / 664; }
+  [data-device="1"] .hero__device-body { width: 100%; aspect-ratio: 1092 / 664; }
   [data-device="1"] .hero__live { left: 10.35%; top: 6.02%; width: 79.3%; height: 81.93%; }
-  [data-device="2"] .hero__device-body { width: min(30%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
+  [data-device="2"] .hero__device-body { width: min(36%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
   [data-device="2"] .device-photo--phone { position: absolute; width: 205.863%; max-width: none; height: 48.5759%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
   [data-device="2"] .hero__live { left: 4.25%; top: 8%; width: 91.5%; height: 90%; border-radius: 0 0 11% 11% / 0 0 5.3% 5.3%; }
   .device-camera, .device-status { display: none; }
   [data-device="2"] .device-status { display: block; position: absolute; left: 4.25%; top: 2%; width: 91.5%; height: 6.5%; background: var(--device-backdrop); border-radius: 11% 11% 0 0 / 75% 75% 0 0; pointer-events: none; }
   [data-device="2"] .device-camera { display: block; position: absolute; inset: 0; pointer-events: none; clip-path: inset(3.36% 39.4% 92.64% 39.4% round 45%); }
-  @media (max-width: 767px) { .hero__device-stage { aspect-ratio: .65; } [data-device="0"] .hero__device-body, [data-device="1"] .hero__device-body { width: 96%; } [data-device="2"] .hero__device-body { width: 66%; } }
+  @media (max-width: 767px) { [data-device="0"] .hero__device-body, [data-device="1"] .hero__device-body { width: 100%; } [data-device="2"] .hero__device-body { width: 76%; } }
   .product-preview { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-padding-md); }
   .hero__live { overflow: hidden; min-width: 0; background: var(--device-bezel); }
   .hero__iframe { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border: 0; transform-origin: 0 0; }
