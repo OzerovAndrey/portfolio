@@ -7,13 +7,13 @@ const assets = import.meta.env.BASE_URL + "devices/";
 ---
 <div class="product-preview" data-product-preview>
       <div class="hero__devices" role="group" aria-label={h.devicesLabel}>
-        {h.devices.map((label, i) => <button type="button" class="hero__device-tab ts-label-sm" data-device-select={i} aria-pressed={i === 0} title={["Studio Display XDR", "MacBook Pro 14″ · M5 Pro", "iPhone 18 Pro"][i]}>
+        {h.devices.map((label, i) => <button type="button" class="hero__device-tab ts-label-sm" data-device-select={i} aria-pressed={i === 0} title={["iMac 24″", "MacBook Pro 14″ · M5 Pro", "iPhone 18 Pro"][i]}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">{i === 0 ? <><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></> : i === 1 ? <><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M2 18h20l-2 2H4Z"/></> : <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M10 19h4"/></>}</svg>{label}
         </button>)}
       </div>
       <div class="hero__device-stage" data-device="0">
       <div class="hero__device-body">
-        <img class="device-photo device-photo--display" style={`mask-image: url(${assets}studio-display-xdr-mask.svg)`} src={`${assets}studio-display-xdr.jpg`} alt="" aria-hidden="true" loading="lazy" />
+        <img class="device-photo device-photo--display" style={`mask-image: url(${assets}imac-blue-mask.svg)`} src={`${assets}imac-blue-keyboard-mouse.jpg`} alt="" aria-hidden="true" loading="lazy" />
         <img class="device-photo device-photo--mac" style={`mask-image: url(${assets}macbook-pro-mask.svg)`} src={`${assets}macbook-pro-m5.jpg`} alt="" aria-hidden="true" loading="lazy" />
         <img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" aria-hidden="true" loading="lazy" />
       <div class="device-screen-fill" aria-hidden="true"></div>
@@ -28,7 +28,7 @@ const assets = import.meta.env.BASE_URL + "devices/";
       <div class="device-camera" aria-hidden="true"><img class="device-photo device-photo--phone" style={`mask-image: url(${assets}iphone-18-pro-mask.svg)`} src={`${assets}iphone-18-pro.jpg`} alt="" loading="lazy" /></div>
       </div>
       </div>
-      <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">Studio Display XDR</p>
+      <p class="hero__device-name ts-caption-md" data-device-name aria-live="polite">iMac 24″</p>
 </div>
 
 <script>
@@ -38,7 +38,7 @@ const assets = import.meta.env.BASE_URL + "devices/";
     const stage = root.querySelector<HTMLElement>("[data-device]")!;
     const tabs = root.querySelectorAll<HTMLButtonElement>("[data-device-select]");
     const label = root.querySelector<HTMLElement>("[data-device-name]")!;
-    const devices = [{ width: 1440, name: "Studio Display XDR" }, { width: 1024, name: "MacBook Pro 14″ · M5 Pro" }, { width: 402, name: "iPhone 18 Pro" }];
+    const devices = [{ width: 1440, name: "iMac 24″" }, { width: 1024, name: "MacBook Pro 14″ · M5 Pro" }, { width: 402, name: "iPhone 18 Pro" }];
     let selected = matchMedia("(max-width: 767px)").matches ? 2 : 0;
     const fit = () => {
       const width = frame.clientWidth;
@@ -68,12 +68,13 @@ const assets = import.meta.env.BASE_URL + "devices/";
   .hero__device-tab[aria-pressed="true"] { color: var(--positioning-title-color); background: var(--caseCard-bg-default); border-color: var(--demoFrame-br); }
   .hero__device-tab:focus-visible { outline: var(--focus-outline-borderWidth) solid var(--focus-outline-color); outline-offset: var(--space-gap-xs); }
   .hero__device-stage { display: grid; place-items: center; width: 100%; }
-  .hero__device-body { width: 100%; aspect-ratio: 1388 / 1180; position: relative; }
+  .hero__device-body { overflow: hidden; width: 100%; aspect-ratio: 717 / 649; position: relative; }
   .device-photo { display: none; width: 100%; height: 100%; object-fit: contain; pointer-events: none; mask-size: 100% 100%; mask-repeat: no-repeat; }
   [data-device="0"] .device-photo--display, [data-device="1"] .device-photo--mac, [data-device="2"] .device-photo--phone { display: block; }
-  .hero__device-body .hero__live { position: absolute; left: 2.16%; top: 2.54%; width: 95.39%; height: 63.05%; aspect-ratio: auto; border-radius: 0; }
+  .device-photo--display { position: absolute; width: 234.31%; max-width: none; height: 114.02%; left: -67.085%; top: -6.934%; }
+  .hero__device-body .hero__live { position: absolute; left: 2.23%; top: 2.62%; width: 95.26%; height: 59.01%; aspect-ratio: auto; border-radius: 0; }
   .hero__device-name { text-align: center; color: var(--positioning-label-color); }
-  [data-device="1"] .hero__device-body { width: 100%; aspect-ratio: 1092 / 664; }
+  [data-device="1"] .hero__device-body { overflow: hidden; width: 100%; aspect-ratio: 1092 / 664; }
   [data-device="1"] .hero__live { left: 10.35%; top: 6.02%; width: 79.3%; height: 81.93%; }
   [data-device="2"] .hero__device-body { width: min(36%, calc(var(--container-maxWidth) / 3)); aspect-ratio: 1228 / 2528; overflow: hidden; }
   [data-device="2"] .device-photo--phone { position: absolute; width: 205.863%; max-width: none; height: 48.5759%; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); }
