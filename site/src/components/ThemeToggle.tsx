@@ -1,4 +1,5 @@
 import { useEffect, useState, type MouseEvent } from "react";
+import { playThemeSound } from "../lib/theme-sound";
 
 type Theme = "light" | "dark";
 interface Props { labelToDark: string; labelToLight: string }
@@ -46,6 +47,7 @@ export default function ThemeToggle({ labelToDark, labelToLight }: Props) {
     try { sessionStorage.setItem("theme", next); } catch { /* приватний режим — тема живе до перезавантаження */ }
     setTheme(next);
     setSwitched(true);
+    playThemeSound(next === "dark");
   };
   const label = theme === "dark" ? labelToLight : labelToDark;
 
