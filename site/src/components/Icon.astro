@@ -4,7 +4,7 @@
 export type IconName =
   | "behance" | "dribbble" | "contra" | "upwork" | "aurum" | "atlas" | "drive"
   | "window" | "mail" | "linkedin" | "send" | "github" | "phone"
-  | "pen" | "layout" | "component" | "layers" | "figma" | "braces" | "tokens" | "pointer" | "code"
+  | "productDesign" | "prototype" | "tokensStudio" | "pen" | "layout" | "component" | "layers" | "figma" | "braces" | "tokens" | "pointer" | "code"
   | "compass" | "alert" | "lightbulb" | "trending" | "rotate" | "search" | "branch" | "file" | "repeat" | "package"
   | "arrowUpRight" | "arrowDown" | "arrowRight" | "plus" | "play"
   | "user" | "briefcase" | "wrench" | "target" | "grid" | "ban" | "clipboard" | "image" | "activity" | "scale" | "palette" | "clock";
@@ -18,6 +18,11 @@ const P = (d: string): Shape => ["path", d];
 // Contra symbol: official header at https://contra.com/ (19.10.2026).
 // Product marks copied from Aurum, Atlas NORTH and Drive TORQ sources.
 const ICONS: Record<IconName, Shape[]> = {
+  // Product Design: структура продуктового екрана; Prototyping: з’єднані екрани та запуск сценарію.
+  productDesign: [["rect", { x: 3, y: 3, width: 18, height: 18, rx: 2 }], P("M3 8h18M9 8v13M13 12h4M13 16h3")],
+  prototype: [["rect", { x: 2, y: 3, width: 12, height: 11, rx: 2 }], ["rect", { x: 16, y: 16, width: 6, height: 6, rx: 1 }], P("m7 6 4 2.5L7 11V6zM8 17v2h5m4-11h3v5")],
+  // Офіційний Tokens Studio, MIT: https://github.com/tokens-studio/figma-plugin/blob/main/packages/tokens-studio-for-figma/src/icons/tokensstudio.svg
+  tokensStudio: [P("M6.55705 3.42193C6.73492 2.5413 7.25231 1.93388 7.89695 1.60227C6.4794 0.870877 4.4486 1.48665 4.05769 3.42205C3.85197 4.44056 3.06815 5.2438 2.05499 5.47435C-0.719488 6.10571 -0.670982 10.0749 2.1181 10.6383C3.13658 10.844 3.9398 11.6279 4.17035 12.641C4.60236 14.5396 6.59717 15.1163 7.99426 14.3976C7.36895 14.075 6.86297 13.4902 6.66971 12.6409C6.43917 11.6277 5.63595 10.8439 4.61746 10.6382C1.82839 10.0748 1.77988 6.10559 4.55436 5.47423C5.56751 5.24367 6.35133 4.44044 6.55705 3.42193ZM8.00586 1.60239C9.40295 0.883699 11.3978 1.46041 11.8298 3.35894C12.0603 4.37212 12.8635 5.15596 13.882 5.36169C16.6711 5.92506 16.7196 9.89427 13.9451 10.5256C12.932 10.7562 12.1482 11.5594 11.9424 12.5779C11.5515 14.5133 9.52072 15.1291 8.10317 14.3977C8.74781 14.0661 9.2652 13.4587 9.44307 12.5781C9.64879 11.5595 10.4326 10.7563 11.4458 10.5258C14.2202 9.89439 14.1717 5.92518 11.3827 5.36181C10.3642 5.15609 9.56096 4.37225 9.33041 3.35906C9.13715 2.50979 8.63117 1.92502 8.00586 1.60239Z")],
   aurum: [P("M16 0C24.8366 0 32 7.16344 32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0ZM16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2Z"), P("M16 6C21.5228 6 26 10.4772 26 16C26 21.5228 21.5228 26 16 26C10.4772 26 6 21.5228 6 16C6 10.4772 10.4772 6 16 6ZM10.293 16L16 21.707L21.707 16L16 10.293L10.293 16ZM20.293 16L16 20.293L11.707 16L16 11.707L20.293 16Z")],
   atlas: [P("M16 2L30 29L16 21Z"), P("M16 2L2 29L16 21Z")],
   drive: [P("M8 3H12L6 21H2Z"), P("M17 3H21L15 21H11Z")],
@@ -70,10 +75,10 @@ const ICONS: Record<IconName, Shape[]> = {
   clock: [["circle", { cx: 12, cy: 12, r: 10 }], P("M12 6v6l4 2")],
 };
 const shapes = ICONS[name];
-const brandMark = ["behance", "dribbble", "contra", "upwork", "aurum", "atlas", "drive"].includes(name);
+const brandMark = ["behance", "dribbble", "contra", "upwork", "aurum", "atlas", "drive", "tokensStudio"].includes(name);
 ---
-<svg class:list={["icon", cls]} viewBox={name === "aurum" || name === "atlas" ? "0 0 32 32" : "0 0 24 24"} width="24" height="24" fill={brandMark ? "currentColor" : "none"} stroke={brandMark ? "none" : "currentColor"} stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-  {shapes.map(([tag, a]) => tag === "path" ? <path d={a as string} fill-rule={name === "contra" ? "evenodd" : undefined} /> : tag === "rect" ? <rect {...(a as Record<string, number>)} /> : <circle {...(a as Record<string, number>)} />)}
+<svg class:list={["icon", cls]} viewBox={name === "tokensStudio" ? "0 0 16 16" : name === "aurum" || name === "atlas" ? "0 0 32 32" : "0 0 24 24"} width="24" height="24" fill={brandMark ? "currentColor" : "none"} stroke={brandMark ? "none" : "currentColor"} stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {shapes.map(([tag, a]) => tag === "path" ? <path d={a as string} fill-rule={name === "contra" || name === "tokensStudio" ? "evenodd" : undefined} /> : tag === "rect" ? <rect {...(a as Record<string, number>)} /> : <circle {...(a as Record<string, number>)} />)}
 </svg>
 
 <style>
