@@ -2,6 +2,7 @@
 // 04 About / Expertise — коротке твердження + типографічний індекс напрямів. Коротка анімація іконок при появі та наведенні.
 // Токени: ті самі editorial-токени, що в Positioning (rule / label / title / detail) — нових немає.
 import Icon, { type IconName } from "./Icon.astro";
+import AiToolLogo, { type AiTool } from "./AiToolLogo.astro";
 import ArtMotion from "./ArtMotion.astro";
 import { t, type Locale } from "../i18n";
 
@@ -14,7 +15,7 @@ interface Props {
 const { lang, compact = false } = Astro.props;
 const e = t(lang).expertise;
 // Іконки напрямів — у тому ж порядку, що й expertise.items (EN = UK)
-const AI_ICON: IconName[] = ["component", "code", "braces", "figma", "pointer", "lightbulb"];
+const AI_ICON: AiTool[] = ["chatgpt", "codex", "claude-code", "figma-make", "figma-agent", "gemini"];
 const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "code", "figma", "tokens"];
 ---
 <section class:list={["section", "expertise", compact ? "expertise--compact" : "section--editorial"]} id="expertise" aria-labelledby="expertise-title" data-reveal>
@@ -44,7 +45,7 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "co
         <ul class="expertise__list" aria-label={e.aiTitle}>
           {e.aiTools.map((item, i) => (
             <li class="expertise__item" data-art-motion="icon">
-              <Icon name={AI_ICON[i]} class="expertise__icon" />
+              <AiToolLogo name={AI_ICON[i]} class="expertise__icon" />
               <span class="expertise__name ts-title-t4">{item}</span>
             </li>
           ))}
@@ -74,6 +75,7 @@ const ICON: IconName[] = ["pen", "layout", "component", "layers", "pointer", "co
   .expertise__item:last-child { border-bottom: var(--borderWidth-control) solid var(--positioning-rule-br); }
   .expertise__name { color: var(--positioning-title-color); overflow-wrap: anywhere; }
   .expertise__item :global(.expertise__icon) { transform-origin: center; align-self: center; --icon-size: var(--iconSize-md); color: var(--positioning-label-color); }
+  .expertise__item :global(.ai-tool-logo) { color: var(--positioning-title-color); }
   /* ≥ 1200: текст ліворуч, індекс напрямів праворуч; твердження лишається найбільшим елементом */
   @media (min-width: 1200px) {
     .expertise__body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--l-gap); align-items: center; }
