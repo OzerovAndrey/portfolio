@@ -1,4 +1,5 @@
 ---
+import { darkEmbedUrl } from "../lib/embeddedTheme";
 import { t, type Locale } from "../i18n";
 interface Props { lang: Locale; src: string; title: string }
 const { lang, src, title } = Astro.props;
@@ -15,7 +16,7 @@ const copy = t(lang).productPreview;
     <div class="ruler ruler-x ts-caption-md" data-ruler-x aria-hidden="true"></div>
     <div class="ruler ruler-y ts-caption-md" data-ruler-y aria-hidden="true"></div>
     <div class="screen" data-screen>
-      <iframe data-preview-iframe data-src={src} title={title} referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <iframe data-preview-iframe data-src={darkEmbedUrl(src)} title={title} referrerpolicy="strict-origin-when-cross-origin"></iframe>
       <div class="drag-cover" aria-hidden="true"></div>
     </div>
     <button class="handle handle-x" data-resize="x" aria-label={copy.width} title={copy.width}>⋮</button>
@@ -24,6 +25,7 @@ const copy = t(lang).productPreview;
   </div>
 </section>
 <script>
+  import { keepEmbedDark } from "../lib/embeddedTheme";
   document.querySelectorAll<HTMLElement>('[data-product-preview]').forEach(root => {
     const workspace = root.querySelector<HTMLElement>('[data-workspace]')!;
     const screen = root.querySelector<HTMLElement>('[data-screen]')!;
@@ -91,6 +93,7 @@ const copy = t(lang).productPreview;
       });
     });
     new ResizeObserver(draw).observe(root);
+    keepEmbedDark(iframe);
     draw(); iframe.src = iframe.dataset.src!;
   });
 </script>

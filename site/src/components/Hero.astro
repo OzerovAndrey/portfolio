@@ -1,13 +1,14 @@
 ---
 // Hero: живий DRIVE. Власні перемикачі бренду й теми зберігають стан демо.
 import Button from "./Button.astro";
+import { darkEmbedUrl } from "../lib/embeddedTheme";
 import { config } from "../config";
 import { t, type Locale } from "../i18n";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const h = t(lang).hero;
-const live = new URL(config.driveUrl);
+const live = new URL(darkEmbedUrl(config.driveUrl));
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <div class="container hero__grid">
@@ -40,42 +41,9 @@ const live = new URL(config.driveUrl);
 </section>
 
 <script>
-  type Theme = "light" | "dark";
-  const html = document.documentElement;
-  const siteTheme = (): Theme => (html.dataset.theme === "dark" ? "dark" : "light");
-  /** <html> демо в iframe — той самий origin (GitHub Pages); локально (інший порт) — null */
+  import { keepEmbedDark } from "../lib/embeddedTheme";
+  /** Same-origin access for the introduction animation. */
   const demoRoot = (f: HTMLIFrameElement | null) => { try { return f?.contentDocument?.documentElement ?? null; } catch { return null; } };
-  // DRIVE має власний React-перемикач теми. На тому самому origin синхронізуємо
-  // через нього, щоб DOM, стан React і контрол залишались узгодженими.
-  function syncTheme(iframe: HTMLIFrameElement) {
-    let pinned = false;
-    let expected: Theme = siteTheme();
-    let watching: MutationObserver | null = null;
-    const follow = () => {
-      if (pinned) return;
-      if (html.dataset.themeTransition !== undefined) {
-        window.addEventListener("themetransitionend", follow, { once: true });
-        return;
-      }
-      const r = demoRoot(iframe);
-      const sw = r?.querySelector<HTMLButtonElement>('button.theme-toggle');
-      if (!r || !sw) return;
-      expected = siteTheme();
-      if (r.dataset.theme !== expected) sw.click();
-    };
-    iframe.addEventListener("load", () => {
-      watching?.disconnect();
-      const r = demoRoot(iframe);
-      if (!r) return;
-      follow();
-      watching = new MutationObserver(() => {
-        const now = r.dataset.theme;
-        if (now && now !== expected) pinned = true;
-      });
-      watching.observe(r, { attributes: true, attributeFilter: ["data-theme"] });
-    });
-    new MutationObserver(follow).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
-  }
 
   /** One gentle scroll demonstration, only while the frame is visible and untouched. */
   function introduceDemo(frame: HTMLElement, iframe: HTMLIFrameElement) {
@@ -177,11 +145,12 @@ const live = new URL(config.driveUrl);
       new ResizeObserver(fit).observe(frame);
       fit();
       introduceDemo(frame, iframe);
+      keepEmbedDark(iframe);
       if (iframe.dataset.src) {
         const src = new URL(iframe.dataset.src);
         iframe.src = src.href;
       }
-      syncTheme(iframe);
+
     }
     // «Повітря»: рамка трохи обганяє сторінку при скролі (паралакс до −drift). p — шлях рамки крізь в'юпорт (0 — входить знизу,
     // 1 — виходить угорі); y = −(p − p0) / (1 − p0) відносно стартового p0 → у спокої рамка на місці (відступ від хедера
