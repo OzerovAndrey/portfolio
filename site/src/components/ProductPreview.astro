@@ -25,7 +25,7 @@ const copy = t(lang).productPreview;
   </div>
 </section>
 <script>
-  import { keepEmbedDark } from "../lib/embeddedTheme";
+  import { initializeDarkEmbed } from "../lib/embeddedTheme";
   document.querySelectorAll<HTMLElement>('[data-product-preview]').forEach(root => {
     const workspace = root.querySelector<HTMLElement>('[data-workspace]')!;
     const screen = root.querySelector<HTMLElement>('[data-screen]')!;
@@ -93,7 +93,7 @@ const copy = t(lang).productPreview;
       });
     });
     new ResizeObserver(draw).observe(root);
-    keepEmbedDark(iframe);
+    initializeDarkEmbed(iframe);
     draw(); iframe.src = iframe.dataset.src!;
   });
 </script>

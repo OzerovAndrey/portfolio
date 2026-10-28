@@ -41,7 +41,7 @@ const live = new URL(darkEmbedUrl(config.driveUrl));
 </section>
 
 <script>
-  import { keepEmbedDark } from "../lib/embeddedTheme";
+  import { initializeDarkEmbed } from "../lib/embeddedTheme";
   /** Same-origin access for the introduction animation. */
   const demoRoot = (f: HTMLIFrameElement | null) => { try { return f?.contentDocument?.documentElement ?? null; } catch { return null; } };
 
@@ -145,7 +145,7 @@ const live = new URL(darkEmbedUrl(config.driveUrl));
       new ResizeObserver(fit).observe(frame);
       fit();
       introduceDemo(frame, iframe);
-      keepEmbedDark(iframe);
+      initializeDarkEmbed(iframe);
       if (iframe.dataset.src) {
         const src = new URL(iframe.dataset.src);
         iframe.src = src.href;

@@ -1,11 +1,11 @@
-/** Embedded products keep their own React state in dark mode, independently of the portfolio. */
+/** Embedded products start dark; subsequent theme choices belong to the visitor. */
 export function darkEmbedUrl(src: string): string {
   const url = new URL(src);
   url.searchParams.set("theme", "dark");
   return url.href;
 }
 
-export function keepEmbedDark(iframe: HTMLIFrameElement): void {
+export function initializeDarkEmbed(iframe: HTMLIFrameElement): void {
   const src = new URL(iframe.dataset.src!);
   // These products share our GitHub Pages origin. Seed their existing stores before
   // navigation so a saved light preference never flashes during the first render.
@@ -24,16 +24,14 @@ export function keepEmbedDark(iframe: HTMLIFrameElement): void {
     try {
       const root = iframe.contentDocument?.documentElement;
       if (!root) return;
-      let switching = false;
-      const enforce = () => {
-        if (root.dataset.theme === "dark") { switching = false; return; }
-        if (switching) return;
+      const initialize = () => {
+        if (root.dataset.theme === "dark") { observer?.disconnect(); return; }
         const toggle = root.querySelector<HTMLElement>('button.theme-toggle, [role="switch"][aria-checked="false"]');
-        if (toggle) { switching = true; toggle.click(); }
+        if (toggle) { observer?.disconnect(); toggle.click(); }
       };
-      observer = new MutationObserver(enforce);
+      observer = new MutationObserver(initialize);
       observer.observe(root, { attributes: true, attributeFilter: ["data-theme"], childList: true, subtree: true });
-      enforce();
+      initialize();
     } catch { /* Cross-origin local previews cannot access product controls. */ }
   });
 }
