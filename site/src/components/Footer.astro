@@ -29,7 +29,7 @@ const groups = [
         </section>
       ))}
     </div>
-    <p class="footer__meta ts-body-sm-regular">© {new Date().getFullYear()} {config.name}. {d.footer.rights}</p>
+    <p class="footer__meta ts-body-sm-regular"><span>© {new Date().getFullYear()} {config.name}. {d.footer.rights}</span><a href={href(Astro.props.lang, "qa-inspector/privacy")}>{d.footer.qaInspectorPrivacy}</a></p>
   </div>
 </footer>
 
@@ -53,7 +53,7 @@ const groups = [
   @media (hover: hover) { .footer__links a:hover :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); } }
   .footer__links a:focus-visible :global(.icon) { transform: translateY(calc(var(--motion-nudge) * -1)); }
   @media (prefers-reduced-motion: reduce) { .footer__links a :global(.icon) { transform: none !important; } }
-  .footer__meta { padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
+  .footer__meta { display: flex; flex-wrap: wrap; gap: var(--space-gap-lg); padding-top: var(--siteFooter-paddingB); border-top: var(--siteFooter-borderWidth) solid var(--siteFooter-divider-color); overflow-wrap: anywhere; }
   @media (min-width: 768px) {
     .footer__groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }

@@ -1,0 +1,39 @@
+---
+import Base from "../../../layouts/Base.astro";
+import { config } from "../../../config";
+import { staticLangPaths, t, type Locale } from "../../../i18n";
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang).qaInspectorPrivacy;
+---
+<Base lang={lang} page="qa-inspector-privacy" title={d.title} description={d.description} analytics={false}>
+  <article class="section">
+    <div class="container">
+      <div class="policy measure">
+        <header class="section__head">
+          <p class="section__eyebrow ts-label-md">QA Inspector</p>
+          <h1 class="ts-title-t1">{d.title}</h1>
+          <p class="ts-body-sm-regular">{d.updated}</p>
+        </header>
+        <div class="policy__body">
+          {d.intro.map(paragraph => <p class="ts-body-md-regular">{paragraph}</p>)}
+          {d.sections.map((section, index) => (
+            <section class="policy__section" aria-labelledby={`policy-section-${index}`}>
+              <h2 id={`policy-section-${index}`} class="ts-title-t3">{section.title}</h2>
+              {section.paragraphs.map(paragraph => <p class="ts-body-md-regular">{paragraph}</p>)}
+              {section.items.length > 0 && <ul class="policy__list">{section.items.map(item => <li class="ts-body-md-regular">{item}</li>)}</ul>}
+            </section>
+          ))}
+          <p class="ts-body-md-regular">{d.contactLabel}: <a href={`mailto:${config.contacts.email}`}>{config.contacts.email}</a></p>
+        </div>
+      </div>
+    </div>
+  </article>
+</Base>
+<style>
+  .policy { overflow-wrap: anywhere; }
+  .policy__body, .policy__section { display: grid; gap: var(--section-text-heading); }
+  .policy__section { padding-top: var(--section-text-heading); }
+  .policy__list { display: grid; gap: var(--space-gap-lg); padding-inline-start: var(--space-padding-xl); list-style: disc; }
+  .policy a { color: var(--color-text-primary); text-decoration: underline; text-underline-offset: 0.2em; }
+</style>

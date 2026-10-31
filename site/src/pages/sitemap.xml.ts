@@ -2,7 +2,7 @@
 import type { APIRoute } from "astro";
 import { locales } from "../i18n";
 
-const PAGES = ["", "approach", "cases", "cases/aurum-multibrand", "cases/atlas-finance", "cases/drive", "services", "about", "contact"];
+const PAGES = ["", "approach", "cases", "cases/aurum-multibrand", "cases/atlas-finance", "cases/drive", "services", "about", "contact", "qa-inspector/privacy"];
 
 export const GET: APIRoute = ({ site }) => {
   const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");

@@ -322,7 +322,8 @@
     "demo": "Live demo",
     "contacts": "Contact",
     "design": "Design platforms",
-    "projects": "Projects & code"
+    "projects": "Projects & code",
+    "qaInspectorPrivacy": "QA Inspector privacy"
   },
   "preview": {
     "banner": "Preview — content in progress"
@@ -1047,5 +1048,82 @@
     "width": "Resize width",
     "height": "Resize height",
     "both": "Resize width and height"
+  },
+  "qaInspectorPrivacy": {
+    "title": "QA Inspector privacy policy",
+    "description": "How QA Inspector handles website inspection data, Figma access, local storage and your privacy controls.",
+    "updated": "Last updated: 31 October 2026",
+    "intro": [
+      "QA Inspector is a Chrome extension for inspecting website styles and comparing them with imported design tokens or a Figma design. It has no developer-operated backend, analytics service, advertising SDK, or automatic report-upload service."
+    ],
+    "sections": [
+      {
+        "title": "Data the extension handles",
+        "paragraphs": [
+          "When you choose an element or start a scan, the extension reads the inspected page's URL, DOM selectors, element names and short text labels, computed CSS values, and dimensions. Labels may include visible text, accessibility labels, placeholders or titles. These can contain personal or confidential information if the inspected page contains it. CSS background values can also contain resource URLs.",
+          "The extension does not request Chrome's cookies or history APIs and does not read password-field values. This is not a guarantee that the inspected page's visible content or URL contains no sensitive data.",
+          "When you import JSON or ZIP files, the extension processes the supported design tokens, rules and metadata locally. When you connect Figma, it handles the personal access token you enter, your selected file and node identifiers, and the design information returned by Figma, including layer names, text and layout properties.",
+          "The extension also stores your chosen UI language, active mode and comparison settings."
+        ],
+        "items": []
+      },
+      {
+        "title": "Purpose and location of processing",
+        "paragraphs": [
+          "Website inspection, file parsing, comparison and report generation take place in your browser. In token display mode, the extension may read stylesheet assets already linked by the inspected page, including its CDN stylesheets, to recover authored CSS variable references. Such reads use normal browser CORS rules, do not forward Figma credentials and do not send page content to the developer. Parsed stylesheet data is cached temporarily in page-scoped extension memory. Website text, screenshots of the page and scan reports are not uploaded to the developer. The extension does not create website screenshots as part of scanning.",
+          "The extension does not sell inspection data, use it for advertising, or use it to train AI models. It does not send inspection data to an AI service."
+        ],
+        "items": []
+      },
+      {
+        "title": "Figma requests",
+        "paragraphs": [
+          "Figma is optional. When you load or refresh a design, the extension sends a direct HTTPS request to api.figma.com containing the selected file/node identifiers and your token in the X-Figma-Token header. It does not send the inspected website's CSS, text or report in that request. The request omits browser cookies and rejects redirects. Figma receives normal connection information, such as your IP address, and handles requests under its own policies.",
+          "A saved Figma token is not a guarantee of current access: validity, expiry and file permissions are determined by Figma. Requests are read-only; QA Inspector does not edit your Figma files."
+        ],
+        "items": []
+      },
+      {
+        "title": "Website access and site crawling",
+        "paragraphs": [
+          "Inspection requires access to the website you choose. The extension requests host access for the relevant host when needed. Site mode opens temporary background tabs to inspect internal pages within its configured scope. These are ordinary browser navigations: the visited websites may receive requests and use your existing signed-in browser session. The extension does not forward those websites' cookies to the developer or to Figma. It does not submit forms or deliberately click purchase or destructive actions; loading a page still has the normal effects of visiting that URL.",
+          "Local file inspection requires you to enable file URL access in Chrome. Chrome's protected pages are not inspectable."
+        ],
+        "items": []
+      },
+      {
+        "title": "Storage and retention",
+        "paragraphs": [
+          "Data stays until cleared by these controls or browser lifecycle rules. There is no developer-side copy or retention period for scan data."
+        ],
+        "items": [
+          "Imported references, compact Figma design data, reference URLs, comparison settings, language and last page/mode settings are stored in chrome.storage.local. They can survive browser restarts. QA Inspector does not use chrome.storage.sync.",
+          "The Figma token is encrypted with AES-GCM before the encrypted record is saved in chrome.storage.local, restricted to trusted extension contexts. A separate non-exportable AES key is persisted in the extension origin’s IndexedDB. Existing plaintext tokens are migrated, and their old storage values are cleared after a successful encrypted save. If migration fails, the old value remains for a retry; there is no new plaintext-save fallback. This is application-level encryption, not an OS keychain: code running as the extension can use the key, and a fully compromised browser profile or device is outside this protection.",
+          "Component/page snapshots, picker events and site-job results are stored in chrome.storage.session or panel memory. Session storage is cleared with the browser session. Changing inspected pages or references can invalidate or clear results sooner.",
+          "Exported JSON/Markdown files and copied reports are outside the extension's storage after you export or copy them. Their retention depends on you and the applications receiving them."
+        ]
+      },
+      {
+        "title": "Your controls",
+        "paragraphs": [
+          "Never include a token, private design, page content or report in a public support issue unless you intend to disclose it."
+        ],
+        "items": [
+          "“Reset all” removes saved references and results across sites and stops active work. It intentionally retains the Figma connection and UI language.",
+          "“Remove” removes the current design reference; it does not revoke the Figma token.",
+          "The connection popover lets you explicitly reveal and copy your saved Figma token. It is hidden and cleared from the displayed field when the popover closes. If you copy or share it, manage the clipboard and recipient copies yourself; they are outside extension storage. A recipient can use the token with its existing Figma permissions.",
+          "“Disconnect” clears the saved Figma token from the extension's local/session storage. It does not revoke that token at Figma; revoke it in Figma settings when needed.",
+          "Revoke website permissions in Chrome's extension settings. Removing the extension clears its extension storage, including its IndexedDB key. Exported files, clipboard contents and tokens at Figma must be managed separately."
+        ]
+      },
+      {
+        "title": "Contact and changes",
+        "paragraphs": [
+          "We will update this policy if our data handling changes. Contact us with questions about privacy or support using the email below."
+        ],
+        "items": []
+      }
+    ],
+    "contactLabel": "Support and privacy contact"
   }
 }

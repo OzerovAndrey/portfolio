@@ -11,9 +11,9 @@ import { config, SHOW_PREVIEW_BANNER, SITE_LAUNCHED } from "../config";
 import interTightLatin700 from "@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url";
 import interTightCyrillic700 from "@fontsource/inter-tight/files/inter-tight-cyrillic-700-normal.woff2?url";
 
-export type Page = "home" | "approach" | "cases" | "services" | "about" | "contact";
-interface Props { lang: Locale; title: string; description: string; page: Page }
-const { lang, title, description, page } = Astro.props;
+export type Page = "home" | "approach" | "cases" | "services" | "about" | "contact" | "qa-inspector-privacy";
+interface Props { lang: Locale; title: string; description: string; page: Page; analytics?: boolean }
+const { lang, title, description, page, analytics = true } = Astro.props;
 const d = t(lang);
 const path = Astro.url.pathname;
 const abs = (p: string) => new URL(p, Astro.site).href;
@@ -90,7 +90,7 @@ const { umamiId, umamiSrc } = config.analytics;
         els.forEach((el) => io.observe(el));
       })();
     </script>
-    {umamiId && (
+    {analytics && umamiId && (
       <>
         <script is:inline defer src={umamiSrc} data-website-id={umamiId}></script>
         <!-- Події: будь-який елемент з data-event="назва" → umami.track("назва"). Провайдер-агностично: у розмітці тільки data-event -->
