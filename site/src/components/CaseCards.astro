@@ -1,5 +1,5 @@
 ---
-// Три карточки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
+// Картки кейсів (Home і /cases). Кожна має обкладинку-кадр проєкту, щоб читатись як робота, а не інфоблок.
 // Обкладинки фіксовані: Aurum і Drive темні, Atlas світлий. Реальні кадри:
 //   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
 //   Drive — головна автомобільного демо, PNG 2× без втрат.
@@ -12,21 +12,24 @@ import aurumDark from "../assets/cases/aurum-dark.webp";
 import atlasLight from "../assets/shots/atlas/light.png";
 import driveDark from "../assets/shots/drive/dark.png";
 
+import clientOS from "../assets/shots/client-os/atlas.png";
+
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const d = t(lang);
 const c = d.cases.items;
-const paths = ["cases/aurum-multibrand", "cases/drive", "cases/atlas-finance"];
-const events = ["case_aurum", "case_drive", "case_atlas"];
+const paths = ["cases/aurum-multibrand", "cases/drive", "cases/atlas-finance", "cases/client-os"];
+const events = ["case_aurum", "case_drive", "case_atlas", "case_client_os"];
 const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
   { image: aurumDark, alt: c[0].mediaAlt },
   { image: driveDark, alt: c[1].mediaAlt },
   { image: atlasLight, alt: c[2].mediaAlt },
+  { image: clientOS, alt: c[3].mediaAlt },
 ];
 ---
 <ul class="cases">
-  {[0, 1, 2].map((i) => (
+  {covers.map((_, i) => (
     <li class="case">
       <a class="case__media" href={href(lang, paths[i])} aria-label={c[i].title} data-event={events[i]}>
         {i !== 0 ? (
@@ -48,7 +51,7 @@ const covers = [
 
 <style>
   .cases { display: grid; gap: var(--l-gap); }
-  @media (min-width: 768px) { .cases { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 768px) { .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .case { display: flex; flex-direction: column; gap: var(--caseCard-padding); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
   .case:hover { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
 

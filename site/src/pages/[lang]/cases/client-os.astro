@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+import atlas from "../../../assets/shots/client-os/atlas.png";
+import studio from "../../../assets/shots/client-os/studio.png";
+import meridian from "../../../assets/shots/client-os/meridian.png";
+import Base from "../../../layouts/Base.astro";
+import Button from "../../../components/Button.astro";
+import ProductPreview from "../../../components/ProductPreview.astro";
+import { config } from "../../../config";
+import { href, staticLangPaths, t, type Locale } from "../../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const card = d.cases.items[3];
+const c = d.caseClientOS;
+const brands = [{ name: "Atlas Partners", image: atlas }, { name: "Studio North", image: studio }, { name: "Meridian Capital", image: meridian }];
+---
+<Base lang={lang} page="cases" title={`ClientOS — ${card.tag}`} description={card.detail}>
+  <section class="section">
+    <div class="container stack">
+      <a class="ts-label-md" href={href(lang, "cases")}>{c.back}</a>
+      <div class="section__head">
+        <span class="section__eyebrow ts-label-sm">{card.tag}</span>
+        <h1 class="section__title ts-display-d3 text-shimmer">{card.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure--lead">{card.detail}</p>
+      </div>
+      <div class="actions">
+        <Button size="lg" icon="arrowUpRight" href={config.clientOsUrl} target="_blank" rel="noopener" data-event="client_os_demo">{c.demo}</Button>
+        <Button size="lg" variant="secondary" icon="arrowUpRight" href={config.clientOsSourceUrl} target="_blank" rel="noopener">{c.source}</Button>
+      </div>
+      <ProductPreview lang={lang} src={config.clientOsUrl} title={card.title} />
+    </div>
+  </section>
+  <section class="section section--alt">
+    <div class="container stack">
+      <div class="text-pair">
+        <h2 class="section__title ts-title-t1">{c.flow}</h2>
+        <p class="section__lead ts-body-lg-regular measure--lead">{c.steps}</p>
+        <p class="section__lead ts-body-md-regular">{c.note}</p>
+      </div>
+      <div class="text-pair">
+        <h2 class="section__title ts-title-t1">{c.system}</h2>
+        <p class="section__lead ts-body-lg-regular measure--lead">{c.brands}</p>
+        <div class="brand-grid">
+          {brands.map(({ name, image }) => (
+            <figure>
+              <Image src={image} alt={card.mediaAlt} widths={[640, 1280]} sizes="(min-width: 1024px) 33vw, 100vw" quality={90} loading="lazy" />
+              <figcaption class="ts-label-md">{name}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .brand-grid { display: grid; gap: var(--l-gap); }
+  .brand-grid figure { margin: 0; display: grid; gap: var(--space-gap-sm); }
+  .brand-grid img { width: 100%; height: auto; border-radius: var(--caseCard-media-borderRadius); }
+  @media (min-width: 1024px) { .brand-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-sm); }
+</style>

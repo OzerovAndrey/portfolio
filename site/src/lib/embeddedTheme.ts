@@ -26,7 +26,10 @@ export function initializeDarkEmbed(iframe: HTMLIFrameElement): void {
       if (!root) return;
       const initialize = () => {
         if (root.dataset.theme === "dark") { observer?.disconnect(); return; }
-        const toggle = root.querySelector<HTMLElement>('button.theme-toggle, [role="switch"][aria-checked="false"]');
+        const selector = src.pathname.startsWith("/client-os/")
+          ? 'button[aria-label="Switch to dark mode"]'
+          : 'button.theme-toggle, [role="switch"][aria-checked="false"]';
+        const toggle = root.querySelector<HTMLElement>(selector);
         if (toggle) { observer?.disconnect(); toggle.click(); }
       };
       observer = new MutationObserver(initialize);

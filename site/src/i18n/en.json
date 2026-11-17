@@ -367,6 +367,13 @@
         "detail": "A digital banking experience with four identities. Accounts, transfers, cards and analytics in one shared product.",
         "cta": "Read the case",
         "mediaAlt": "Atlas Finance VANTA banking overview with balances and money-flow charts"
+      },
+      {
+        "tag": "SaaS CRM",
+        "title": "ClientOS",
+        "detail": "Follow a deal from first contact to Won and explore three brands built on one CRM.",
+        "cta": "Read the case",
+        "mediaAlt": "ClientOS sales dashboard"
       }
     ]
   },
@@ -1125,5 +1132,15 @@
       }
     ],
     "contactLabel": "Support and privacy contact"
+  },
+  "caseClientOS": {
+    "flow": "Run a sales workflow",
+    "steps": "Create a company, add a contact and a deal, then move the deal to Won. Return to the dashboard to see the sales metrics and charts update from the workspace records.",
+    "system": "One design system, three brands",
+    "brands": "Switch between Atlas Partners, Studio North and Meridian Capital in the workspace menu. Compare the same screen across typefaces, palettes, logos, corner radii and chart styles. All three brands use shared components and support light and dark themes.",
+    "note": "No account needed. Demo changes are saved in this browser.",
+    "demo": "Open live demo",
+    "source": "View source",
+    "back": "Back to Work"
   }
 }
