@@ -1,0 +1,52 @@
+---
+// Home: анонс QA Inspector — власного Chrome-розширення як інструмента перевірки мультибрендових систем.
+// Компактна композиція: текстовий блок (плашка · заголовок · лід · 3 переваги-чипи · CTA) за висотою дорівнює кадру праворуч,
+// плашка вирівняна по верху кадру, кнопки — по низу. Кадр — реальний скрін Chrome Web Store (PNG без втрат, як у кейсі). Без цифр-обіцянок.
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import Shot from "./Shot.astro";
+import { config } from "../config";
+import { href, t, type Locale } from "../i18n";
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const p = t(lang).qaPromo;
+const ICON = ["tokens", "layers", "figma"] as const;
+---
+<section class="section section--alt qa-promo" aria-labelledby="qa-promo-title" data-reveal>
+  <div class="container qa-promo__grid">
+    <div class="qa-promo__text">
+      <div class="text-pair">
+        <span class="qa-promo__badge ts-label-sm"><Icon name="pointer" class="qa-promo__badge-icon" />{p.badge}</span>
+        <h2 class="section__title ts-title-t2 text-shimmer" id="qa-promo-title">{p.title}</h2>
+        <p class="qa-promo__lead ts-body-lg-regular">{p.lead}</p>
+      </div>
+      <ul class="qa-promo__points" aria-label={p.pointsLabel}>
+        {p.points.map((x, i) => (
+          <li class="qa-promo__point ts-label-md"><Icon name={ICON[i] ?? "file"} class="qa-promo__point-icon" />{x}</li>
+        ))}
+      </ul>
+      <div class="qa-promo__actions">
+        <Button size="lg" icon="arrowUpRight" href={config.qaInspectorUrl} target="_blank" rel="noopener" data-event="home_qa_install">{p.ctaInstall}</Button>
+        <Button size="lg" variant="secondary" icon="arrowRight" href={href(lang, "cases/qa-inspector")} data-event="home_qa_case">{p.ctaCase}</Button>
+      </div>
+    </div>
+    <Shot original id="qa-mismatch" lang={lang} sizes="(min-width: 1024px) 55vw, 100vw" class="qa-promo__shot" />
+  </div>
+</section>
+
+<style>
+  .qa-promo__grid { display: grid; gap: var(--section-text-block) var(--l-gap); }
+  /* ≥1200: дві колонки однієї висоти — висоту задає кадр 16:10, текст розтягнуто між його верхнім і нижнім краєм
+     (плашка на рівні верху кадру, кнопки — на рівні низу). Вужче текст вищий за кадр → колонки одна під одною */
+  @media (min-width: 1200px) { .qa-promo__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; } }
+  .qa-promo__text { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: var(--l-gap); }
+  .qa-promo__badge { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--space-gap-sm); height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH); background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  .qa-promo__badge :global(.qa-promo__badge-icon) { --icon-size: var(--iconSize-sm); }
+  .qa-promo__lead { margin: 0; color: var(--section-lead-color); }
+  .qa-promo__points { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
+  .qa-promo__point { display: inline-flex; align-items: center; gap: var(--space-gap-sm); padding: var(--space-gap-sm) var(--space-gap-md); background: var(--caseFact-bg); border: var(--caseFact-borderWidth) solid var(--caseFact-br); border-radius: var(--caseCard-tag-borderRadius); color: var(--section-title-color); }
+  .qa-promo__point :global(.qa-promo__point-icon) { --icon-size: var(--iconSize-sm); color: var(--caseFact-label-color); }
+  .qa-promo__actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
+  .qa-promo :global(.qa-promo__shot) { box-shadow: var(--demoFrame-float-boxShadow); }
+</style>

@@ -759,6 +759,19 @@
       "Components"
     ]
   },
+  "qaPromo": {
+    "badge": "New · free Chrome extension",
+    "title": "Every brand, exactly as designed",
+    "lead": "A Chrome extension for checking multi-brand builds: real CSS, tokens and Figma differences on the live page.",
+    "pointsLabel": "What it checks",
+    "points": [
+      "Tokens, not hex",
+      "Any brand & theme",
+      "Figma compare"
+    ],
+    "ctaInstall": "Add to Chrome — free",
+    "ctaCase": "Read the case"
+  },
   "caseAurum": {
     "tag": "Meta-case · live demo",
     "title": "Aurum Multibrand",
