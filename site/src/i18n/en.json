@@ -761,13 +761,13 @@
   },
   "qaPromo": {
     "badge": "New · free Chrome extension",
-    "title": "Every brand, exactly as designed",
-    "lead": "A Chrome extension for checking multi-brand builds: real CSS, tokens and Figma differences on the live page.",
-    "pointsLabel": "What it checks",
+    "title": "Compare your live site with Figma",
+    "lead": "QA Inspector is my free Chrome extension. Choose a Figma frame, select an element on the page and see where colour, typography, spacing or size differ from the design.",
+    "pointsLabel": "What QA Inspector does",
     "points": [
-      "Tokens, not hex",
-      "Any brand & theme",
-      "Figma compare"
+      "Figma comparison",
+      "CSS & tokens",
+      "Full-page scan"
     ],
     "ctaInstall": "Add to Chrome — free",
     "ctaCase": "Read the case"

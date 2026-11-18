@@ -1,5 +1,5 @@
 ---
-// Home: анонс QA Inspector — власного Chrome-розширення як інструмента перевірки мультибрендових систем.
+// Home: анонс QA Inspector — власного Chrome-розширення для UI QA: порівняння живого сайту з Figma.
 // Компактна композиція: текстовий блок (плашка · заголовок · лід · 3 переваги-чипи · CTA) за висотою дорівнює кадру праворуч,
 // плашка вирівняна по верху кадру, кнопки — по низу. Кадр — реальний скрін Chrome Web Store (PNG без втрат, як у кейсі). Без цифр-обіцянок.
 import Button from "./Button.astro";
@@ -11,7 +11,7 @@ import { href, t, type Locale } from "../i18n";
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const p = t(lang).qaPromo;
-const ICON = ["tokens", "layers", "figma"] as const;
+const ICON = ["figma", "tokens", "file"] as const;
 ---
 <section class="section section--alt qa-promo" aria-labelledby="qa-promo-title" data-reveal>
   <div class="container qa-promo__grid">
@@ -37,11 +37,14 @@ const ICON = ["tokens", "layers", "figma"] as const;
 
 <style>
   .qa-promo__grid { display: grid; gap: var(--section-text-block) var(--l-gap); }
-  /* ≥1200: дві колонки однієї висоти — висоту задає кадр 16:10, текст розтягнуто між його верхнім і нижнім краєм
+  /* ≥1280: дві колонки однієї висоти — висоту задає кадр 16:10, текст розтягнуто між його верхнім і нижнім краєм
      (плашка на рівні верху кадру, кнопки — на рівні низу). Вужче текст вищий за кадр → колонки одна під одною */
-  @media (min-width: 1200px) { .qa-promo__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; } }
-  .qa-promo__text { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: var(--l-gap); }
-  .qa-promo__badge { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--space-gap-sm); height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH); background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  @media (min-width: 1280px) { .qa-promo__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: stretch; } }
+  /* Висоту ряду задає лише кадр: текст не впливає на розмір треку (contain: size) і розтягується на висоту кадру */
+  @media (min-width: 1280px) { .qa-promo__text { contain: size; } }
+  .qa-promo__text { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: var(--section-text-heading); }
+  /* Плашка-eyebrow без фону й відступів: іконка стоїть точно на лівому краї заголовка й ліду */
+  .qa-promo__badge { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--space-gap-sm); color: var(--section-eyebrow-color); }
   .qa-promo__badge :global(.qa-promo__badge-icon) { --icon-size: var(--iconSize-sm); }
   .qa-promo__lead { margin: 0; color: var(--section-lead-color); }
   .qa-promo__points { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
@@ -49,4 +52,6 @@ const ICON = ["tokens", "layers", "figma"] as const;
   .qa-promo__point :global(.qa-promo__point-icon) { --icon-size: var(--iconSize-sm); color: var(--caseFact-label-color); }
   .qa-promo__actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
   .qa-promo :global(.qa-promo__shot) { box-shadow: var(--demoFrame-float-boxShadow); }
+  /* 1280–1439: чипи (дублюють лід) ховаються, щоб текст не був вищим за кадр. Правило — після базового display: flex */
+  @media (min-width: 1280px) and (max-width: 1439px) { .qa-promo__points { display: none; } }
 </style>
