@@ -1,0 +1,178 @@
+---
+// QA Inspector: кейс власного Chrome-розширення (опубліковане в Chrome Web Store).
+// Формат Drive/Atlas: контекст · проблема · рішення · результат · наступний крок. Кадри — реальні скріни сторінки в магазині (1280×800 PNG, без втрат).
+// Факти перевірено за ../QA Inspector (manifest v1.0.1, extension/locales — 8 мов, PRIVACY: без бекенду й аналітики), 18.11.2026.
+import Base from "../../../layouts/Base.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Shot from "../../../components/Shot.astro";
+
+import { config } from "../../../config";
+import { href, staticLangPaths, t, type Locale } from "../../../i18n";
+
+export const getStaticPaths = staticLangPaths;
+const lang = Astro.params.lang as Locale;
+const d = t(lang);
+const c = d.caseQa;
+
+// Факти: роль · обсяг · стек · статус
+const FACT_ICON = ["user", "grid", "wrench", "activity"] as const;
+const PROBLEM_ICON = ["pointer", "layout", "figma"] as const;
+const FEATURE_ICON = ["pointer", "file", "figma", "scale"] as const;
+const AUDIENCE_ICON = ["palette", "code", "clipboard"] as const;
+const RESULT_ICON = ["package", "layers", "ban"] as const;
+// Кадри режимів 2–4 (режим 1 — у hero)
+const SHOTS = [{ id: "qa-scan", f: 1 }, { id: "qa-figma", f: 2 }, { id: "qa-mismatch", f: 3 }] as const;
+---
+<Base lang={lang} page="cases" title={d.meta.caseQaTitle} description={d.meta.caseQaDescription}>
+  <section class="section">
+    <div class="container stack">
+      <a class="cs-back ts-label-md" href={href(lang, "cases")}><Icon name="arrowRight" class="cs-back__icon" />{c.backToWork}</a>
+      <div class="section__head">
+        <span class="cs-tag ts-label-sm">{c.tag}</span>
+        <h1 class="section__title ts-display-d3 text-shimmer">{c.title}</h1>
+        <p class="section__lead ts-body-lg-regular measure--lead">{c.lead}</p>
+      </div>
+      <dl class="cs-facts">
+        {c.facts.map((f, i) => (
+          <div class="cs-fact">
+            <span class="cs-fact__badge" aria-hidden="true"><Icon name={FACT_ICON[i] ?? "file"} /></span>
+            <dt class="cs-fact__label ts-label-md">{f.k}</dt>
+            <dd class="cs-fact__value ts-body-md-regular">{f.items.map((x) => x.replace(/(\d) /g, "$1 ")).join(" · ")}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="text-pair">
+        <div class="cs-actions">
+          <Button size="lg" icon="arrowUpRight" href={config.qaInspectorUrl} target="_blank" rel="noopener" data-event="case_qa_install">{c.ctaInstall}</Button>
+          <Button size="lg" variant="secondary" icon="arrowRight" href={href(lang, "qa-inspector/privacy")} data-event="case_qa_privacy">{c.ctaPrivacy}</Button>
+        </div>
+        <p class="cs-note ts-body-sm-regular">{c.installNote}</p>
+      </div>
+      <figure class="cs-shot">
+        <Shot original id="qa-inspect" lang={lang} loading="eager" sizes="(min-width: 1280px) 1232px, 100vw" />
+        <figcaption class="cs-shot__cap ts-body-sm-regular">{c.heroCaption}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="cs-context" data-reveal>
+    <div class="container cs-split">
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-context">{c.contextTitle}</h2>
+      <p class="cs-prose ts-body-lg-regular">{c.context}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cs-problem" data-reveal>
+    <div class="container stack">
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-problem">{c.problemTitle}</h2>
+      <ol class="cs-grid3">
+        {c.problems.map((p, i) => (
+          <li class="info-card">
+            <Icon name={PROBLEM_ICON[i] ?? "alert"} class="info-card__icon" />
+            <h3 class="info-card__title ts-title-t4">{p.title}</h3>
+            <p class="info-card__detail ts-body-md-regular">{p.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="cs-solution" data-reveal>
+    <div class="container stack">
+      <div class="section__head">
+        <h2 class="section__title ts-title-t1 text-shimmer" id="cs-solution">{c.solutionTitle}</h2>
+        <p class="section__lead ts-body-lg-regular measure">{c.solutionLead}</p>
+      </div>
+      <ol class="cs-grid2">
+        {c.features.map((f, i) => (
+          <li class="info-card">
+            <Icon name={FEATURE_ICON[i] ?? "file"} class="info-card__icon" />
+            <h3 class="info-card__title ts-title-t4">{f.title}</h3>
+            <p class="info-card__detail ts-body-md-regular">{f.detail}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="cs-shots">
+        {SHOTS.map(({ id, f }) => (
+          <figure class="cs-shot">
+            <Shot original id={id} lang={lang} sizes="(min-width: 1024px) 33vw, 100vw" />
+            <figcaption class="cs-shot__cap ts-body-sm-regular">{c.features[f].title}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cs-result" data-reveal>
+    <div class="container stack">
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-result">{c.resultTitle}</h2>
+      <ul class="cs-grid3">
+        {c.results.map((r, i) => (
+          <li class="info-card">
+            <Icon name={RESULT_ICON[i] ?? "file"} class="info-card__icon" />
+            <h3 class="info-card__title ts-title-t4">{r.title}</h3>
+            <p class="info-card__detail ts-body-md-regular">{r.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="cs-audience" data-reveal>
+    <div class="container stack">
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-audience">{c.audienceTitle}</h2>
+      <ul class="cs-grid3">
+        {c.audience.map((a, i) => (
+          <li class="info-card">
+            <Icon name={AUDIENCE_ICON[i] ?? "user"} class="info-card__icon" />
+            <p class="info-card__title ts-title-t4">{a}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cs-next" data-reveal>
+    <div class="container cs-split">
+      <h2 class="section__title ts-title-t1 text-shimmer" id="cs-next">{c.nextTitle}</h2>
+      <div class="stack">
+        <p class="cs-prose ts-body-lg-regular">{c.next}</p>
+        <div class="cs-actions">
+          <Button size="lg" icon="arrowUpRight" href={config.qaInspectorUrl} target="_blank" rel="noopener" data-event="case_qa_install_end">{c.ctaInstall}</Button>
+          <Button size="lg" variant="secondary" icon="mail" href={href(lang, "contact")} data-event="case_qa_feedback">{c.ctaContact}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cs-back { display: inline-flex; align-items: center; gap: var(--space-gap-sm); color: var(--section-lead-color); text-decoration: none; }
+  .cs-back:hover { color: var(--section-title-color); }
+  .cs-back :global(.cs-back__icon) { --icon-size: var(--iconSize-sm); transform: scaleX(-1); }
+  .cs-tag { align-self: flex-start; display: inline-flex; align-items: center; height: var(--caseCard-tag-size); padding-inline: var(--caseCard-tag-paddingH); background: var(--caseCard-tag-bg); color: var(--caseCard-tag-color); border-radius: var(--caseCard-tag-borderRadius); }
+  /* Факти кейсу — 4 картки в рядок */
+  .cs-facts { display: grid; gap: var(--l-gap); margin: 0; }
+  @media (min-width: 768px) { .cs-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .cs-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .cs-fact { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-gap-md); padding: var(--caseFact-padding); background: var(--caseFact-bg); border: var(--caseFact-borderWidth) solid var(--caseFact-br); border-radius: var(--caseFact-borderRadius); }
+  .cs-fact__badge { display: inline-grid; place-items: center; width: var(--caseFact-badge-size); height: var(--caseFact-badge-size); margin-bottom: var(--space-gap-md); background: var(--caseFact-badge-bg); color: var(--caseFact-badge-color); border-radius: var(--caseFact-badge-borderRadius); --icon-size: var(--iconSize-md); }
+  .cs-fact__label { color: var(--caseFact-label-color); }
+  .cs-fact__value { margin: 0; color: var(--caseFact-text-color); }
+  .cs-actions { display: flex; flex-wrap: wrap; gap: var(--space-gap-md); }
+  .cs-note { margin: 0; color: var(--section-lead-color); }
+
+  .cs-split { display: grid; gap: var(--section-text-heading) var(--l-gap); }
+  @media (min-width: 1024px) { .cs-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } }
+  .cs-prose { color: var(--section-lead-color); max-width: var(--layout-measure-body); margin: 0; }
+
+  .cs-grid3, .cs-grid2 { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--l-gap); }
+  @media (min-width: 900px) { .cs-grid3 { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 768px) { .cs-grid2 { grid-template-columns: repeat(2, 1fr); } }
+
+  .cs-shots { display: grid; gap: var(--l-gap); }
+  @media (min-width: 1024px) { .cs-shots { grid-template-columns: repeat(3, 1fr); } }
+  .cs-shot { margin: 0; display: flex; flex-direction: column; gap: var(--space-gap-md); }
+  .cs-shot__cap { color: var(--section-lead-color); }
+</style>

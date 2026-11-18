@@ -18,7 +18,9 @@
     "caseAtlasTitle": "Atlas Finance — case study",
     "caseAtlasDescription": "A multi-brand banking case study: four identities, two themes and seven interactive modules built on one token system.",
     "caseDriveTitle": "DRIVE — case study",
-    "caseDriveDescription": "DRIVE automotive case study: three brands, two themes and a connected discovery, comparison and configuration journey."
+    "caseDriveDescription": "DRIVE automotive case study: three brands, two themes and a connected discovery, comparison and configuration journey.",
+    "caseQaTitle": "QA Inspector — Chrome extension case study",
+    "caseQaDescription": "QA Inspector: a Chrome extension for visual UI QA. Inspect live CSS and design tokens, scan full pages and compare a site with a Figma frame. Free on the Chrome Web Store."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -374,6 +376,13 @@
         "detail": "Follow a deal from first contact to Won and explore three brands built on one CRM.",
         "cta": "Read the case",
         "mediaAlt": "ClientOS sales dashboard"
+      },
+      {
+        "tag": "Chrome extension · live product",
+        "title": "QA Inspector",
+        "detail": "Compare a live website with a Figma frame, inspect CSS and tokens, and scan whole pages. Published on the Chrome Web Store.",
+        "cta": "Read the case",
+        "mediaAlt": "QA Inspector side panel next to a live car website, showing the selected button's CSS values and tokens"
       }
     ]
   },
@@ -1047,6 +1056,113 @@
     ],
     "differentTitle": "What I would develop next",
     "different": "I would test how people move from inspiration to comparison: which specifications they need first, when a guided shortlist helps and where configuration becomes work. I would also develop dedicated imagery for each model and option; the current demo uses reference photography and swatches rather than simulating paint and interior changes.",
+    "backToWork": "All work"
+  },
+  "caseQa": {
+    "tag": "Chrome extension · side project",
+    "title": "QA Inspector",
+    "lead": "Design precision, built into the browser. A Chrome extension that shows how closely a live interface matches the original Figma design — without hunting through DevTools.",
+    "facts": [
+      {
+        "k": "Role",
+        "items": [
+          "Product concept",
+          "UX flows",
+          "UI design",
+          "Extension development"
+        ]
+      },
+      {
+        "k": "Scope",
+        "items": [
+          "Element inspector",
+          "Page and site scan",
+          "Figma comparison"
+        ]
+      },
+      {
+        "k": "Stack",
+        "items": [
+          "Chrome Manifest V3",
+          "JavaScript",
+          "Figma API (read-only)",
+          "Playwright tests"
+        ]
+      },
+      {
+        "k": "Status",
+        "items": [
+          "Live on the Chrome Web Store",
+          "Free",
+          "8 interface languages"
+        ]
+      }
+    ],
+    "ctaInstall": "Add to Chrome — free",
+    "ctaPrivacy": "Privacy policy",
+    "ctaContact": "Share feedback",
+    "installNote": "Available on the Chrome Web Store for Chrome and Chromium-based browsers.",
+    "heroCaption": "Select any element on a live page: the side panel shows its CSS values, the matching design tokens and copy-ready details.",
+    "contextTitle": "Context",
+    "context": "As a product designer I regularly check how closely a developed interface matches the original Figma design. That usually means opening DevTools, clicking through nested elements and comparing computed values by eye. I built QA Inspector to make this routine fast and visual, for myself and for the developers and QA engineers I work with. After early feedback from colleagues, I redesigned the panel into a clear step-by-step flow: choose a Figma frame, pick an element, read the result.",
+    "problemTitle": "Problem",
+    "problems": [
+      {
+        "title": "Inspecting individual elements",
+        "detail": "Finding the real colour, type, spacing and size of one button takes several DevTools panels and a lot of scrolling through computed CSS."
+      },
+      {
+        "title": "Seeing page-level styles",
+        "detail": "There is no quick overview of which colours, fonts and radii a whole page actually uses, so drift from the design system goes unnoticed."
+      },
+      {
+        "title": "Connecting design references",
+        "detail": "Designers, developers and QA compare the build with Figma manually, side by side, and small mismatches slip through review."
+      }
+    ],
+    "solutionTitle": "Solution",
+    "solutionLead": "One side panel that stays open next to the page. Four modes cover the full QA loop, from a single element to the whole site, with or without a Figma connection.",
+    "features": [
+      {
+        "title": "Inspect any element",
+        "detail": "Hover to preview, click to capture. CSS properties, colours, typography, spacing and available tokens in one list, ready to copy. Arrow keys move between parent and child."
+      },
+      {
+        "title": "Scan the entire page",
+        "detail": "Collect the UI properties of every element on the page and browse them grouped, even without a Figma connection. Export the report as JSON or Markdown."
+      },
+      {
+        "title": "Compare with Figma",
+        "detail": "Add a Figma access token, choose a frame and compare it with the implementation. The token is stored encrypted and used for read-only requests."
+      },
+      {
+        "title": "Spot UI mismatches",
+        "detail": "Differences in colour, typography, spacing and dimensions are highlighted on the element itself, so the gap between design and build is visible at a glance."
+      }
+    ],
+    "resultTitle": "Result",
+    "results": [
+      {
+        "title": "A published product",
+        "detail": "QA Inspector is live on the Chrome Web Store: from product concept and UX flows to UI design, extension code and the store listing."
+      },
+      {
+        "title": "Works without Figma",
+        "detail": "Inspection and page scans are useful on their own. Connecting Figma or importing tokens as JSON/ZIP turns them into a comparison."
+      },
+      {
+        "title": "Data stays local",
+        "detail": "No backend, analytics or report uploads: the extension reads the page in your browser and talks only to the Figma API you connect."
+      }
+    ],
+    "audienceTitle": "Who it is for",
+    "audience": [
+      "Designers checking the build against their layouts",
+      "Developers verifying values before handing work to review",
+      "QA teams who care about UI consistency"
+    ],
+    "nextTitle": "What I would develop next",
+    "next": "I am collecting feedback from designers, developers and QA engineers who use the extension day to day. Next I would improve how references and tokens are matched to components, make reports easier to share with the team and keep testing the extension on neutral, real-world sites. If you try QA Inspector, I would love to hear what helps and what gets in the way.",
     "backToWork": "All work"
   },
   "productPreview": {

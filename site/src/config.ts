@@ -27,6 +27,8 @@ export const config = {
   atlasUrl: "https://ozerovandrey.github.io/atlas-finance/",
   atlasSourceUrl: "https://github.com/OzerovAndrey/atlas-finance",
   demoUrl: "https://ozerovandrey.github.io/multibrand-design-system/",
+  // QA Inspector — сторінка в Chrome Web Store (без authuser/hl, мова магазину визначається браузером)
+  qaInspectorUrl: "https://chromewebstore.google.com/detail/qa-inspector/lggflkllaibhbnjdcfcnfiphebkkbcmd",
   // Formspree / Resend endpoint. Можна задати через PUBLIC_FORM_ENDPOINT у GitHub → Settings → Variables.
   formEndpoint: (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) ?? "",
   // Umami Cloud (безкоштовний Hobby). Website ID → GitHub → Settings → Variables → PUBLIC_UMAMI_ID. Порожньо = без аналітики.

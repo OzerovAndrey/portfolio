@@ -443,5 +443,61 @@
       "en": "DRIVE: four-step FORMA X3 configurator",
       "uk": "DRIVE: чотирикроковий конфігуратор FORMA X3"
     }
+  },
+  {
+    "id": "qa-inspect",
+    "file": "shots/qa-inspector/inspect.png",
+    "ratio": "16/10",
+    "size": "1280×800",
+    "alt": {
+      "en": "QA Inspector: element inspection with CSS values and design tokens in the side panel",
+      "uk": "QA Inspector: перевірка елемента — CSS-значення й токени в боковій панелі"
+    },
+    "what": {
+      "en": "QA Inspector: element inspection with CSS values and design tokens in the side panel",
+      "uk": "QA Inspector: перевірка елемента — CSS-значення й токени в боковій панелі"
+    }
+  },
+  {
+    "id": "qa-scan",
+    "file": "shots/qa-inspector/scan.png",
+    "ratio": "16/10",
+    "size": "1280×800",
+    "alt": {
+      "en": "QA Inspector: full page scan with collected UI properties",
+      "uk": "QA Inspector: сканування всієї сторінки зі зібраними UI-властивостями"
+    },
+    "what": {
+      "en": "QA Inspector: full page scan with collected UI properties",
+      "uk": "QA Inspector: сканування всієї сторінки зі зібраними UI-властивостями"
+    }
+  },
+  {
+    "id": "qa-figma",
+    "file": "shots/qa-inspector/figma.png",
+    "ratio": "16/10",
+    "size": "1280×800",
+    "alt": {
+      "en": "QA Inspector: a Figma frame compared with the live implementation",
+      "uk": "QA Inspector: фрейм Figma порівнюється з живою реалізацією"
+    },
+    "what": {
+      "en": "QA Inspector: a Figma frame compared with the live implementation",
+      "uk": "QA Inspector: фрейм Figma порівнюється з живою реалізацією"
+    }
+  },
+  {
+    "id": "qa-mismatch",
+    "file": "shots/qa-inspector/mismatch.png",
+    "ratio": "16/10",
+    "size": "1280×800",
+    "alt": {
+      "en": "QA Inspector: a button's colour, type, spacing and size checked against the design",
+      "uk": "QA Inspector: колір, шрифт, відступи й розмір кнопки звірено з макетом"
+    },
+    "what": {
+      "en": "QA Inspector: a button's colour, type, spacing and size checked against the design",
+      "uk": "QA Inspector: колір, шрифт, відступи й розмір кнопки звірено з макетом"
+    }
   }
 ]

@@ -4,6 +4,7 @@
 //   aurum — одна ілюстрація банера демо, розрізана на 4 бренди (з shots/brand-morph/lobby-*);
 //   Drive — головна автомобільного демо, PNG 2× без втрат.
 // Atlas — справжній огляд банківського демо.
+// QA Inspector — скрін Chrome Web Store 1280×800 (вихідний PNG без втрат).
 import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import Button from "./Button.astro";
@@ -13,19 +14,21 @@ import atlasLight from "../assets/shots/atlas/light.png";
 import driveDark from "../assets/shots/drive/dark.png";
 
 import clientOS from "../assets/shots/client-os/atlas.png";
+import qaInspect from "../assets/shots/qa-inspector/inspect.png";
 
 interface Props { lang: Locale }
 const { lang } = Astro.props;
 const d = t(lang);
 const c = d.cases.items;
-const paths = ["cases/aurum-multibrand", "cases/drive", "cases/atlas-finance", "cases/client-os"];
-const events = ["case_aurum", "case_drive", "case_atlas", "case_client_os"];
+const paths = ["cases/aurum-multibrand", "cases/drive", "cases/atlas-finance", "cases/client-os", "cases/qa-inspector"];
+const events = ["case_aurum", "case_drive", "case_atlas", "case_client_os", "case_qa_inspector"];
 const sizes = "(min-width: 768px) 33vw, 100vw";
 const covers = [
   { image: aurumDark, alt: c[0].mediaAlt },
   { image: driveDark, alt: c[1].mediaAlt },
   { image: atlasLight, alt: c[2].mediaAlt },
   { image: clientOS, alt: c[3].mediaAlt },
+  { image: qaInspect, alt: c[4].mediaAlt },
 ];
 ---
 <ul class="cases">
@@ -40,7 +43,7 @@ const covers = [
 
       </a>
       <div class="case__body">
-        <span class="case__head"><Icon name={"window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
+        <span class="case__head"><Icon name={paths[i] === "cases/qa-inspector" ? "pointer" : "window"} class="case__icon" /><span class="case__tag ts-label-sm">{c[i].tag}</span></span>
         <h3 class="case__title ts-title-t4">{c[i].title}</h3>
         <p class="case__detail ts-body-md-regular">{c[i].detail}</p>
         <Button variant="secondary" size="md" icon="arrowRight" class="case__cta" href={href(lang, paths[i])} data-event={events[i]}>{c[i].cta}</Button>
@@ -54,6 +57,8 @@ const covers = [
   @media (min-width: 768px) { .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .case { display: flex; flex-direction: column; gap: var(--caseCard-padding); padding: var(--caseCard-padding); background: var(--caseCard-bg-default); border: var(--caseCard-borderWidth) solid var(--caseCard-br-default); border-radius: var(--caseCard-borderRadius); transition: border-color var(--motion-duration-fast) var(--motion-easing-out); }
   .case:hover { background: var(--caseCard-bg-hover); border-color: var(--caseCard-br-hover); }
+  /* Непарна кількість кейсів: остання картка на всю ширину, обкладинка ліворуч, текст праворуч */
+  @media (min-width: 768px) { .case:last-child:nth-child(odd) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
 
   /* Обкладинка-кадр проєкту */
   .case__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--caseCard-media-bg); border: var(--caseCard-borderWidth) solid var(--caseCard-media-br); border-radius: var(--caseCard-media-borderRadius); }
